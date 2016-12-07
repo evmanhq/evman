@@ -1,0 +1,28 @@
+<div class="card">
+  <div class="card-header">
+    <%= t group.name, scope: [:authorization, :permission_groups] %>
+  </div>
+  <div class="card-block">
+    <div class="container-fluid">
+      <div class="row">
+        <% form.object.permission_names.each do |permission_name| %>
+            <div class="col-lg-4">
+              <h5 class="list-group-item-heading">
+                <%= form.check_box permission_name %>
+                <%= form.label permission_name do %>
+                    <% t permission_name, scope: [:authorization, :permission_group, group.name, :names] %>
+                <% end %>
+              </h5>
+              <span>
+            <%= t permission_name, scope: [:authorization, :permission_group, group.name, :descriptions] %>
+          </span>
+            </div>
+            <% if cycle('0', '0', '1', name: 'clearfix-lg') == '1' %>
+                </div><div class="row">
+            <% end %>
+        <% end %>
+        <% reset_cycle('clearfix-lg') %>
+        </div>
+    </div>
+  </div>
+</div>

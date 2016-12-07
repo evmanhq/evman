@@ -1,0 +1,6 @@
+<%= content_tag :li, class: (menu_page.active?(request) ? 'nav-item active' : 'nav-item') do %>
+    <%= link_to menu_page.path, data: { modal: menu_page.modal }, class: 'nav-link' do %>
+        <%= content_tag :i, nil, class: "fa fa-#{menu_page.icon}" if menu_page.icon.present? %>
+        <%= menu_page.name %>
+    <% end %>
+<% end %>

@@ -1,0 +1,19 @@
+<div class="card">
+  <div class="card-header">
+      Your team invitations
+  </div>
+  <div class="card-block">
+    <div class="stats-icon pull-right">
+      <i class="fa fa-group fa-4x"></i>
+    </div>
+
+    <div class="m-t-xl">
+      <% @invitations.each do |invitation| %>
+          <h3><%= invitation.team.name %></h3>
+          <a href="<%= accept_team_invitation_path(invitation) %>" class="btn btn-success btn-sm">Accept</a>
+          <a href="<%= decline_team_invitation_path(invitation) %>" class="btn btn-danger btn-sm">Decline</a>
+          <div>&nbsp;</div>
+      <% end %>
+    </div>
+  </div>
+</div>

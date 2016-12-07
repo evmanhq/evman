@@ -1,0 +1,102 @@
+<%
+  breadcrumb_nav.add_item 'User'
+  breadcrumb_nav.add_item @user.name, user_path(@user)
+  breadcrumb_nav.add_item 'Avatars'
+%>
+
+<div class="card">
+  <div class="card-header">
+    Profile Picture
+  </div>
+
+  <div class="card-block">
+    <div class="row">
+      <div class="col-lg-3">
+        <p>
+          <%= link_to new_profile_picture_path, data: { modal: true }, class: 'btn btn-success btn-block' do %>
+              <%= icon(:plus, :fa) %> New profile picture
+          <% end %>
+        </p>
+      </div>
+
+      <div class="col-lg-3">
+        <p>
+          <% if @user.default_profile_picture.present? %>
+              <%= link_to set_gravatar_profile_pictures_path,
+                          method: :post,
+                          class:  'btn btn-primary btn-block',
+                          data:   {
+                              confirm: {
+                                  title:    "Set gravatar as default",
+                                  question: "Are you sure you want to set your gravatar as default profile picture ?"
+                              }
+                          } do %>
+                  <%= icon(:star, :fa) %> Set gravatar as default
+              <% end %>
+          <% else %>
+              <div>
+                <span class="label label-primary">uses gravatar by default</span>
+              </div>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <% @user.profile_pictures.order(:created_at).each do |profile_picture| %>
+      <div class="col-lg-2">
+        <div class="card">
+          <div class="card-block">
+            <%= link_to profile_picture, class: "thumbnail", data: { modal: true } do %>
+                <%= image_tag download_profile_picture_path(profile_picture, type: :thumb) %>
+            <% end %>
+          </div>
+
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-lg-4">
+                <%= link_to icon(:remove, :fa), profile_picture, method: :delete,
+                            class: "btn btn-danger btn-xs",
+                            data: {
+                                confirm: {
+                                    title: "Remove profile picture",
+                                    question: "Are you sure you want to remove this profile picture ?"
+                                }
+                            }
+                %>
+              </div>
+
+              <div class="col-lg-4">
+                <% if profile_picture.public? %>
+                  <%= link_to icon(:globe, :fa), toggle_public_profile_picture_path(profile_picture), method: :post,
+                              class: "btn btn-success btn-xs", title: "Set to private" %>
+                <% else %>
+                  <%= link_to icon('user-secret', :fa), toggle_public_profile_picture_path(profile_picture), method: :post,
+                              class: "btn btn-danger btn-xs", title: "Set to public" %>
+                <% end %>
+              </div>
+
+
+              <div class="col-lg-4">
+                <% if profile_picture.default? %>
+                    <span class="label label-primary">default</span>
+                <% else %>
+                    <%= link_to icon(:star, :fa), set_default_profile_picture_path(profile_picture), method: :destroy,
+                                class: "btn btn-primary btn-xs",
+                                data: {
+                                    confirm: {
+                                        title: "Set default profile picture",
+                                        question: "Are you sure you want to set this profile picture as default ?"
+                                    }
+                                }
+                    %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <% end %>
+</div>

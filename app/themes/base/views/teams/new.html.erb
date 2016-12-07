@@ -1,0 +1,36 @@
+<%= form_for(@team, :html => {:class => 'form-horizontal'},
+             data: {
+                 modal: { render_type: :replace}
+             }) do |form| %>
+  <div class="modal-content">
+      <div class="color-line"></div>
+
+      <div class="modal-header">
+          <h4 class="modal-title">Create team</h4>
+      </div>
+
+          <div class="modal-body">
+
+                  <div class="form-group row">
+                      <label class="col-form-label col-lg-2">Name</label>
+                      <div class="col-lg-10">
+                          <%= form.text_field :name, :class => 'form-control' %>
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label class="col-form-label col-lg-2">Description</label>
+                      <div class="col-lg-10">
+                          <%= form.text_field :description, :class => 'form-control' %>
+                      </div>
+                  </div>
+
+          </div>
+
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default modal-close">Close</button>
+              <%= form.submit 'Create team', :class => 'btn btn-success' %>
+          </div>
+
+  </div>
+<% end %>

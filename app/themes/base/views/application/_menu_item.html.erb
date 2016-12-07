@@ -1,0 +1,19 @@
+<li <% if menu_item.active?(params) %>class="active"<% end %>>
+  <%= link_to url_for(menu_item.parameters(current_user, params).merge({:only_path => true})),
+              data: {
+                  modal: menu_item.options[:modal]
+              } do %>
+      <span class="nav-label">
+          <span style="width: 20px;display: inline-block;">
+              <% if menu_item.options[:icon] %>
+                  <i class="fa fa-<%= menu_item.options[:icon] %>" style="padding-right: 5px;"></i>
+              <% end %>
+          </span>
+        <%= menu_item.name %>
+      </span>
+
+      <% if menu_item.options[:label] %>
+          <span class="label label-<%= menu_item.options[:label_type] %> pull-right"><%= menu_item.options[:label] %></span>
+      <% end %>
+  <% end %>
+</li>

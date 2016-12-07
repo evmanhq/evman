@@ -1,0 +1,25 @@
+<%= form_for @populate_form, url: populate_tags_path, class:'form form-horizontal', data: {
+    js: {
+        render_class: "EvMan.Views.Tags.PopulateForm"
+    }
+} do |form| %>
+  <div class="card">
+    <div class="card-header">
+      Create new Tags
+    </div>
+    <div class="card-block">
+
+      <%= validation_errors form.object %>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2">Names</label>
+        <div class="col-lg-10">
+          <%= form.select(:tag_names, [], {class: 'form-control'}, multiple: true) %>
+        </div>
+      </div>
+      <div class="form-group">
+          <%= form.submit 'Create tags', class: 'btn btn-success btn-sm pull-right' %>
+      </div>
+    </div>
+  </div>
+<% end %>

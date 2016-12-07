@@ -1,0 +1,13 @@
+.modal-manager-container.inset {
+  .modal {
+    position: relative;
+    z-index: 0;
+
+    .modal-dialog {
+      margin: 10px auto;
+    }
+    .modal-close {
+      display: none;
+    }
+  }
+}

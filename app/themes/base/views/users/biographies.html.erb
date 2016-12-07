@@ -1,0 +1,23 @@
+<%
+  breadcrumb_nav.add_item 'User'
+  breadcrumb_nav.add_item @user.name, user_path(@user)
+  breadcrumb_nav.add_item 'Biographies'
+%>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        Biography
+      </div>
+
+      <div class="card-block">
+        <% if @user == current_user %>
+            <%= render 'biographies' %>
+        <% else %>
+            <%= render 'default_biography' if @user.default_biography %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="hidden">
+  <%= link_to "Fake link", request.fullpath,
+              data: {
+                  modal: {
+                      method: request.method
+                  },
+                  js: {
+                      render_class: 'EvMan.Views.RequireModal'
+                  }
+              } %>
+</div>

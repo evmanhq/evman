@@ -1,0 +1,67 @@
+<%
+  breadcrumb_nav.add_item 'User'
+  breadcrumb_nav.add_item @user.name, user_path(@user)
+%>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-4">
+
+      <div class="card">
+        <div class="card-block">
+          <img src="<%= @user.avatar_url %>" class="img-circle pull-right" style="width: 40px;">
+          <h2 class="font-light"><%= @user.name %></h2>
+          <div><%= @user.job_title %></div>
+        </div>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-4">Organization</div>
+              <div class="col-lg-8"><%= @user.organization %></div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-4">Country</div>
+              <div class="col-lg-8"><%= @user.home_country.name if @user.home_country %></div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-4">Phone</div>
+              <div class="col-lg-8"><%= @user.phone %></div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-4">Twitter</div>
+              <div class="col-lg-8"><%= @user.twitter%></div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-4">Github</div>
+              <div class="col-lg-8"><%= @user.github %></div>
+            </div>
+          </li>
+        </ul>
+        <% if @user == current_user %>
+            <div class="card-footer">
+              <a href="<%= edit_user_path(@user) %>" class="btn btn-secondary pull-right">
+                <i class="fa fa-edit"></i> Edit profile
+              </a>
+            </div>
+        <% end %>
+      </div>
+
+      <% if @user == current_user %>
+          <%= render 'invitations_panel' if @invitations.length > 0 %>
+          <%= render 'email_addresses_panel' %>
+          <%= render 'external_services_panel' %>
+      <% end %>
+    </div>
+
+  </div>
+
+</div>

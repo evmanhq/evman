@@ -1,0 +1,163 @@
+<%
+  breadcrumb_nav.add_item "Events", events_path
+  breadcrumb_nav.add_item @event.name
+%>
+
+<style type="text/css">
+  #map {
+    height: 300px;
+    width: 100%;
+    border-radius: 25px;
+  }
+
+  .map-modal {
+    display: none;
+  }
+</style>
+
+<div class="modal fade map-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Event location</h4>
+      </div>
+      <div class="modal-body">
+        <div id="map"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%
+  data_js = {
+      render_class: 'EvMan.Views.Events.Show',
+      render_options: {
+          event_full_location: @event.full_location
+      }
+  }.to_json
+%>
+
+<div class="container-fluid" data-js="<%= data_js %>">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <%= render partial: 'tabs' %>
+        </div>
+        <div class="card-block">
+          <div class="row">
+            <div class="col-lg-12 event-panels">
+              <div class="attendee-list pull-right">
+                <div class="btn-group">
+                  <% @event.attendees.includes(:user, :attendee_type).each do |attendee| %>
+                      <div class="btn-group">
+                        <div class="btn" data-toggle="dropdown">
+                          <img src="<%= attendee.user.avatar_url %>" class="img-circle" alt="<%= attendee.user.name %>">
+                        </div>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <a href="<%= user_path(attendee.user) %>" class="dropdown-item">
+                            <%= icon(:user, :fa) %>
+                            <%= attendee.user.name %>
+                            (<%= attendee.attendee_type.name %>)
+                          </a>
+
+                          <%= link_to attendee, method: :delete,
+                                      title: 'Remove attendee',
+                                      data: {
+                                          confirm: {
+                                              question: 'Are you sure you want to remove this attendee ?',
+                                              title: 'Remove attendee'
+                                          }
+                                      },
+                                      class: 'dropdown-item' do %>
+                              <%= icon(:remove, :fa) %> Remove attendee
+                          <% end %>
+                        </div>
+                      </div>
+                  <% end %>
+                </div>
+              </div>
+
+              <div class="btn-group event-flags">
+                <% if @event.approved %>
+                    <a href="<%= approved_event_path(@event) %>" class="btn btn-success">
+                      <i class="fa fa-check"></i> Approved
+                    </a>
+                <% else %>
+                    <a href="<%= approved_event_path(@event) %>" class="btn btn-secondary">
+                      <i class="fa fa-remove"></i> Approved
+                    </a>
+                <% end %>
+
+                <% if @event.committed %>
+                    <a href="<%= committed_event_path(@event) %>" class="btn btn-success">
+                      <i class="fa fa-check"></i> Committed
+                    </a>
+                <% else %>
+                    <a href="<%= committed_event_path(@event) %>" class="btn btn-secondary">
+                      <i class="fa fa-remove"></i> Committed
+                    </a>
+                <% end %>
+
+                <% if @event.archived %>
+                    <a href="<%= archived_event_path(@event) %>" class="btn btn-warning">
+                      <i class="fa fa-check"></i> Archived
+                    </a>
+                <% end %>
+              </div>
+
+              <div class="btn-group">
+                <% if  @event.cfp_date && @event.cfp_date >= DateTime.now %>
+                    <% if @event.cfp_url.empty? %>
+                        <div class="btn btn-info">
+                          <i class="fa fa-calendar"></i> CFP by <%= l @event.cfp_date, format: :short %>
+                        </div>
+                    <% else %>
+                        <a href="<%= @event.cfp_url %>" target="_blank" class="btn btn-info">
+                          <i class="fa fa-external-link"></i>
+                          CFP by <%= l @event.cfp_date, format: :short %>
+                        </a>
+                    <% end %>
+                <% end %>
+              </div>
+
+              <div class="btn-group">
+                <% if @event.url && @event.url != '' %>
+                    <a href="<%= @event.url %>" class="btn btn-secondary" target="_blank">
+                      <i class="fa fa-home"></i>
+                    </a>
+                <% end %>
+
+                <div class="btn btn-secondary btn-passive">
+                  <i class="fa fa-calendar"></i>
+                  <%= l @event.begins_at, format: :short %> - <%= l @event.ends_at, format: :short %>
+                </div>
+
+                <div class="btn btn-secondary btn-passive">
+                  <%= @event.event_type.name %>
+                </div>
+
+                <div class="btn btn-secondary map-trigger">
+                  <i class="fa fa-map-marker"></i> <%= @event.full_location %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+      <%= render 'talks' %>
+    </div>
+    <div class="col-lg-4">
+      <%= render 'notes' %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="row">
+    <div class="col-lg-3">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <ul class="mailbox-list">
+                    <li class="active">
+                        <a href="<%= messages_path %>">
+                            <span class="pull-right"><%= current_user.messages.length %></span>
+                            <i class="fa fa-envelope"></i> Inbox
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table table-hover table-mailbox">
+                    <tbody>
+                        <tr>
+                            <td style="font-weight: bold;text-align: right;">From:</td>
+                            <td><a href="<%= url_for(@message.sender) %>"><%= @message.sender.name %></a></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;text-align: right;">Subject:</td>
+                            <td><%= @message.subject %></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <%
+                                   prefix = '';
+                                   msg = @message
+                                   while msg != nil
+                                %>
+                                    <% msg.content.split("\n").each do |line| %>
+                                        <%= prefix + ' ' + line.to_s %><br/>
+                                    <% end %>
+                                    <% msg = msg.message; prefix += '>' %>
+                                <% end %>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <%= form_for(Message.new, :html => { :class => 'form' }) do |form| %>
+                                <input type="hidden" name="message[message_id]" value="<%= @message.id%>">
+                                <div class="form-group row">
+                                    <%= form.text_area :content, :class => 'form-control', :rows => '5' %>
+                                </div>
+
+                                <div class="form-group row">
+                                    <%= form.submit 'Reply message', :class => 'pull-right btn btn-success btn-sm' %>
+                                </div>
+                            <% end %>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

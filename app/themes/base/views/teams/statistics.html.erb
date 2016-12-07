@@ -1,0 +1,145 @@
+<%
+  breadcrumb_nav.add_item 'Team'
+  breadcrumb_nav.add_item current_team.name, team_path(current_team)
+  breadcrumb_nav.add_item 'Statistics'
+%>
+
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-lg-3">
+      <div class="card">
+        <div class="card-header">
+          Talks
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-9">Accepted</div>
+              <div class="col-lg-3"><%= @talks_accepted %></div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-9">Rejected</div>
+              <div class="col-lg-3"><%= @talks_rejected %></div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-9">In progress</div>
+              <div class="col-lg-3"><%= @talks_progress %></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          Talks by user
+        </div>
+        <ul class="list-group list-group-flush">
+          <% @talks_by_user.each do |event| %>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-lg-9"><%= event['name'] %></div>
+                  <div class="col-lg-3"><%= event['count'] %></div>
+                </div>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          Accepted talks by user
+        </div>
+        <ul class="list-group list-group-flush">
+          <% @talks_by_user_accepted.each do |event| %>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-lg-9"><%= event['name'] %></div>
+                  <div class="col-lg-3"><%= event['count'] %></div>
+                </div>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+
+      <div class="card">
+        <div class="card-header">
+          Events by type
+        </div>
+        <ul class="list-group list-group-flush">
+          <% @events_by_type.each do |event| %>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-lg-9"><%= event['name'] %></div>
+                  <div class="col-lg-3"><%= event['count'] %></div>
+                </div>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="col-lg-3">
+
+      <div class="card">
+        <div class="card-header">
+          Events by continent
+        </div>
+        <ul class="list-group list-group-flush">
+          <% @events_by_continent.each do |event| %>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-lg-9"><%= event['name'] %></div>
+                  <div class="col-lg-3"><%= event['count'] %></div>
+                </div>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          Events by country
+        </div>
+        <ul class="list-group list-group-flush">
+          <% @events_by_country.each do |event| %>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-lg-9"><%= event['name'] %></div>
+                  <div class="col-lg-3"><%= event['count'] %></div>
+                </div>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="col-lg-3">
+
+      <div class="card">
+        <div class="card-header">
+          Events attended by user
+        </div>
+        <ul class="list-group list-group-flush">
+          <% @events_by_user.each do |event| %>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-lg-9"><%= event['name'] %></div>
+                  <div class="col-lg-3"><%= event['count'] %></div>
+                </div>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

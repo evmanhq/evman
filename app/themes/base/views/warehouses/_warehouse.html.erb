@@ -1,0 +1,20 @@
+<tr>
+  <th scope="row">
+    <%= link_to edit_warehouse_path(warehouse), class: 'btn btn-warning btn-sm', data: { modal: true } do %>
+        <%= icon(:edit, :fa) %> Edit
+    <% end %>
+
+    <%= link_to warehouse, class: 'btn btn-danger btn-sm',
+                method: :delete,
+                data: {
+                    confirm: {
+                        title: "Remove warehouse",
+                        question: "Are you sure you want to remove this warehouse ?"
+                    }
+                } do %>
+        <%= icon(:remove, :fa) %> Remove
+    <% end %>
+  </th>
+
+  <td><%= link_to warehouse.name, warehouse, class: 'blue-link' %></td>
+</tr>

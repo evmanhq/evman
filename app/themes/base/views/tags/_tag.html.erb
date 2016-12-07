@@ -1,0 +1,25 @@
+<li class="list-group-item">
+  <div class="row">
+    <div class="col-lg-9">
+      <%= tag.name %>
+    </div>
+    <div class="col-lg-1">
+      <% if @counts[tag.id] %>
+          <span class="badge badge-primary" title="Tagged records"><%= @counts[tag.id] %></span>
+      <% end %>
+    </div>
+    <div class="col-lg-2">
+      <%= link_to tag, method: :delete,
+                  title: 'Remove',
+                  data: {
+                      confirm: {
+                          question: 'Are you sure you want to remove this tag ?',
+                          title: 'Remove tag'
+                      }
+                  },
+                  class: 'btn btn-danger btn-sm pull-right' do %>
+          <%= icon(:remove, :fa) %> Remove
+      <% end %>
+    </div>
+  </div>
+</li>

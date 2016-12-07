@@ -1,0 +1,13 @@
+<% unless breadcrumb_nav.empty? %>
+  <ol class="breadcrumb">
+    <% breadcrumb_nav.items.each do |item| %>
+      <li class="breadcrumb-item <%= 'active' if item.last? %>">
+        <% if item.url.present? %>
+          <%= link_to item.label, item.url %>
+        <% else %>
+          <%= item.label %>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+<% end %>

@@ -1,0 +1,57 @@
+<ul class="nav nav-tabs card-header-tabs pull-xs-left">
+  <li class="nav-item">
+    <%= link_to "Overview", @event, class: params[:action] == 'show' ? 'active nav-link' : 'nav-link' %>
+  </li>
+  <li class="nav-item">
+    <%= link_to "Expenses", expenses_event_path(@event), class: params[:action] == 'expenses' ? 'active nav-link' : 'nav-link' %>
+  </li>
+  <li class="nav-item">
+    <%= link_to "Attachments", attachments_event_path(@event), class: params[:action] == 'attachments' ? 'active nav-link' : 'nav-link' %>
+  </li>
+</ul>
+
+<div class="tab-buttons pull-xs-right">
+  <div class="btn-group">
+    <%= link_to add_attendee_event_path(@event), data: { modal: true }, class: 'btn btn-info add-attendee-button' do %>
+        <%= icon(:plus, :fa) %> attendee
+    <% end %>
+
+    <%= link_to new_event_talk_path(event_id: @event.id), data: { modal: true }, class: 'btn btn-info new-event-talk-button' do %>
+        <%= icon(:plus, :fa) %> talk
+    <% end %>
+
+    <%= link_to new_event_note_path(event_id: @event.id), data: { modal: true }, class: 'btn btn-info new-note-button' do %>
+        <%= icon(:plus, :fa) %> note
+    <% end %>
+
+    <%= link_to edit_event_path(@event), data: { modal: true }, class: 'btn btn-warning edit-event-button' do %>
+      <%= icon(:edit, :fa) %> Edit
+    <% end %>
+
+    <% if @event.archived %>
+        <%= link_to @event, method: :delete,
+                    title: 'Delete event',
+                    data:           {
+                        confirm: {
+                            question: 'Are you sure you want to delete this event ?',
+                            title: 'Delete event'
+                        }
+                    },
+                    class: 'btn btn-danger destroy-event-button' do %>
+            <%= icon(:remove, :fa) %> Delete
+        <% end %>
+    <% else %>
+        <%= link_to @event, method: :delete,
+                    title: 'Archive event',
+                    data:           {
+                        confirm: {
+                            question: 'Are you sure you want to archive this event ?',
+                            title: 'Archive event'
+                        }
+                    },
+                    class: 'btn btn-danger archive-event-button' do %>
+            <%= icon(:remove, :fa) %> Archive
+        <% end %>
+    <% end %>
+    </div>
+</div>

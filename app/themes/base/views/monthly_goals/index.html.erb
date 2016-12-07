@@ -1,0 +1,85 @@
+<div class="row">
+  <div class="col-lg-3">
+    <div class="panel panel-default">
+      <div class="panel-heading ">
+        Goals
+      </div>
+      <table class="table table-striped">
+        <tbody>
+        <% @goals.each do |goal| %>
+            <tr>
+              <td><%= goal.name %></td>
+              <td><%= goal.value %></td>
+              <td>
+                <%= link_to goal, method: :delete,
+                            title: "Remove",
+                            data: {
+                                confirm: {
+                                    question: "Are you sure you want to remove this goal ?",
+                                    title: "Remove goal"
+                                }
+                            },
+                            class: "btn btn-danger btn-xs" do %>
+                    <%= icon(:remove, :fa) %> Remove
+                <% end %>
+              </td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <%= form_for @goal, :html => { :class => 'form form-horizontal'} do |form| %>
+      <div class="col-lg-3">
+        <div class="panel panel-default">
+          <div class="panel-heading ">
+            Create new Goal
+          </div>
+          <div class="panel-body">
+            <div class="form-group row">
+              <label class="col-form-label col-lg-2">Name</label>
+              <div class="col-lg-10">
+                <%= form.text_field(:name, :class => 'form-control') %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-form-label col-lg-2">Value</label>
+              <div class="col-lg-10">
+                <%= form.text_field(:value, :class => 'form-control') %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-12">
+                <button type="submit" class="btn btn-success btn-sm pull-right">Create goal</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <% end %>
+
+  <%= form_for @monthly, :html => { :class => 'form form-horizontal'} do |form| %>
+      <div class="col-lg-3">
+        <div class="panel panel-default">
+          <div class="panel-heading ">
+            Monthly goals settings
+          </div>
+          <div class="panel-body">
+            <div class="form-group row">
+              <label class="col-form-label col-lg-2">Value</label>
+              <div class="col-lg-10">
+                <%= form.text_field(:value, :class => 'form-control') %>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-lg-12">
+                <button type="submit" class="btn btn-success btn-sm pull-right">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <% end %>
+</div>
+

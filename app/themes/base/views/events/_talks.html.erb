@@ -1,0 +1,58 @@
+<div class="card event-talks-container">
+  <div class="card-header">
+    Talks
+  </div>
+  <ul class="list-group">
+    <% @event.event_talks.includes(:user, :talk).each do |talk| %>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-lg-1">
+              <div class="btn btn-secondary btn-sm" data-toggle="dropdown">
+                <i class="fa fa-caret-down"></i>
+              </div>
+              <div class="dropdown-menu">
+                <%= link_to edit_event_talk_path(talk), data: {modal: true}, class: 'dropdown-item' do %>
+                    <%= icon(:edit, :fa) %> Edit
+                <% end %>
+                <%= link_to talk, method: :delete,
+                            title: 'Remove',
+                            data: {
+                                confirm: {
+                                    question: 'Are you sure you want to remove this talk ?',
+                                    title: 'Remove talk'
+                                }
+                            },
+                            class: 'dropdown-item' do %>
+                    <%= icon(:remove, :fa) %> Remove
+                <% end %>
+              </div>
+            </div>
+            <div class="col-lg-1 event-talk-icon">
+              <% if talk.state == nil %>
+                    <span class="tag tag-default">
+                      <i class="fa fa-question"></i>
+                    </span>
+              <% end %>
+              <% if talk.state == true %>
+                    <span class="tag tag-success">
+                      <i class="fa fa-check"></i>
+                    </span>
+              <% end %>
+              <% if talk.state == false %>
+                    <span class="tag tag-danger">
+                      <i class="fa fa-remove"></i>
+                    </span>
+              <% end %>
+            </div>
+            <div class="col-lg-10 event-talk-name">
+              <% if talk.user == current_user %>
+                  <strong><a href="<%= talk_path(talk.talk) %>"><%= talk.talk.name %></a></strong>
+              <% else %>
+                  <a href="<%= talk_path(talk.talk) %>"><%= talk.talk.name %></a>
+              <% end %>
+            </div>
+          </div>
+        </li>
+    <% end %>
+  </ul>
+</div>

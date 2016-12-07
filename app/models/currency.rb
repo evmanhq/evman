@@ -1,0 +1,3 @@
+class Currency < ApplicationRecord
+
+end

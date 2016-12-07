@@ -1,0 +1,30 @@
+<%
+  breadcrumb_nav.add_item 'Team'
+  breadcrumb_nav.add_item current_team.name, team_path(current_team)
+  breadcrumb_nav.add_item 'Tags'
+%>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">
+          Tags
+        </div>
+
+        <ul class="list-group list-group-flush">
+          <%= render @tags %>
+        </ul>
+
+        <div class="card-footer">
+          <small>By removing Tag from this list, you will also remove it from every associated record.</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <%= render 'form' %>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,42 @@
+<%= form_for(@task, :html => { :class => 'form-horizontal', data: { js: { render_class: 'EvMan.Views.Tasks.Form' }} }) do |form| %>
+    <div class="modal-header">
+      <h4 class="modal-title">Task</h4>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2">Name</label>
+        <div class="col-lg-10">
+          <%= form.text_field :name, :class => 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2">Description</label>
+        <div class="col-lg-10">
+          <%= form.text_area :description, :class => 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2">Due</label>
+        <div class="col-lg-10">
+          <%= form.text_field :due, :class => 'form-control date' %>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="modal-footer">
+      <%= link_to "Delete", @task, class: "btn btn-danger", method: :delete, data: {
+          confirm: {
+              title:    "Remove task",
+              question: "Are you sure you want to remove this task?"
+          }
+      }%>
+
+      <button type="button" class="btn btn-default modal-close">Close</button>
+      <%= form.submit "Save", class: "btn btn-success" %>
+    </div>
+<% end %>

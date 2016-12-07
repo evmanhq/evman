@@ -1,0 +1,41 @@
+<tr>
+  <th scope="row" nowrap="">
+    <div class="btn-group btn-group-xs">
+      <%= link_to edit_role_path(role), class: 'btn btn-warning', data: { modal: true } do %>
+          <%= icon(:edit, :fa) %> Edit
+      <% end %>
+
+      <%= link_to role, class: 'btn btn-danger',
+                  method: :delete,
+                  data: {
+                      confirm: {
+                          title: "Remove role",
+                          question: "Are you sure you want to remove this role ?"
+                      }
+                  } do %>
+          <%= icon(:remove, :fa) %> Remove
+      <% end unless role.default? %>
+
+      <%= link_to set_default_role_path(role), method: :post,
+                  class: 'btn btn-primary',
+                  data: {
+                      confirm: {
+                          title: "Set default role",
+                          question: "Are you sure you want to set this role to default ?"
+                      }
+                  } do %>
+          <%= icon(:star, :fa) %> Set default
+      <% end unless role.default? %>
+    </div>
+  </th>
+
+  <td><%= role.name %></td>
+  <td>
+    <%= role.authorization_profile.granted_permissions_count %> permissions
+  </td>
+  <td>
+    <% if role.default %>
+      <span class="tag tag-primary">default</span>
+    <% end %>
+  </td>
+</tr>

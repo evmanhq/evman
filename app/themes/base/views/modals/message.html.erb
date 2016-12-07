@@ -1,0 +1,44 @@
+<script type="application/javascript">
+    $(function(){
+        $('select').select2();
+    });
+</script>
+
+<div class="modal-dialog">
+    <%= form_for(Message.new, :html => { :class => 'form' }) do |form| %>
+        <div class="modal-content">
+
+            <div class="color-line"></div>
+
+            <div class="modal-header">
+                <h4 class="modal-title">Write message</h4>
+            </div>
+
+            <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="message_user_id">To:</label>
+                        <%= form.collection_select :user_id, current_team.users.all, :id, :name, :class => 'form-control' %>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="message_user_id">From:</label>
+                        <input type="text" disabled class="form-control" value="<%= current_user.name %>">
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="message_user_id">Subject:</label>
+                        <%= form.text_field :subject, :class => 'form-control' %>
+                    </div>
+
+                    <div class="form-group row">
+                        <%= form.text_area :content, :class => 'form-control', :rows => '5' %>
+                    </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" onclick="closeModal();">Close</button>
+                <button type="submit" class="btn btn-success">Send message</button>
+            </div>
+        </div>
+    <% end %>
+</div>

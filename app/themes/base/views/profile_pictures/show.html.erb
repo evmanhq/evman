@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h4 class="modal-title">Profile picture</h4>
+  <% if @profile_picture.default? %>
+    <span class="label label-primary">default</span>
+  <% end %>
+
+  <% if @profile_picture.public? %>
+      <span class="label label-success">public</span>
+  <% else %>
+      <span class="label label-danger">private</span>
+  <% end %>
+</div>
+
+<div class="modal-body">
+  <%= image_tag download_profile_picture_path(@profile_picture), class: "img img-thumbnail" %>
+
+  <br><br>
+  <% if @profile_picture.public? %>
+      <div class="well">
+        <b>Public URL:</b>
+        <%= download_profile_picture_url(@profile_picture) %>
+      </div>
+  <% end %>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-default modal-close">Close</button>
+</div>

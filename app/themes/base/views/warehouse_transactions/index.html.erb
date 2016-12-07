@@ -1,0 +1,71 @@
+<%
+  breadcrumb_nav.add_item 'Warehouses'
+  breadcrumb_nav.add_item @batch.item.warehouse.name, warehouse_path(@batch.item.warehouse)
+  breadcrumb_nav.add_item @batch.item.name, warehouse_item_path(@batch.item)
+  breadcrumb_nav.add_item l(@batch.created_at.to_date), warehouse_item_path(@batch)
+%>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-4">Item</div>
+              <div class="col-lg-8"><%= @batch.item.name %></div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-4">Date</div>
+              <div class="col-lg-8"><%= l @batch.created_at, format: :long %></div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-4">Price</div>
+              <div class="col-lg-8"><%= number_to_currency @batch.price %></div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-4">Batch Size</div>
+              <div class="col-lg-8"><%= @batch.initial_transaction.count %></div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-4">Available on stock</div>
+              <div class="col-lg-8"><%= @batch.total %></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="card card-block no-padding">
+        <table class="table table-hover">
+          <tr>
+            <th width="250px">
+              <%= link_to new_warehouse_batch_warehouse_transaction_path, class: 'btn btn-success btn-xs', data: { modal: true } do %>
+                  <%= icon(:plus, :fa) %> New transaction
+              <% end %>
+            </th>
+            <th>Date</th>
+            <th>Event</th>
+            <th>Description</th>
+            <th>Assigned</th>
+            <th>Returned</th>
+            <th>Total</th>
+          </tr>
+
+          <tbody>
+          <%= render @transactions %>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

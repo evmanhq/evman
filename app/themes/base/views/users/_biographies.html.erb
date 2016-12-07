@@ -1,0 +1,63 @@
+<%= content_tag :div, class: "row", data: { js: { render_class: "EvMan.Views.Users.Biographies" }} do %>
+  <div class="col-lg-3">
+
+    <p>
+      <%= link_to new_biography_path, data: { modal: true }, class: "btn btn-success btn-block" do %>
+        <%= icon(:plus, :fa) %> New biography
+      <% end %>
+    </p>
+
+    <div class="list-group nav nav-tabs" role="tablist">
+      <% @biographies.each do |biography| %>
+        <a href="#<%= dom_id biography %>" class="list-group-item <%= 'default-biography' if biography.default? %>" aria-controls="<%= dom_id biography %>" role="tab" data-toggle="tab">
+          <h4 class="list-group-item-heading"><%= biography.name %></h4>
+          <p class="list-group-item-text">
+            <%= truncate biography.content, length: 50 %>
+            <% if biography.default? %>
+              <span class="label label-primary">default</span>
+            <% end %>
+          </p>
+        </a>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="col-lg-9">
+    <div class="tab-content">
+      <% @biographies.each do |biography| %>
+          <div role="tabpanel" class="tab-pane" id="<%= dom_id biography %>">
+            <div>
+              <%= link_to edit_biography_path(biography), class: "btn btn-warning btn-xs", data: { modal: true } do %>
+                <%= icon(:edit, :fa) %> Edit
+              <% end %>
+
+              <%= link_to biography, method: :delete, class: "btn btn-danger btn-xs",
+                          data: {
+                              confirm: {
+                                  question: "Are you sure you want to remove this biography ?",
+                                  title:    "Remove biography"
+                              }
+                          } do %>
+                  <%= icon(:remove, :fa) %> Remove
+              <% end %>
+
+              <%= link_to set_default_biography_path(biography), method: :post, class: "btn btn-primary btn-xs",
+                          data: {
+                              confirm: {
+                                  question: "Are you sure you want to set this biography as default ?",
+                                  title:    "Set biography as default"
+                              }
+                          } do %>
+                  <%= icon(:star, :fa) %> Set as default
+              <% end unless biography.default? %>
+
+
+            </div>
+            <h4><%= biography.name %></h4>
+            <%= sanitize(biography.content).gsub(/\n/,'<br>').html_safe %>
+          </div>
+      <% end %>
+    </div>
+
+  </div>
+<% end %>

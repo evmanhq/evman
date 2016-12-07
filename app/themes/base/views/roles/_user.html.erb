@@ -1,0 +1,14 @@
+<tr>
+  <th scope="row">
+    <%= link_to edit_user_roles_path(user), class: 'btn btn-warning btn-xs', data: { modal: true } do %>
+        <%= icon(:edit, :fa) %> Edit roles
+    <% end %>
+  </th>
+
+  <td><%= user %></td>
+  <td>
+    <% user.roles.each do |role| %>
+      <span class="tag tag-danger"><%= role.name %></span>
+    <% end %>
+  </td>
+</tr>

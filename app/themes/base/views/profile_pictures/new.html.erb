@@ -1,0 +1,24 @@
+<%= form_for @profile_picture, html: { multipart: true, class: 'form-horizontal' } do |f| %>
+    <div class="modal-header">
+      <h4 class="modal-title">Profile picture</h4>
+    </div>
+
+    <div class="modal-body">
+
+      <%= validation_errors(@profile_picture) %>
+
+      <div class="form-group row">
+        <%= f.label :image, "Image", class: "col-form-label col-lg-2" %>
+        <div class="col-lg-10">
+          <%= f.file_field :image, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default modal-close">Close</button>
+      <%= f.submit "Save", class: "btn btn-success" %>
+    </div>
+<% end %>

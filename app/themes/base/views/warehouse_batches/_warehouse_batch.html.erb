@@ -1,0 +1,28 @@
+<tr>
+  <th scope="row">
+    <%= link_to edit_warehouse_batch_path(warehouse_batch), class: 'btn btn-warning btn-xs', data: { modal: true } do %>
+        <%= icon(:edit, :fa) %> Edit
+    <% end %>
+
+    <%= link_to warehouse_batch, class: 'btn btn-danger btn-xs',
+                method: :delete,
+                data: {
+                    confirm: {
+                        title: "Remove item",
+                        question: "Are you sure you want to remove this item ?"
+                    }
+                } do %>
+        <%= icon(:remove, :fa) %> Remove
+    <% end %>
+  </th>
+
+  <td>
+    <%= link_to warehouse_batch, class: 'blue-link' do %>
+      <%= l warehouse_batch.created_at, format: :long %>
+    <% end %>
+  </td>
+  <td><%= number_to_currency warehouse_batch.price %></td>
+  <td><%= warehouse_batch.initial_transaction.count %></td>
+  <td><%= warehouse_batch.total %></td>
+
+</tr>

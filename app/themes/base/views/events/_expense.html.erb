@@ -1,0 +1,46 @@
+<li class="list-group-item">
+  <div class="row">
+    <div class="col-sm-1">
+      <div class="dropdown">
+        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-secondary btn-sm">
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+          <li>
+            <%= link_to edit_expense_path(expense),  data: { modal: true }, class: 'dropdown-item' do %>
+                <%= icon(:edit, :fa) %> Edit
+            <% end %>
+          </li>
+
+          <li>
+            <%= link_to expense, method: :delete,
+                        title: "Remove",
+                        data: {
+                            confirm: {
+                                question: "Are you sure you want to remove this expense ?",
+                                title: "Remove expense"
+                            }
+                        },
+                        class: 'dropdown-item' do %>
+                <%= icon(:remove, :fa) %> Remove
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <a href="<%= user_path(expense.user) %>"><%= expense.user.name %></a>
+    </div>
+
+    <div class="col-sm-5">
+      <div class="hideOverflow">
+        <b><%= expense.name %></b>
+      </div>
+    </div>
+
+    <div class="col-sm-2" align="right">
+      <b><%= number_to_currency expense.cost %></b>
+    </div>
+  </div>
+</li>

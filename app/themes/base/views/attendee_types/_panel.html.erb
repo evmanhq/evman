@@ -1,0 +1,49 @@
+<div class="card">
+  <div class="card-header">
+    Attendee types
+  </div>
+  <ul class="list-group list-group-flush">
+    <% team.attendee_types.order(:default => :desc).each do |type| %>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-lg-8">
+              <%= type.name %>
+            </div>
+            <div class="col-lg-4">
+              <div class="pull-right">
+                <% unless type.default %>
+                    <div class="btn-group">
+                      <%= link_to icon(:check, :fa), team_attendee_type_default_path(team, type),
+                                  method: :post,
+                                  title: 'Set as default',
+                                  class: 'btn btn-info btn-sm' %>
+                      <%= link_to icon(:remove, :fa), [team, type], method: :delete,
+                                  title: 'Remove',
+                                  data: {
+                                      confirm: {
+                                          question: 'Are you sure you want to remove this attendee type?',
+                                          title: 'Remove attendee type'
+                                      }
+                                  },
+                                  class: 'btn btn-danger btn-sm' %>
+                    </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </li>
+    <% end %>
+  </ul>
+  <%= form_tag(team_attendee_types_path(team)) do %>
+      <div class="card-footer">
+        <div class="row">
+          <div class="col-lg-9">
+            <%= text_field_tag(:name, '', :class => 'form-control', :placeholder => 'Attendee type name') %>
+          </div>
+          <div class="col-lg-3">
+            <button type="submit" class="btn btn-success btn-sm pull-right">Create</button>
+          </div>
+        </div>
+      </div>
+  <% end %>
+</div>

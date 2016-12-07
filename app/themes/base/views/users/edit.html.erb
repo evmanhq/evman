@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                User details
+            </div>
+            <%= form_for(@user, data: {
+                js: { render_class: "EvMan.Views.Users.Form" },
+            }, html: { class: 'form-horizontal'}) do |form| %>
+                <div class="card-block">
+                    <div class="form-group required row">
+                        <label class="col-form-label col-lg-3">Name</label>
+
+                        <div class="col-lg-9">
+                            <%= form.text_field(:name, :class => 'form-control') %>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-form-label col-lg-3">Job title</label>
+
+                      <div class="col-lg-9">
+                        <%= form.text_field(:job_title, :class => 'form-control') %>
+                      </div>
+                    </div>
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-lg-3">Organization</label>
+
+                    <div class="col-lg-9">
+                      <%= form.text_field(:organization, :class => 'form-control') %>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-lg-3">Home country</label>
+
+                    <div class="col-lg-9">
+                      <%= form.collection_select(:home_country_id, Country.order(:name), :id, :name, include_blank: true) %>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-lg-3">Phone</label>
+
+                    <div class="col-lg-9">
+                      <%= form.text_field(:phone, :class => 'form-control') %>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-lg-3">Twitter</label>
+
+                    <div class="col-lg-9">
+                      <%= form.text_field(:twitter, :class => 'form-control') %>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-lg-3">Github</label>
+
+                    <div class="col-lg-9">
+                      <%= form.text_field(:github, :class => 'form-control') %>
+                    </div>
+                  </div>
+
+                    <!--<div class="form-group required">-->
+                        <!--<label class="col-form-label col-lg-3">Password</label>-->
+
+                        <!--<div class="col-lg-9">-->
+                            <!--<% clazz = 'form-control' %>-->
+                            <!--<% clazz += ' error' unless @user.password_digest %>-->
+                            <!--<%= form.password_field(:password, :class => clazz) %>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="pull-right">
+                        <button class="btn btn-success btn-sm" type="submit">Save</button>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
+</div>

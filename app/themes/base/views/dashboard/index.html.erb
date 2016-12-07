@@ -1,0 +1,62 @@
+<%
+  breadcrumb_nav.add_item 'Dashboard'
+%>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="timeline">
+      <div class="line"></div>
+      <% month = DateTime.now.month - 1 %>
+      <% @events.each do |e| %>
+          <% type, date, event = e %>
+
+          <% if date.month != month %>
+              <% month = date.month %>
+              <div class="month">
+                <div class="tag tag-info"><%= I18n.t("date.month_names")[month] %></div>
+              </div>
+          <% end %>
+
+          <% clazz = (type == :event && event.committed?) ? 'event-active' : 'event-passive' %>
+          <% clazz = 'cfp' if type == :cfp %>
+
+          <div class="event <%= clazz %> <%= cycle('left', 'right', name: 'alignment') %>">
+            <div class="date">
+              <%= l date, format: :short %>
+            </div>
+            <div class="icon"></div>
+            <div class="content">
+              <div class="details name place">
+                <a href="<%= event_path(event) %>"><%= event.name %></a>
+              </div>
+              <div class="details place small">
+                <%= event.city %>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+      <% end %>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <div class="col-lg-3"></div>
+  <div class="col-lg-3">
+      <% if @invitations.length > 0 %>
+          <div class="card">
+              <div class="card-header">
+                Team invitations
+              </div>
+              <div class="card-block">
+                <% @invitations.each do |invitation| %>
+                    <h1>
+                        <h3><%= invitation.team.name %></h3>
+                    </h1>
+                    <a href="<%= accept_team_invitation_path(invitation) %>" class="btn btn-success btn-sm">Accept</a>
+                    <a href="<%= decline_team_invitation_path(invitation) %>" class="btn btn-danger btn-sm">Decline</a>
+                    <div>&nbsp;</div>
+                <% end %>
+              </div>
+          </div>
+      <% end %>
+  </div>
+</div>

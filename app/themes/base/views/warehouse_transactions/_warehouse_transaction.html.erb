@@ -1,0 +1,30 @@
+<tr>
+  <th scope="row">
+    <% if warehouse_transaction.initial? %>
+      <span class="label label-default">INITIAL</span>
+    <% else %>
+      <%= link_to edit_warehouse_transaction_path(warehouse_transaction), class: 'btn btn-warning btn-xs', data: { modal: true } do %>
+          <%= icon(:edit, :fa) %> Edit
+      <% end %>
+
+      <%= link_to warehouse_transaction, class: 'btn btn-danger btn-xs',
+                  method:                       :delete,
+                  data:                         {
+                      confirm: {
+                          title:    "Remove transaction",
+                          question: "Are you sure you want to remove this transaction ?"
+                      }
+                  } do %>
+          <%= icon(:remove, :fa) %> Remove
+      <% end %>
+    <% end %>
+  </th>
+
+  <td><%= l warehouse_transaction.created_at, format: :long %></td>
+  <td><%= link_to warehouse_transaction.event.label, expenses_event_path(warehouse_transaction.event),
+                  class: 'blue-link', target: :_blank if warehouse_transaction.event %></td>
+  <td><%= warehouse_transaction.description %></td>
+  <td><%= -warehouse_transaction.count %></td>
+  <td><%= warehouse_transaction.returned %></td>
+  <td><%= -warehouse_transaction.total %></td>
+</tr>

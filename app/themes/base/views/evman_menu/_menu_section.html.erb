@@ -1,0 +1,11 @@
+
+<%= content_tag :li, class: (menu_section.active?(request) ? 'nav-item nav-dropdown active open' : 'nav-item nav-dropdown') do %>
+  <%= link_to '#', class: 'nav-link nav-dropdown-toggle' do %>
+    <%= content_tag :i, nil, class: "fa fa-#{menu_section.icon}" if menu_section.icon.present? %>
+    <%= menu_section.name %>
+  <% end %>
+
+  <ul class="nav-dropdown-items">
+    <%= render menu_section.items %>
+  </ul>
+<% end if menu_section.items.any? %>

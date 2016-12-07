@@ -1,0 +1,47 @@
+<%= render 'layouts/application' do %>
+    <div id="header">
+      <div class="color-line"></div>
+
+      <div id="logo" class="light-version" style="text-align: center;border-right: 1px solid #e4e5e7; margin-right: 15px;">
+        <span>EvMan</span>
+      </div>
+
+      <nav role="navigation">
+        <div class="small-logo">
+          <span class="text-primary">EvMan</span>
+        </div>
+        <div class="navbar-left">
+          <% if @current_user %>
+            <h4 class="m-t">Logged in as <b><%= current_user %></b></h4>
+          <% else %>
+            <div style="padding: 18px; 5px;" class="pull-left">
+              You must log in to submit paper. Login using:
+            </div>
+
+              <ul class="nav navbar-nav no-borders">
+                <li><a href="/auth/github" class="btn btn-default"><i class="fa fa-github"></i></a></li>
+                <li><a href="/auth/gitlab" class="btn btn-default"><i class="fa fa-gitlab"></i></a></li>
+                <li><a href="/auth/twitter" class="btn btn-default"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="/auth/facebook" class="btn btn-default"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="/auth/google_oauth2" class="btn btn-default"><i class="fa fa-google"></i></a></li>
+              </ul>
+
+              <script type="text/javascript" charset="utf-8">
+                $(function(){
+                  dimmer = $('<div class="dimmer"><div class="msg">Log in to submit paper</div></div>');
+                  $('#wrapper .modal-content').prepend(dimmer);
+                });
+              </script>
+          <% end %>
+        </div>
+        <div class="navbar-right">
+          <ul class="nav navbar-nav no-borders">
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+  <div id="wrapper" style="margin-left:0;">
+    <%= yield %>
+  </div>
+<% end %>

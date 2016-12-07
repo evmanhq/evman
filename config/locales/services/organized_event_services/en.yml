@@ -1,0 +1,48 @@
+en:
+  activemodel:
+    attributes:
+      organized_event_services/event_form:
+        name: Name
+        language_ids: Languages
+        organized_event_tshirt_size_ids: T-shirt sizes
+        organized_event_difficulty_ids: Difficulties
+        organized_event_paper_type_ids: Paper types
+        track_names: Tracks
+        owner_id: Owner
+    errors:
+      models:
+        organized_event_services/event_form:
+          attributes:
+            base:
+              track_has_papers: Track %{track} has already some papers submitted
+            language_ids:
+              too_short: count must be at least %{count}
+            organized_event_tshirt_size_ids:
+              too_short: count must be at least %{count}
+            organized_event_difficulty_ids:
+              too_short: count must be at least %{count}
+            track_names:
+              too_short: count must be at least %{count}
+
+        organized_event_services/paper_form:
+          attributes:
+            base:
+              speakers_email_blank: Every speaker must have email
+              speakers_tshirt_size_blank: Every speaker must have T-shirt size selected
+              exactly_one_primary_speaker_required: There must be exactly one primary speaker selected
+              restrict_repeating_speakers: One person can be added only once as a speaker to the same paper
+            speakers:
+              too_short: count must be at least %{count}
+  helpers:
+    label:
+      organized_event:
+        name: Name
+        language_ids: Languages
+        organized_event_tshirt_size_ids: T-shirt sizes
+        organized_event_difficulty_ids: Difficulties
+        organized_event_paper_type_ids: Proposal Types
+        track_names: Tracks
+        owner_id: Owner
+      organized_event_paper:
+        organized_event: Event
+        tag_names: Tags

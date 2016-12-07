@@ -1,0 +1,23 @@
+<tr>
+  <th scope="row">
+    <%= link_to edit_warehouse_item_path(warehouse_item), class: 'btn btn-warning btn-xs', data: { modal: true } do %>
+        <%= icon(:edit, :fa) %> Edit
+    <% end %>
+
+    <%= link_to warehouse_item_path(warehouse_item), class: 'btn btn-danger btn-xs',
+                method: :delete,
+                data: {
+                    confirm: {
+                        title: "Remove item",
+                        question: "Are you sure you want to remove this item ?"
+                    }
+                } do %>
+        <%= icon(:remove, :fa) %> Remove
+    <% end %>
+  </th>
+
+  <td>
+    <%= link_to warehouse_item.name, warehouse_item_path(warehouse_item), class: 'blue-link' %>
+  </td>
+  <td><%= @counts[warehouse_item.id] %></td>
+</tr>

@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header">
+    External services
+  </div>
+  <div class="card-block no-padding">
+    <table class="table table-striped">
+      <% current_user.identities.each do |identity| %>
+          <tr>
+            <td><%= identity.provider.to_s.humanize %></td>
+            <td>
+              <%= link_to identity, method: :delete, class: "btn btn-danger btn-xs",
+                          data: {
+                              confirm: {
+                                  question: 'Are you sure you want to remove this provider?',
+                                  title: 'Remove provider'
+                              }
+                          } do %>
+                  <%= icon(:remove, :fa) %>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+  <div class="card-block">
+
+    <% unless @providers.include?('github') %><a href="/auth/github" class="btn btn-secondary"><i class="fa fa-github"></i> Github</a><% end %>
+    <% unless @providers.include?('gitlab') %><a href="/auth/gitlab" class="btn btn-secondary"><i class="fa fa-gitlab"></i> Gitlab</a><% end %>
+
+    <% unless @providers.include?('twitter') %><a href="/auth/twitter" class="btn btn-secondary"><i class="fa fa-twitter"></i> Twitter</a><% end %>
+    <% unless @providers.include?('facebook') %><a href="/auth/facebook" class="btn btn-secondary"><i class="fa fa-facebook"></i> Facebook</a><% end %>
+
+    <% unless @providers.include?('google_oauth2') %><a href="/auth/google_oauth2" class="btn btn-secondary"><i class="fa fa-google"></i> Google</a><% end %>
+  </div>
+</div>

@@ -1,0 +1,2 @@
+module ExpenseTypesHelper
+end

@@ -1,0 +1,12 @@
+<div class="card card-danger card-inverse">
+  <div class="card-header">
+    <%= pluralize(record.errors.count, "error") %> prohibited this record from being saved:
+  </div>
+  <div class="card-block">
+    <ul class="list-group">
+      <% record.errors.full_messages.collect do |msg| %>
+        <li class="list-group-item list-group-item-danger"><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

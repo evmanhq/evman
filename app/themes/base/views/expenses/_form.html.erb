@@ -1,0 +1,68 @@
+<%= form_for(@expense, :html => { :class => 'form-horizontal' },
+             data: {
+                 modal: { render_type: :replace },
+                 js: {
+                     render_class:   "EvMan.Views.Expenses.Form",
+                     render_options: {
+                         events_path: events_path(format: :json)
+                     }
+                 }
+             }) do |form| %>
+    <input type="hidden" name="expense[currency_id]" value="10">
+    <div class="modal-content">
+
+      <div class="color-line"></div>
+
+      <div class="modal-header">
+        <h4 class="modal-title">Add expense to event</h4>
+      </div>
+
+      <div class="modal-body">
+
+        <%= validation_errors(@expense) %>
+
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2">User</label>
+          <div class="col-lg-10">
+            <%= form.collection_select(:user_id, current_team.users, :id, :name) %>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2">Event</label>
+          <div class="col-lg-10">
+            <% if @expense.event %>
+              <select id="expense_event_id" name="expense[event_id]">
+                <option value="<%= @expense.event.id %>" selected="selected"><%= @expense.event.name %></option>
+              </select>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2">Type</label>
+          <div class="col-lg-10">
+            <%= form.collection_select(:expense_type_id, current_team.expense_types, :id, :name, include_blank: true) %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-lg-2">Amount</label>
+          <div class="col-lg-10">
+            <div class="input-group">
+              <div class="input-group-addon">$</div>
+              <%= form.text_field(:usd, :class => 'form-control') %>
+            </div>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default modal-close">Close</button>
+        <button type="submit" class="btn btn-success">Save</button>
+      </div>
+
+    </div>
+<% end %>

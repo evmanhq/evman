@@ -1,0 +1,12 @@
+# en.activemodel.errors.models.warehouse_services/event_transaction_form.attributes.count.out_of_stock
+en:
+  activemodel:
+    errors:
+      models:
+        warehouse_services/transaction_form:
+          not_enough_items_in_batch: 'There is not enough items in batch. %{count} items available.'
+          returned_bigger_than_count: 'Returned must be less than or equal to count'
+          batch_cannot_be_changed: 'Item cannot be changed'
+          event_cannot_be_changed:  'Event cannot bechanged'
+          event_id_or_description_required: 'Event or Description is required'
+          another_transaction_with_this_batch_exists: 'This event has another transaction with this batch associated'

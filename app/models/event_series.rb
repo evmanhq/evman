@@ -1,0 +1,2 @@
+class EventSeries < ApplicationRecord
+end

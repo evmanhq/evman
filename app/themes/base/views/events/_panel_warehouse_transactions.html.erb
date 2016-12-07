@@ -1,0 +1,54 @@
+<div class="card">
+  <div class="card-block">
+    <div class="pull-left">
+      <h4 class="card-title">Warehouse Items</h4>
+    </div>
+
+    <div class="pull-right">
+      <%= link_to new_warehouse_transaction_path(event_id: @event.id),
+                  class: 'btn btn-success btn-sm new-warehouse-transaction-button', data: { modal: true } do %>
+          <%= icon(:plus, :fa) %> Add Warehouse Item
+      <% end %>
+    </div>
+  </div>
+
+  <ul class="list-group list-group-flush warehouse-transactions-container">
+    <li class="list-group-item">
+      <div class="row">
+
+        <div class="col-sm-1"></div>
+
+        <div class="col-sm-5">
+          <b>Item</b>
+        </div>
+
+        <div class="col-sm-2" align="right">
+          <b>Count</b>
+        </div>
+
+        <div class="col-sm-2" align="right">
+          <b>Returned</b>
+        </div>
+
+        <div class="col-sm-2" align="right">
+          <b>Price</b>
+        </div>
+      </div>
+    </li>
+
+    <% @warehouse_transactions.each do |transaction| %>
+        <%= render partial: 'warehouse_transaction', object: transaction %>
+    <% end %>
+
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-sm-10" align="right">
+          <strong>Total:</strong>
+        </div>
+        <div class="col-sm-2" align="right">
+          <strong><%= number_to_currency @sums[:transactions] %></strong>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

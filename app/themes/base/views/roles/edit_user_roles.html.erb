@@ -1,0 +1,29 @@
+<%= form_for @user,
+             url: update_user_roles_path(@user),
+             data: {
+               modal: { render_type: :replace },
+               js: { render_class: "EvMan.Views.Roles.EditUser" }
+             } do |f| %>
+    <div class="modal-header">
+      <h4 class="modal-title">User roles</h4>
+    </div>
+
+    <div class="modal-body">
+
+      <%= validation_errors(@user) %>
+
+      <div class="form-group row">
+        <%= f.label :name, "Roles", class: "col-form-label col-lg-2" %>
+        <div class="col-lg-10">
+          <%= f.collection_select :role_ids, current_team.roles.where(default: false), :id, :name, {}, multiple: true, class: 'selectize' %>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default modal-close">Close</button>
+      <%= f.submit "Save", class: "btn btn-success" %>
+    </div>
+<% end %>

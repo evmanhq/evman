@@ -1,0 +1,72 @@
+<%= form_for(@event_talk, html: {:class => 'form-horizontal' },
+             data: {
+                 modal: { render_type: :replace },
+                 js: {
+                     render_class: "EvMan.Views.EventTalks.Form",
+                     render_options: {
+                         talks_path: talks_path(format: :json),
+                         events_path: events_path(format: :json)
+                     }
+                 }
+             }) do |form| %>
+    <div class="modal-content">
+
+      <div class="color-line"></div>
+
+      <div class="modal-header">
+        <h4 class="modal-title"><%= title if defined? title %></h4>
+      </div>
+
+      <div class="modal-body">
+
+        <%= validation_errors(@event_talk) %>
+
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2">User</label>
+          <div class="col-lg-10">
+            <%= form.collection_select(:user_id, current_team.users, :id, :name) %>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2">Talk</label>
+          <div class="col-lg-10">
+            <select id="event_talk_talk_id" name="event_talk[talk_id]">
+              <% if @event_talk.talk %>
+                  <option value="<%= @event_talk.talk.id %>" selected="selected"><%= @event_talk.talk.name %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-form-label col-lg-2">Event</label>
+          <div class="col-lg-10">
+            <select id="event_talk_event_id" name="event_talk[event_id]">
+              <% if @event_talk.event %>
+                  <option value="<%= @event_talk.event.id %>" selected="selected"><%= @event_talk.event.name %> (<%= @event_talk.event.begins_at %>)</option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-lg-2 col-form-label">State</label>
+          <div class="col-lg-10">
+
+            <div class="checkbox"><label><%= form.radio_button(:state, nil) %> Undecided</label></div>
+            <div class="checkbox"><label><%= form.radio_button(:state, true) %> Approved</label></div>
+            <div class="checkbox"><label><%= form.radio_button(:state, false) %> Rejected</label></div>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default modal-close">Close</button>
+        <button type="submit" class="btn btn-success">Save</button>
+      </div>
+
+    </div>
+<% end %>

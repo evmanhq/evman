@@ -1,0 +1,28 @@
+<%= form_for @taggeds_form,
+             url: update_tags_path(@taggeds_form.item.class, @taggeds_form.item.id),
+             method: :patch,
+             data: {
+                 modal: { render_type: :replace },
+                 js: { render_class: "EvMan.Views.Taggeds.Form" }
+             } do |f| %>
+    <div class="modal-header">
+      <h4 class="modal-title">Tags</h4>
+    </div>
+
+    <div class="modal-body">
+
+      <%= validation_errors(@taggeds_form) %>
+
+      <div>
+        <%= f.label :tag_names, "Tags", class: "col-form-label col-lg-2" %>
+        <%= f.collection_select :tag_names, @taggeds_form.tags, :name, :name, { prompt: false }, multiple: true %>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default modal-close">Close</button>
+      <%= f.submit "Save", class: "btn btn-success" %>
+    </div>
+<% end %>

@@ -1,0 +1,47 @@
+<div class="taskList">
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+      <strong class="list-name" data-id="<%= task_list.id %>"><%= task_list.name %></strong>
+      <div class="pull-right">
+        <%= link_to icon(:edit, :fa), edit_task_list_path(task_list), data: { modal: true }, class: 'btn btn-warning btn-xs' %>
+
+        <%= link_to icon(:remove, :fa), task_list_path(task_list), method: :delete,
+                    title: "Remove",
+                    data: {
+                        confirm: {
+                            question: "Are you sure you want to remove this task list ?",
+                            title: "Remove task list"
+                        }
+                    },
+                    class: "btn btn-danger btn-xs" %>
+      </div>
+    </div>
+
+    <ul class="list-group task-list-droppable" data-id="<%= task_list.id %>">
+      <% task_list.tasks.each do |task| %>
+          <li class="list-group-item task" data-id="<%= task.id %>">
+            <%= task.name %>
+            <%= link_to task, data: { modal: true }, class: 'pull-right btn btn-warning btn-xs' do %>
+                <%= icon(:edit, :fa) %>
+            <% end %>
+          </li>
+      <% end %>
+    </ul>
+
+    <%= form_for(task_list.tasks.build) do |f| %>
+        <input type="hidden" name="task[task_list_id]" value="<%= task_list.id %>">
+        <%= f.hidden_field :task_list_id %>
+        <div class="panel-body">
+          <hr/>
+          <div class="form-group row">
+            <%= f.text_field :name, :class => 'form-control' %>
+          </div>
+          <div class="form-group row">
+            <%= f.submit 'Create new task', :class => 'btn btn-success btn-sm pull-right' %>
+          </div>
+        </div>
+    <% end %>
+
+  </div>
+</div>

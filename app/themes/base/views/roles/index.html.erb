@@ -1,0 +1,15 @@
+<%
+  breadcrumb_nav.add_item 'Team'
+  breadcrumb_nav.add_item current_team.name, team_path(current_team)
+  breadcrumb_nav.add_item 'Roles'
+%>
+
+<div class="row">
+  <div class="col-lg-6">
+    <%= render partial: 'panel_roles' %>
+  </div>
+
+  <div class="col-lg-6">
+    <%= render partial: 'panel_users' %>
+  </div>
+</div>

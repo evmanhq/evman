@@ -1,0 +1,93 @@
+<%
+  breadcrumb_nav.add_item 'Events'
+%>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="card committed-events-panel">
+      <div class="card-header">
+        Committed events
+      </div>
+      <ul class="list-group">
+        <% @committed.each do |event| %>
+            <li class="list-group-item">
+              <span class="tag tag-default"><%= event.begins_at %></span>
+              <% if event.users.include?(current_user) %>
+                  <strong><a href="<%= event_path(event) %>"><%= event.name %></a></strong>
+              <% else %>
+                  <a href="<%= event_path(event) %>"><%= event.name %></a>
+              <% end %>
+              <div class="pull-right">
+                <div class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-question"></i></a>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-item">
+                      <% expense = event.expenses.inject(0) { |sum, expense| sum + expense.cost } %>
+                      Cost <div class="tag <% if expense > 0 %>tag-success<% else %>tag-default<% end %>">$ <%= expense %></div>
+                    </div>
+                    <div class="dropdown-item">
+                      <% talks = event.event_talks.where(:state => true).count %>
+                      Talks <div class="tag <% if talks > 0 %>tag-success<% else %>tag-default<% end %>"><%= talks %></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card cfp-deadline-events-panel">
+      <div class="card-header">
+        CFP deadlines
+      </div>
+      <ul class="list-group">
+        <% @talks.each do |event| %>
+            <li class="list-group-item">
+              <a href="<%= event_path(event) %>"><%= event.name %></a>
+              <span class="tag tag-info pull-right"><%= event.cfp_date %></span>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="card tracked-events-panel">
+      <div class="card-header">
+        Tracked events
+      </div>
+      <ul class="list-group">
+        <% @tracked.each do |event| %>
+            <li class="list-group-item">
+              <% if event.approved %>
+                  <strong><a href="<%= event_path(event) %>"><%= event.name %></a></strong>
+              <% else %>
+                  <a href="<%= event_path(event) %>"><%= event.name %></a>
+              <% end %>
+              <span class="tag tag-info pull-right"><%= event.begins_at %></span>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <% @continents.each_key do |continent| %>
+        <div class="card continent-panel">
+          <div class="card-header">
+            <%= continent.name %>
+          </div>
+          <ul class="list-group list-group-flush">
+            <% @continents[continent].each do |event| %>
+                <li class="list-group-item">
+                  <span class="tag tag-info"><%= event.begins_at %></span>
+                  <a href="<%= event_path(event) %>"><%= event.name %></a>
+                </li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+  </div>
+
+</div>

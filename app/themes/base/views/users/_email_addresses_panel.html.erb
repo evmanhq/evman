@@ -1,0 +1,41 @@
+<div class="card">
+  <div class="card-header">
+    E-mail addresses
+  </div>
+  <div class="card-block">
+    <table>
+      <% current_user.emails.each do |email| %>
+          <tr>
+            <td>
+              <%= email.email %>
+            </td>
+            <td>
+              <% if current_user.email != email.email %>
+                  <%= link_to email, method: :get, class: 'btn btn-primary btn-xs',
+                              data: {
+                                  confirm: {
+                                      question: 'Are you sure you want to set this e-mail as default?',
+                                      title: 'Set e-mail as default'
+                                  }
+                              } do %>
+                      <%= icon(:check, :fa) %>
+                  <% end %>
+              <% else %>
+                  <span class="label label-success label-xs"><%= icon(:check, :fa) %></span>
+              <% end %>
+
+              <%= link_to email, method: :delete, class: "btn btn-danger btn-xs",
+                          data: {
+                              confirm: {
+                                  question: 'Are you sure you want to remove this e-mail?',
+                                  title: 'Remove e-mail'
+                              }
+                          } do %>
+                  <%= icon(:remove, :fa) %>
+              <% end if current_user.email != email.email %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+// Place all the styles related to the downloads controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+/******* */
+.nav-pills.white {
+  & > li.active > a {
+    background-color: white;
+    color: #333333;
+    border: 1px #ddd solid;
+  }
+}

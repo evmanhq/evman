@@ -1,0 +1,32 @@
+<%
+  breadcrumb_nav.add_item 'Warehouses'
+  breadcrumb_nav.add_item @item.warehouse.name, warehouse_path(@item.warehouse)
+  breadcrumb_nav.add_item @item.name, warehouse_item_path(@item)
+%>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-block no-padding">
+        <table class="table table-hover">
+          <tr>
+            <th>
+              <%= link_to new_warehouse_item_warehouse_batch_path, class: 'btn btn-success btn-xs', data: { modal: true } do %>
+                  <%= icon(:plus, :fa) %> New Batch
+              <% end %>
+            </th>
+            <th>Date</th>
+            <th>Price</th>
+            <th>Count</th>
+            <th>Remaining</th>
+          </tr>
+
+          <tbody>
+          <%= render @batches %>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

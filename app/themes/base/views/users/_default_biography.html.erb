@@ -1,0 +1,2 @@
+<h4><%= @user.default_biography.name %></h4>
+<%= sanitize(@user.default_biography.content).gsub(/\n/,'<br>').html_safe %>
