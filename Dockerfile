@@ -8,7 +8,7 @@ RUN mkdir /app
 RUN mkdir /app/log
 RUN mkdir /app/tmp
 
-COPY docker/evman/evman.sh /home/evman/evman.sh
+COPY docker/evman.sh /home/evman/evman.sh
 RUN chown -R evman:root /home/evman/evman.sh
 
 COPY Gemfile Gemfile.lock Rakefile config.ru /app/
