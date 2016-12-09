@@ -31,6 +31,7 @@ gem 'assignable_values'
 gem 'multi_json'
 gem 'oj'
 gem 'jbuilder', '~> 2.0'
+gem 'axlsx'
 
 gem 'twitter-text'
 

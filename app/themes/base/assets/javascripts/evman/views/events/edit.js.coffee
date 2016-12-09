@@ -5,7 +5,7 @@ class EvMan.Views.Events.Edit
 
   render: ->
     @renderDatePicker()
-    @rednerSelect2()
+    @renderSelect2()
     @renderEventCitySelect2()
     @renderOnBeginsAtChange()
 
@@ -21,7 +21,7 @@ class EvMan.Views.Events.Edit
   renderDatePicker: ->
     @container.find('.date').datepicker({'dateFormat':'yy-mm-dd'})
 
-  rednerSelect2: ->
+  renderSelect2: ->
     @container.find('select').not('#event_city_id').select2()
 
   renderEventCitySelect2: ->
