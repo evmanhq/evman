@@ -1,0 +1,168 @@
+<%
+  breadcrumb_nav.add_item 'Events', events_path
+  breadcrumb_nav.add_item 'Export'
+%>
+
+<%
+  data_js = {
+      render_class: 'EvMan.Views.Events.Export',
+  }.to_json
+%>
+
+<div class="row" data-js="<%= data_js %>">
+  <%= form_tag do %>
+    <div class="col-lg-2">
+
+      <div class="card">
+
+        <div class="card-header">
+          Fields to export
+        </div>
+
+        <div class="card-block">
+          <fieldset class="form-group">
+            <% @fields.each do |field| %>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" name="field[]" value="<%= field %>"> <%= field.humanize %>
+                  </label>
+                </div>
+            <% end %>
+          </fieldset>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-lg-3">
+
+      <div class="card">
+
+        <div class="card-header">
+          Filter
+        </div>
+
+        <div class="card-block">
+          <fieldset class="form-group">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" name="committed" value="true"> Committed
+              </label>
+            </div>
+
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" name="approved" value="true"> Approved
+              </label>
+            </div>
+
+            <div class="form-check">
+              <label class="form-check-label">
+                <input type="checkbox" name="archived" value="true"> Archived
+              </label>
+            </div>
+
+          </fieldset>
+
+          <div class="form-group">
+            <label for="event_type_id">Event type</label>
+            <select id="event_type_id" name="event_type_id">
+              <option value="">Not selected</option>
+              <% current_team.event_types.all.each do |event_type| %>
+                  <option value="<%= event_type.id %>"><%= event_type.name %></option>
+              <% end %>
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="col-lg-3">
+      <div class="card">
+
+        <div class="card-header">
+          Location
+        </div>
+
+        <div class="card-block">
+
+          <div class="form-group">
+            <label for="city_id">City</label>
+            <select id="city_id" name="city_id">
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="country_id">Country</label>
+            <select id="country_id" name="country_id">
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="continent_id">Continent</label>
+            <select id="continent_id" name="continent_id">
+              <option value="">Not selected</option>
+              <% Continent.all.each do |continent| %>
+                <option value="<%= continent.id %>"><%= continent.name %></option>
+              <% end %>
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-lg-2">
+      <div class="card">
+
+        <div class="card-header">
+          Date
+        </div>
+
+        <div class="card-block">
+          <div class="form-group">
+            <label for="from_date">From</label>
+            <input type="text" class="form-control date" id="from_date" name="from_date" value="<%= Date.today %>">
+            <small class="form-text text-muted">Empty for all events before <i>Until</i> date.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="until_date">Until</label>
+            <input type="text" class="form-control date" id="until_date" name="until_date">
+            <small class="form-text text-muted">Empty for all events after <i>From</i> date.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-2">
+
+      <div class="card">
+
+        <div class="card-header">
+          Export
+        </div>
+
+        <div class="card-block">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="radio" name="type" value="xlsx" checked> Excel
+            </label>
+          </div>
+        </div>
+
+
+
+        <div class="card-block">
+          <div style="text-align: center;"><button type="submit" class="btn btn-primary">Export events</button></div>
+        </div>
+
+      </div>
+    </div>
+  <% end %>
+</div>

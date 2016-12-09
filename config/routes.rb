@@ -21,6 +21,9 @@ Rails.application.routes.draw do
     collection do
       get :archive
 
+      get :export
+      post :export, to: 'events#generate_export'
+
       resources :event_talks, :controller => :event_talks, :as => :event_talks do
       end
       resources :attendees, :controller => :attendees do
@@ -122,6 +125,8 @@ Rails.application.routes.draw do
 
   resource :geo do
     resources :cities
+    resources :countries
+    resources :continents
   end
 
   resources :teams do

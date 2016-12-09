@@ -166,6 +166,7 @@ class ApplicationController < ActionController::Base
 
             s.page name: 'Create event', path: new_event_path, icon: 'plus', modal: true
             s.page name: 'Archive', path: archive_events_path, icon: 'archive'
+            s.page name: 'Export', path: export_events_path, icon: 'table'
           end if can? :event, :read
 
           m.page name: 'Calendar', path: calendars_path, icon: 'calendar' do
