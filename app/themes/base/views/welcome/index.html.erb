@@ -16,5 +16,26 @@
     <div style="margin-bottom: 10px;">
       <a href="/auth/google_oauth2" class="btn btn-primary"><i class="fa fa-google"></i> Google</a>
     </div>
-    </div>
+
+    <div style="height: 20px;">&nbsp;</div>
+  </div>
 </div>
+
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+<script>
+    window.addEventListener("load", function(){
+        window.cookieconsent.initialise({
+            "palette": {
+                "popup": {
+                    "background": "#237afc"
+                },
+                "button": {
+                    "background": "#fff",
+                    "text": "#237afc"
+                }
+            },
+            "theme": "edgeless",
+            "position": "top"
+        })});
+</script>

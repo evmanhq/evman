@@ -30,8 +30,9 @@ class TeamsController < ApplicationController
   end
 
   def statistics
-    start = DateTime.now.beginning_of_year
-    stops = DateTime.now
+    year = params[:year] ? DateTime.new(Integer(params[:year]), 1, 1) : DateTime.now
+    start = year.beginning_of_year
+    stops = year.end_of_year
 
     @talks_accepted = current_team.event_talks.where(state: true).where('begins_at > ? AND begins_at < ?', start, stops).count
     @talks_rejected = current_team.event_talks.where(state: false).where('begins_at > ? AND begins_at < ?', start, stops).count
