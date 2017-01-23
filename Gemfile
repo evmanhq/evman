@@ -49,7 +49,7 @@ gem 'aws-sdk'
 
 gem 'puma'
 
-gem 'bootstrap', '~> 4.0.0.alpha4'
+gem 'bootstrap', '4.0.0.alpha4'
 gem 'font-awesome-sass'
 gem 'jquery-rails'
 

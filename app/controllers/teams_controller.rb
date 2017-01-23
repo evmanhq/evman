@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
 
-  skip_before_filter :require_team!, :only => [:new, :create, :select]
+  skip_before_filter :require_team!, :only => [:new, :create, :select, :slack]
 
   def index
     respond_to do |response|
@@ -77,22 +77,31 @@ class TeamsController < ApplicationController
   end
 
   def create
-    @team = Team.new
-    @team.name = params[:team][:name]
-    @team.description = params[:team][:description]
-    @team.save
+    Team.transaction do
+      @team = Team.new
+      @team.name = params[:team][:name]
+      @team.description = params[:team][:description]
+      @team.save!
 
-    @membership = TeamMembership.new
-    @membership.team = @team
-    @membership.user = current_user
-    @membership.active = true
-    @membership.team_membership_type = TeamMembershipType.find_by_name('Owner')
-    @membership.save
+      @membership = TeamMembership.new
+      @membership.team = @team
+      @membership.user = current_user
+      @membership.active = true
+      @membership.team_membership_type = TeamMembershipType.find_by_name('Owner')
+      @membership.save!
 
-    authorization_profile = Authorization::Profile.new(role: { read: true, manage: true })
-    @team.roles.create(name: "Default", default: true, authorization_profile: authorization_profile)
+      authorization_profile = Authorization::Profile.new(role: { read: true, manage: true })
+      @team.roles.create(name: "Default", default: true, authorization_profile: authorization_profile)
+
+      authorization_profile = Authorization::Profile.new
+      authorization_profile.allow_all
+      admin_role = @team.roles.create(name: "Administrator", default: false, authorization_profile: authorization_profile)
+      current_user.roles << admin_role
+    end
 
     redirect_to(team_path(@team, subdomain: @team.subdomain))
+  rescue
+    redirect_to dashboard_path
   end
 
   def slack
@@ -100,7 +109,7 @@ class TeamsController < ApplicationController
       return redirect_to(team_path(current_team))
     end
 
-    if params[:code] && params[:state] == current_team.id.to_s
+    if params[:code]
       session = Patron::Session.new
       session.base_url = 'https://slack.com'
       response = session.post('/api/oauth.access', {
@@ -112,7 +121,7 @@ class TeamsController < ApplicationController
         data = JSON.load(response.body)
 
         if data['ok']
-          slack = SlackSetting.find_or_create_by(:team_id => current_team.id)
+          slack = SlackSetting.find_or_create_by(:team_id => params[:state])
 
           slack.access_token = data['access_token']
           slack.scope = data['scope']
