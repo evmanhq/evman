@@ -136,9 +136,11 @@
                   <%= l @event.begins_at, format: :short %> - <%= l @event.ends_at, format: :short %>
                 </div>
 
-                <div class="btn btn-secondary btn-passive">
-                  <%= @event.event_type.name %>
-                </div>
+                <% if @event.event_type %>
+                  <div class="btn btn-secondary btn-passive">
+                    <%= @event.event_type.name %>
+                  </div>
+                <% end %>
 
                 <div class="btn btn-secondary map-trigger">
                   <i class="fa fa-map-marker"></i> <%= @event.full_location %>
