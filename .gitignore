@@ -24,3 +24,6 @@ geodata
 /vendor/bundle
 /public/assets
 /public/system
+# Ignore development environemnt using docker
+/docker_dev
+/bin/dev
