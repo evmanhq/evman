@@ -7,7 +7,7 @@ module WaitForAjax
 
   def finished_all_ajax_requests?
     return false unless page.evaluate_script('jQuery.active').zero?
-    if page.evaluate_script('Turbolinks.controller.currentVisit')
+    if page.evaluate_script('typeof Turbolinks.controller.currentVisit') == 'object'
       return page.evaluate_script('Turbolinks.controller.currentVisit.state') == 'completed'
     end
     true
