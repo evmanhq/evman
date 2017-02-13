@@ -8,4 +8,9 @@ module SessionControl
     raise StandardError, 'no current team' if @current_team.blank?
     @current_team
   end
+
+  def determine_current_user
+    user_id = page.driver.cookies['user_id'].try(:value)
+    @current_user = User.where(id: user_id).first if user_id
+  end
 end

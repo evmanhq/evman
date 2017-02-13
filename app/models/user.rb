@@ -5,10 +5,10 @@ class User < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   belongs_to  :team
-  has_many  :identities
+  has_many  :identities, dependent: :destroy
 
   has_many  :team_invitations
-  has_many  :team_memberships
+  has_many  :team_memberships, dependent: :destroy
   has_many  :teams, :through => :team_memberships
 
   has_and_belongs_to_many :roles
@@ -27,7 +27,7 @@ class User < ApplicationRecord
 
   belongs_to :home_country, class_name: 'Country'
 
-  has_many  :emails, class_name: 'UserEmail'
+  has_many  :emails, class_name: 'UserEmail', dependent: :destroy
 
   def slack_id(team)
     u = slack_users.where(:slack_setting => team.slack_setting).first
@@ -47,65 +47,15 @@ class User < ApplicationRecord
     events.limit(1).order('events.begins_at').where('begins_at >= ?', Date.today).first
   end
 
-  def self.o_auth(info, current_user)
-    uid = info[:uid]
-    identity = Identity.find_by_uid(uid)
+  def assure_credentials
+    self.token ||= Digest::SHA256.hexdigest(SecureRandom.hex)
+    self.password ||= Digest::SHA256.hexdigest(SecureRandom.hex)
+    save
+  end
 
-    unless identity
-      email = UserEmail.where(email: info[:info][:email]).first
-
-      if email
-        user = email.user
-      else
-        if current_user
-          user = current_user
-        else
-          user = User.new
-          user.name = info[:info][:name]
-          user.email = info[:info][:email]
-          user.password = SecureRandom.hex
-          user.save!
-        end
-
-        email = UserEmail.new
-        email.active = true
-        email.email = info[:info][:email]
-        email.user = user
-        email.save!
-
-        parts = email.email.to_s.split('@')
-        if parts.length > 1
-          domain = parts[1]
-          team = Team.where(email_domain: domain).first
-
-          if team && !TeamMembership.where(user: email.user, team: team).first
-            @membership = TeamMembership.new
-            @membership.team = team
-            @membership.user = email.user
-            @membership.active = true
-            @membership.team_membership_type = TeamMembershipType.find_by_name('Owner')
-            @membership.save
-          end
-
-        end
-      end
-
-      identity = Identity.new
-      identity.provider = info[:provider]
-      identity.user = user
-
-      identity.uid = info[:uid]
-      identity.token = info[:credentials][:token]
-      identity.secret = info[:credentials][:secret]
-
-      if info[:credentials][:expires]
-        identity.expires = info[:credentials][:expires_at]
-      end
-
-      identity.save
-    end
-
-    identity.user
+  def add_email email
+    return if emails.where(email: email).any?
+    emails.create(active: true, email:  email)
   end
 
   def avatar_url(size=38)

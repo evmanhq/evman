@@ -8,7 +8,15 @@ module WaitForAjax
   def finished_all_ajax_requests?
     return false unless page.evaluate_script('jQuery.active').zero?
     if page.evaluate_script('typeof Turbolinks.controller.currentVisit') == 'object'
-      return page.evaluate_script('Turbolinks.controller.currentVisit.state') == 'completed'
+      state = page.evaluate_script('Turbolinks.controller.currentVisit.state')
+      case state
+      when 'completed'
+        return true
+      when 'failed'
+        raise StandardError, 'Turbolinks visit failed'
+      else
+        return false
+      end
     end
     true
   end

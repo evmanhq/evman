@@ -11,4 +11,10 @@ FactoryGirl.define do
     team
     active true
   end
+
+  factory :team_invitation do
+    email 'user@example.com'
+    code { SecureRandom.hex }
+    team
+  end
 end

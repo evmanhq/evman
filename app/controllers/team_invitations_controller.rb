@@ -1,6 +1,6 @@
 class TeamInvitationsController < ApplicationController
 
-  skip_before_filter :require_team!, :only => [:accept, :decline]
+  skip_before_action :require_team!, :only => [:accept, :decline]
 
   def create
     invitation = TeamInvitation.new

@@ -29,6 +29,7 @@ Variable | Description
 EVMAN_HOST | full address to use oauth, e.g. https://www.evman.io
 EVMAN_DOMAIN | Main domain part of your service, e.g. evman.io 
 EVMAN_SCHEME | Scheme used for accessing the service, e.g. https
+EVMAN_REQUIRE_INVITATION | If set to 'true' evman will require invitation for new users to register
 SECRET_KEY_BASE | Used to encrypt cookie based sessions
 
 Database configuration

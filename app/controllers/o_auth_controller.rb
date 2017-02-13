@@ -7,27 +7,25 @@ class OAuthController < ApplicationController
   def callback
     return redirect_to root_path if params[:error]
 
-    user = User.o_auth(env['omniauth.auth'], current_user)
+    adapter = Authentication::OmniauthAdapter.new(request.env['omniauth.auth'])
 
-    if user
-      session[:user_id] = user.id
-      user.token ||= Digest::SHA256.hexdigest(SecureRandom.hex)
-      user.password ||= Digest::SHA256.hexdigest(SecureRandom.hex)
-      user.save!
-
-      if session[:invitation]
-        invitation = TeamInvitation.where(:code => session[:invitation]).first
-        if invitation
-          user.email = invitation.email
-          user.save!
-          session.delete(:invitation)
-          return redirect_to(accept_team_invitation_path(invitation))
+    if current_user
+      adapter.register_identity(current_user) unless adapter.identity_exists?
+    else # no current_user
+      if adapter.identity_exists?
+        user = adapter.identity.user
+        session[:user_id] = user.id
+        # cookies[:user_id] = user.id if Rails.env.test?
+        user.assure_credentials # fills token and password if empty
+      else # no current_user && no identity
+        if ENV['EVMAN_REQUIRE_INVITATION'] == 'true' && !session[:invitation]
+          redirect_to root_path
+          return
         end
-      end
-
-      if session[:new_team_membership]
-        team = Team.where(id: session.delete(:new_team_membership)).first
-        user.teams << team if team and !user.teams.include?(team)
+        user = adapter.register_user
+        session[:user_id] = user.id
+        # cookies[:user_id] = user.id if Rails.env.test?
+        return if session[:invitation] and process_invitation(user)
       end
     end
 
@@ -36,6 +34,20 @@ class OAuthController < ApplicationController
 
   def failure
     redirect_to root_path
+  end
+
+  private
+  def process_invitation user
+    invitation = TeamInvitation.where(:code => session[:invitation]).first
+    if invitation
+      user.email = invitation.email
+      user.save!
+      user.add_email(invitation.email)
+      session.delete(:invitation)
+      redirect_to(accept_team_invitation_path(invitation))
+      return true
+    end
+    false
   end
 
 end

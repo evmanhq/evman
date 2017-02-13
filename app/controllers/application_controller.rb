@@ -82,10 +82,6 @@ class ApplicationController < ActionController::Base
       session[:invitation] = params[:invitation]
     end
 
-    if Rails.env.test? and cookies[:user_id]
-      session[:user_id] = cookies[:user_id].to_i
-    end
-
     # User already logged in
     @current_user = User.where(:id => session[:user_id] || -1).first
 
@@ -207,6 +203,18 @@ class ApplicationController < ActionController::Base
         end
       end
       menu
+    end
+  end
+
+  private
+
+  # Use cookies instead of session in test environment
+  # SessionCookie does not work using capybar and poltergeist
+  def session
+    if Rails.env.test?
+      cookies
+    else
+      super
     end
   end
 

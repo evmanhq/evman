@@ -14,5 +14,10 @@ When /^I am on the "(.+)" page/ do |page_name|
     visit edit_event_path(Event.first)
   when 'dashboard'
     visit dashboard_path
+  when 'profile'
+    visit user_path(current_user)
+  when 'invitation'
+    raise StandardError, 'no invitation found' unless @invitation
+    visit root_path(invitation: @invitation.code)
   end
 end
