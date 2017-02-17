@@ -237,3 +237,9 @@ body.modal-open {
   padding: 2px;
   background-color: #f86c6b;
 }
+
+@media (max-width: 450px) {
+  .main .container-fluid {
+    padding: 0 5px;
+  }
+}
