@@ -15,6 +15,7 @@
 @import "inset_modal";
 
 @import "tables";
+@import "forms";
 
 @import "timeline";
 
@@ -236,6 +237,14 @@ body.modal-open {
 .field_with_errors {
   padding: 2px;
   background-color: #f86c6b;
+}
+
+.sidebar {
+  overflow: auto;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 @media (max-width: 450px) {

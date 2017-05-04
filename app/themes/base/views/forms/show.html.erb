@@ -1,0 +1,22 @@
+<%= form_for @form_submission_form, url: @form, method: :get do |f| %>
+    <div class="modal-header">
+      <h4 class="modal-title">
+        Form preview: <%= @form_submission_form.title %>
+      </h4>
+    </div>
+
+    <div class="modal-body">
+
+      <% @form_submission_form.fields.each do |field| %>
+          <%= render partial: field.edit_partial_path, locals: {
+              field: field,
+              f: f
+          } %>
+      <% end %>
+
+    </div>
+
+    <div class="modal-footer">
+      <%= f.submit 'Save', class: 'btn btn-success', disabled: true %>
+    </div>
+<% end %>

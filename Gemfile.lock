@@ -284,7 +284,7 @@ GEM
     rails-assets-sifter (0.5.2)
     rails-assets-tether (1.4.0)
     rails-assets-underscore (1.8.3)
-    rails-assets-vue (2.1.10)
+    rails-assets-vue-multiselect (2.0.0.beta.13)
     rails-dom-testing (2.0.2)
       activesupport (>= 4.2.0, < 6.0)
       nokogiri (~> 1.6)
@@ -365,6 +365,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.2)
     unicode-display_width (1.1.3)
+    vuejs-rails (2.2.1)
     warden (1.2.6)
       rack (>= 1.0)
     websocket-driver (0.6.5)
@@ -435,7 +436,7 @@ DEPENDENCIES
   rails-assets-selectize!
   rails-assets-tether!
   rails-assets-underscore!
-  rails-assets-vue!
+  rails-assets-vue-multiselect (= 2.0.0.beta.13)!
   rails-i18n (~> 5.0.0)
   rspec-rails (~> 3.5.1)
   rubocop
@@ -445,6 +446,7 @@ DEPENDENCIES
   turbolinks (~> 5.0.0)
   twitter-text
   uglifier (>= 1.3.0)
+  vuejs-rails
   wisper
 
 BUNDLED WITH

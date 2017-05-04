@@ -1,0 +1,20 @@
+<div class="form-group">
+  <%= f.fields_for field.name, field do |ff| %>
+      <%= ff.label :value, field.label %>
+
+      <% if field.required? %>
+          <span class="text-danger">*</span>
+      <% end %>
+
+      <div class="<%= "field_with_errors" unless field.valid? %>">
+        <ul class="list-unstyled">
+          <%= ff.collection_radio_buttons :value, field.choices, :name, :name do |b| %>
+              <li>
+                <%= b.radio_button %>
+                <%= b.label %>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+  <% end %>
+</div>

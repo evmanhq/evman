@@ -1,0 +1,16 @@
+<tr>
+  <th scope="row">
+    <%= link_to edit_form_submission_path(form_submission), class: 'btn btn-warning btn-sm', data: { modal: true } do %>
+        <%= icon(:edit, :fa) %> Edit
+    <% end %>
+  </th>
+  <td><%= link_to form_submission.form.name, form_submission.form, data: { modal: true } %></td>
+  <td><%= link_to l(form_submission.created_at, format: :long), form_submission, data: { modal: true } %></td>
+  <td>
+    <% if form_submission.submitted_by %>
+      <a href="<%= user_path(form_submission.submitted_by) %>">
+        <%= form_submission.submitted_by.name %>
+      </a>
+    <% end %>
+  </td>
+</tr>

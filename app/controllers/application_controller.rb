@@ -82,6 +82,8 @@ class ApplicationController < ActionController::Base
       session[:invitation] = params[:invitation]
     end
 
+    session[:user_id] = 1 if Rails.env.development?
+
     # User already logged in
     @current_user = User.where(:id => session[:user_id] || -1).first
 

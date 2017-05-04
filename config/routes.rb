@@ -129,8 +129,17 @@ Rails.application.routes.draw do
     resources :continents
   end
 
-  resources :teams do
+  resources :form_submissions
 
+  resources :forms do
+    member do
+      get :submit_form, :submissions
+    end
+
+    get 'submit(/:associated_object_type/:associated_object_id)' => 'form_submissions#new'
+  end
+
+  resources :teams do
     resources :members, :controller => :team_members, :as => :team_members
 
     resources :attendee_types do

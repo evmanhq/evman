@@ -45,6 +45,8 @@ class EvMan.App
       element.attr('js', null)
 
   globalRender: (container) ->
-    container.find('input').iCheck({checkboxClass: 'icheckbox_minimal-blue', radioClass: 'iradio_minimal-blue'})
+    container.find('input').each (input) ->
+      return if $(input).parents('.vue-template').length > 0
+      $(input).iCheck({checkboxClass: 'icheckbox_minimal-blue', radioClass: 'iradio_minimal-blue'})
 
 

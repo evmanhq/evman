@@ -1,0 +1,95 @@
+<template class="vue-template" id="form_builder_field_template">
+  <div class="card field">
+    <div class="card-header">
+      <div @click="toggle" role="button" class="label">
+        <i class="fa fa-chevron-down" v-if="collapsed"></i>
+        <i class="fa fa-chevron-up" v-else></i>
+        &nbsp;
+        {{ label }}
+        &nbsp;
+        <small class="text-muted">{{ type.label }}</small>
+        <span class="text-danger" v-show="required">*</span>
+      </div>
+      <div class="actions">
+        <a class="btn-minimize" @click.prevent="$emit('move-up')">
+          <%= icon('arrow-up', :fa) %>
+        </a>
+
+        <a class="btn-minimize" @click.prevent="$emit('move-down')">
+          <%= icon('arrow-down', :fa) %>
+        </a>
+
+        <a class="btn-close" @click.prevent="$emit('remove')">
+          <%= icon(:remove, :fa) %>
+        </a>
+      </div>
+    </div>
+    <div class="card-block" v-show="!collapsed">
+      <div class="form">
+
+        <input type="hidden" v-model="id" :name="buildName('id')">
+
+        <div :class="[validationClass('label'),'form-group']">
+          <label for="label" class="form-control-label">Label</label>
+          <input type="text" v-model="label" :name="buildName('label')" placeholder="Question ..." class="form-control form-control-danger">
+          <div class="form-control-feedback" v-if="!validations.label">Label cannot be empty !</div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label for="type" class="form-control-label">Type</label>
+            <input type="hidden" :name="buildName('type')" ref="type">
+            <multiselect v-model="type"
+                         :options="types"
+                         deselect-label="Can't remove this value"
+                         track-by="name"
+                         label="label"
+                         :searchable="false"
+                         :allow-empty="false">
+              <template slot="option" scope="props">
+                  <i :class="[props.option.icon, 'fa']"></i> &nbsp;
+                  {{ props.option.label }}
+              </template>
+            </multiselect>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="required" class="form-control-label">Required</label>
+
+            <div class="form-check">
+              <label class="switch switch-3d switch-danger">
+                <input type="checkbox" class="switch-input" v-model="required" :name="buildName('required')">
+                <span class="switch-label"></span>
+                <span class="switch-handle"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <div v-show="hasChoices">
+          <label for="choices">Choices</label>
+          <ul class="list-unstyled fa-ul">
+            <li v-for="choice in choices" class="choice">
+              <i :class="[type.icon, 'fa']"></i>
+              <input type="text" class="form-control"
+                     :ref="'choice_' + choice.id"
+                     :name="buildName('choices', true)"
+                     v-model="choice.value"
+                     @blur="choiceBlur(choice)"
+                     @keypress.enter="focusNext(choice)"
+              >
+              <i class="fa fa-remove cursor-pointer" @click="deleteChoice(choice)"></i>
+            </li>
+
+            <li class="choice new-choice">
+              <i :class="[type.icon, 'fa']"></i>
+              <input type="text" class="form-control" ref="new_choice" placeholder="New choice ..." @focus="createChoice">
+            </li>
+          </ul>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</template>

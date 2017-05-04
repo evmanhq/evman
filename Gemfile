@@ -59,6 +59,8 @@ gem 'patron'
 gem 'brakeman', require: false
 gem 'rubocop', require: false
 
+gem 'vuejs-rails'
+
 source 'http://rails-assets.org' do
   gem 'rails-assets-jquery-ui'
   gem 'rails-assets-metisMenu'
@@ -69,8 +71,8 @@ source 'http://rails-assets.org' do
   gem 'rails-assets-icheck'
   gem 'rails-assets-loaders.css'
   gem 'rails-assets-underscore'
-  gem 'rails-assets-vue'
   gem 'rails-assets-tether'
+  gem 'rails-assets-vue-multiselect', '2.0.0.beta.13'
 end
 
 group :test do

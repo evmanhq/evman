@@ -1,0 +1,6 @@
+en:
+  activemodel:
+    errors:
+      models:
+        form_services/form_submission_form:
+          question_blank: 'Question "%{question}" cannot be blank'

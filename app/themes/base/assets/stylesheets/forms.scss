@@ -1,0 +1,37 @@
+.form-builder {
+  .field {
+
+    .card-header {
+      display: flex;
+      flex-direction: row;
+
+      .actions {
+        flex-shrink: 0;
+
+        a {
+          cursor: pointer;
+          padding: 10px;
+        }
+      }
+
+      .label {
+        flex-grow: 1;
+      }
+    }
+
+    .choice {
+      display: flex;
+      margin-bottom: 5px;
+
+      i {
+        font-size: 20px;
+        padding: 7px;
+      }
+
+      input {
+        flex-grow: 1;
+      }
+    }
+    .new-choice i { opacity: 0.3; }
+  }
+}

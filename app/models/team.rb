@@ -17,6 +17,7 @@ class Team < ApplicationRecord
   has_many  :tags
 
   has_many  :team_invitations
+  has_many :forms
 
   has_one   :slack_setting
   has_and_belongs_to_many :warehouses

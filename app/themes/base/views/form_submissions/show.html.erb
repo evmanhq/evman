@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h4 class="modal-title"><%= @form_submission_form.title %></h4>
+</div>
+
+<div class="modal-body">
+
+  <div class="row">
+    <div class="col-lg-4">
+      <dl class="dl-horizontal">
+        <dt>Submitted by</dt>
+        <dd><a href="<%= user_path(@form_submission.submitted_by) %>"><%= @form_submission.submitted_by.name %></a></dd>
+      </dl>
+    </div>
+
+    <div class="col-lg-4">
+      <dl class="dl-horizontal">
+        <dt>Submitted at</dt>
+        <dd><%= l @form_submission.created_at, format: :long %></a> </dd>
+      </dl>
+    </div>
+
+    <div class="col-lg-4">
+      <dl class="dl-horizontal">
+        <dt>Submitted to</dt>
+        <dd>
+          <%= link_to @form_submission.associated_object_name, @form_submission.associated_object_path, target: :blank %>
+        </dd>
+      </dl>
+    </div>
+  </div>
+
+  <hr>
+
+  <dl>
+    <% @form_submission_form.fields.each do |field| %>
+        <%= render partial: field.show_partial_path, locals: { field: field } %>
+    <% end %>
+  </dl>
+</div>

@@ -1,0 +1,28 @@
+<tr>
+  <th scope="row">
+    <%= link_to edit_form_path(form), class: 'btn btn-warning btn-sm', data: { modal: true } do %>
+        <%= icon(:edit, :fa) %> Edit
+    <% end %>
+
+    <%= link_to form, class: 'btn btn-danger btn-sm',
+                method: :delete,
+                data: {
+                    confirm: {
+                        title: "Remove form",
+                        question: "Are you sure you want to remove this form ?"
+                    }
+                } do %>
+        <%= icon(:remove, :fa) %> Remove
+    <% end %>
+  </th>
+
+  <td><%= link_to form.name, form, data: { modal: true }, class: 'blue-link' %></td>
+  <td><%= form.description %></td>
+  <td><%= l form.created_at, format: :long %></td>
+  <td>
+    <%
+      count = @form_submission_counts ? (@form_submission_counts[form.id] || 0) : form.submissions.count
+    %>
+    <%= link_to count, submissions_form_path(form) %>
+  </td>
+</tr>

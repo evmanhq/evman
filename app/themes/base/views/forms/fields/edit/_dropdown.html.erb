@@ -1,0 +1,13 @@
+<div class="form-group">
+  <%= f.fields_for field.name, field do |ff| %>
+      <%= ff.label :value, field.label %>
+
+      <% if field.required? %>
+          <span class="text-danger">*</span>
+      <% end %>
+
+      <div class="<%= "field_with_errors" unless field.valid? %>">
+        <%= ff.collection_select :value, field.choices, :name, :name, {}, class: 'form-control' %>
+      </div>
+  <% end %>
+</div>

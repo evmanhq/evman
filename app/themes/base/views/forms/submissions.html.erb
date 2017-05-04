@@ -1,0 +1,6 @@
+<%
+  breadcrumb_nav.add_item 'Forms', forms_path
+  breadcrumb_nav.add_item @form.name
+%>
+
+<%= render template: 'form_submissions/index' %>

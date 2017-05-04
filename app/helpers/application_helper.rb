@@ -27,5 +27,4 @@ module ApplicationHelper
     return unless record.errors.any?
     render partial: 'application/validation_errors', locals: { record: record }
   end
-
 end
