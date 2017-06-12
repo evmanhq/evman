@@ -1,9 +1,12 @@
 class FormsController < ApplicationController
 
   before_action :require_modal, only: [:show, :new, :edit]
+  before_action do |controller|
+    controller.dictator.authorize! current_team, :manage_forms
+  end
 
   def index
-    @forms = Form.all.order(:name)
+    @forms = current_team.forms.all.order(:name)
     @form_submission_counts = FormSubmission.group(:form_id).count
 
     respond_to :html

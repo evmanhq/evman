@@ -18,7 +18,8 @@ module Authorization
             members: false,
             goals: true,
             statistics: true,
-            tasks: true
+            tasks: true,
+            forms: true
         },
 
         talk: {

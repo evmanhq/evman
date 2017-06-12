@@ -18,6 +18,7 @@ class Team < ApplicationRecord
 
   has_many  :team_invitations
   has_many :forms
+  belongs_to :event_feedback_form, class_name: 'Form'
 
   has_one   :slack_setting
   has_and_belongs_to_many :warehouses

@@ -30,6 +30,7 @@ en:
           roles: Roles
           tags: Tags
           members_read: Read Members
+          forms: Forms
         descriptions:
           event_types: User is allowed to create, edit and delete Event Types
           attendee_types: User is allowed to create, edit and delete Attendee Types
@@ -43,6 +44,7 @@ en:
           statistics: Access to team statistics
           swag: Access to manage team swag (deprecated)
           tasks: Access to manage team tasks
+          forms: Access to manage forms
       talk:
         names:
           read: Read

@@ -13,6 +13,10 @@ module Authorization
           dictator.can?(team, :team, :expense_types) ||
           dictator.can?(team, :team, :slack_integration)
       end
+
+      def manage_forms?
+        dictator.can?(team, :team, :forms)
+      end
     end
   end
 end

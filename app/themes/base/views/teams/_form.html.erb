@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-header">
+    Settings
+  </div>
+
+  <div class="card-block">
+    <%= form_for @team,
+                 html: { class: 'form-horizontal' },
+                 data: {
+                     js:    { render_class: "EvMan.Views.Teams.Edit" },
+                     modal: { render_type: :replace }
+                 } do |f| %>
+
+      <%= validation_errors(@team) %>
+
+      <div class="form-group row">
+        <%= f.label :event_feedback_form_id, 'Event feedback form', class: 'col-form-label col-lg-2' %>
+        <div class="col-lg-10">
+          <%= f.collection_select :event_feedback_form_id, @team.forms.order('name ASC'), :id, :name, include_blank: true %>
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <div class="col-lg-10 push-lg-2">
+          <%= f.submit "Save", class: 'btn btn-success' %>
+        </div>
+      </div>
+
+    <% end %>
+  </div>
+</div>
+

@@ -24,6 +24,15 @@ class TeamsController < ApplicationController
     authorize! @team, :read_members
   end
 
+  def update
+    @team = Team.find(params[:id])
+    if @team.update_attributes(team_params)
+      redirect_to settings_team_path(@team)
+    else
+      render action: :settings
+    end
+  end
+
   def settings
     @team = Team.find(params[:id])
     authorize! @team, :read_options
@@ -183,6 +192,11 @@ class TeamsController < ApplicationController
         redirect_to(dashboard_path(@team))
       end
     end
+  end
+
+  private
+  def team_params
+    params.require(:team).permit(:event_feedback_form_id)
   end
 
 end
