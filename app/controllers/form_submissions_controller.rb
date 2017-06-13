@@ -19,7 +19,7 @@ class FormSubmissionsController < ApplicationController
 
   def show
     @form_submission = FormSubmission.find(params[:id])
-    @form_submission_form = FormServices::FormSubmissionForm.new(@form_submission)
+    @form_submission_decorator = FormServices::FormSubmissionDecorator.new(@form_submission)
 
     respond_to :html
   end
@@ -46,9 +46,17 @@ class FormSubmissionsController < ApplicationController
   end
 
   def update
+    @form_submission = FormSubmission.find(params[:id])
+    @form_submission_form = FormServices::FormSubmissionForm.new(@form_submission, current_user, form_submission_params)
+    
+    if @form_submission_form.submit
+      redirect_to @form_submission
+    else
+      render action: :edit
+    end
   end
 
   def form_submission_params
-    params['form_submission_form']
+    params['form_submission']
   end
 end

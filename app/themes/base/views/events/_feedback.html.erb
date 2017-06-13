@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-header">
+    Feedback
+    <div class="pull-right">
+      <%= link_to form_submit_path(@event.team.event_feedback_form, associated_object_id: @event.id, associated_object_type: Event),
+                  data: { modal: true }, class: 'btn btn-info btn-sm new-feedback-button' do %>
+          <%= icon(:plus, :fa) %> Feedback
+      <% end %>
+    </div>
+  </div>
+  <div class="container-fluid event-notes">
+    <% @event.form_submissions.order('created_at DESC').each do |form_submission| %>
+        <%= link_to form_submission, data: { modal: true } do %>
+          <div class="row">
+            <div class="col-lg-2">
+              <img src="<%= form_submission.submitted_by.avatar_url %>" class="img-circle">
+            </div>
+            <div class="col-lg-10 content">
+              <% form_submission_form = FormServices::FormSubmissionForm.new(form_submission) %>
+              <%= form_submission_form.fields.first.value %>
+              <div class="text-muted"><%= time_ago_in_words(form_submission.created_at) %> ago</div>
+            </div>
+          </div>
+        <% end %>
+    <% end %>
+  </div>
+</div>

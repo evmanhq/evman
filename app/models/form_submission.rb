@@ -20,4 +20,8 @@ class FormSubmission < ApplicationRecord
   def associated_object_path
     associated_object
   end
+
+  def form_structure_changed?
+    form_structure_hash != form.structure_hash
+  end
 end

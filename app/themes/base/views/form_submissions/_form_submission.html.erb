@@ -1,6 +1,7 @@
 <tr>
   <th scope="row">
-    <%= link_to edit_form_submission_path(form_submission), class: 'btn btn-warning btn-sm', data: { modal: true } do %>
+    <%= link_to edit_form_submission_path(form_submission), data: { modal: true },
+                class: "btn btn-warning btn-sm #{'disabled' if form_submission.form_structure_changed?}" do %>
         <%= icon(:edit, :fa) %> Edit
     <% end %>
   </th>
@@ -11,6 +12,11 @@
       <a href="<%= user_path(form_submission.submitted_by) %>">
         <%= form_submission.submitted_by.name %>
       </a>
+    <% end %>
+  </td>
+  <td>
+    <% if form_submission.associated_object %>
+      <%= link_to form_submission.associated_object_name, form_submission.associated_object_path %>
     <% end %>
   </td>
 </tr>

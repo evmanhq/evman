@@ -8,38 +8,6 @@ class EvMan.Views.Forms.Edit
     { name: 'dropdown', label: 'Dropdown', icon: 'fa-chevron-circle-down' }
   ]
 
-  SAMPLE_FIELDS: [
-    {
-      data: {
-        id: 1,
-        type: @::FIELD_TYPES[2],
-        label: 'Did Red Hatters from other teams help at the booth? If so, what teams?',
-        required: false,
-        collapsed: false,
-        choices: [{ id: 1, value: 'Alfa' }, { id: 2, value: 'Beta' }]
-      }
-    },
-    {
-      data: {
-        id: 2,
-        type: @::FIELD_TYPES[1],
-        label: 'Are there other teams we should invite if we sponsor this event in the future?',
-        required: false,
-        collapsed: true,
-        choices: []
-      }
-    },
-    {
-      data: {
-        id: 3,
-        type: @::FIELD_TYPES[4],
-        label: 'What swag did we give out? What was the response from attendees?',
-        required: false,
-        collapsed: true,
-        choices: []
-      }
-    },
-  ]
   DEFAULT_FIELD: (ext)->
     _.extend({
       type:  @FIELD_TYPES[0]
@@ -76,8 +44,8 @@ class EvMan.Views.Forms.Edit
   builderData: () ->
     return [] unless @form_builder.data('builder')?.fields
     data = @form_builder.data('builder').fields
-    data = _.map data, (field, index) =>
-      field.id = index + 1
+    data = _.map data, (field) =>
+      field.id = parseInt(field.id)
       field.type = _.find @FIELD_TYPES, (ft) -> ft.name == field.type
       field.collapsed = true
       field.choices ||= []
@@ -85,7 +53,6 @@ class EvMan.Views.Forms.Edit
 
       { data: field}
 
-    console.log data
     data
 
   FormBuilder: ->

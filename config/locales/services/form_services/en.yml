@@ -4,3 +4,4 @@ en:
       models:
         form_services/form_submission_form:
           question_blank: 'Question "%{question}" cannot be blank'
+          form_structure_changed: 'Form structure has changed. The submission cannot be edited.'

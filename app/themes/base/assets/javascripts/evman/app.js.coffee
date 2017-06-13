@@ -1,8 +1,10 @@
 class EvMan.App
   init: ->
     @underscoreTemplateSettings()
-    @initModalManagers()
-    $(document).on 'turbolinks:load', @renderViews
+
+    $(document).on 'turbolinks:load', =>
+      @renderViews()
+      @initModalManagers()
 
   underscoreTemplateSettings: ->
     # Rewrites default settings for tempaltes to use {{= variable }}, {{ evaluate }}, {{- strip_html }}

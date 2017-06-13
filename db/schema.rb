@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505110242) do
+ActiveRecord::Schema.define(version: 20170613232128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -210,8 +210,9 @@ ActiveRecord::Schema.define(version: 20170505110242) do
     t.jsonb    "data"
     t.integer  "associated_object_id"
     t.string   "associated_object_type"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.string   "form_structure_hash",    limit: 32
     t.index ["associated_object_type", "associated_object_id"], name: "asociated_object_index", using: :btree
     t.index ["form_id"], name: "index_form_submissions_on_form_id", using: :btree
     t.index ["submitted_by_id"], name: "index_form_submissions_on_submitted_by_id", using: :btree

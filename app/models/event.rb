@@ -25,6 +25,7 @@ class Event < ApplicationRecord
   has_many  :taggeds, :as => :item
   has_many  :tags, -> { distinct }, :through => :taggeds
   has_many  :warehouse_transactions
+  has_many :form_submissions, as: :associated_object
 
   validates :name, presence: true
   validates :event_type, presence: true

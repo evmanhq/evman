@@ -15,5 +15,9 @@ class Form < ApplicationRecord
       field['required'] = field['required'] == 'on'
     end
   end
-  
+
+  def structure_hash
+    Digest::MD5.hexdigest(Marshal.dump(data))
+  end
+
 end

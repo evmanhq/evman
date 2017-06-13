@@ -161,5 +161,9 @@
     <div class="col-lg-4">
       <%= render 'notes' %>
     </div>
+
+    <div class="col-lg-4">
+      <%= render 'feedback' if @event.team.event_feedback_form %>
+    </div>
   </div>
 </div>

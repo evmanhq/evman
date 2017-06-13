@@ -133,10 +133,10 @@ Rails.application.routes.draw do
 
   resources :forms do
     member do
-      get :submit_form, :submissions
+      get :submissions
     end
 
-    get 'submit(/:associated_object_type/:associated_object_id)' => 'form_submissions#new'
+    get 'submit(/:associated_object_type/:associated_object_id)' => 'form_submissions#new', as: :submit
   end
 
   resources :teams do

@@ -196,7 +196,10 @@ class TeamsController < ApplicationController
 
   private
   def team_params
-    params.require(:team).permit(:event_feedback_form_id)
+    team = Team.find(params[:id])
+    allowed_params = []
+    allowed_params << :event_feedback_form_id if authorized? team, :manage_forms
+    params.require(:team).permit(*allowed_params)
   end
 
 end

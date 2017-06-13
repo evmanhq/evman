@@ -1,5 +1,12 @@
 <div class="modal-header">
-  <h4 class="modal-title"><%= @form_submission_form.title %></h4>
+  <h4 class="modal-title"><%= @form_submission_decorator.title %>
+    <span class="pull-right">
+      <%= link_to edit_form_submission_path(@form_submission), data: { modal: true },
+                  class: "btn btn-warning btn-sm #{'disabled' if @form_submission.form_structure_changed?}" do %>
+        <%= icon(:edit, :fa) %> Edit
+      <% end %>
+    </span>
+  </h4>
 </div>
 
 <div class="modal-body">
@@ -32,8 +39,8 @@
   <hr>
 
   <dl>
-    <% @form_submission_form.fields.each do |field| %>
-        <%= render partial: field.show_partial_path, locals: { field: field } %>
+    <% @form_submission_decorator.fields.each do |field| %>
+      <%= render partial: field.to_partial_path, locals: { field: field } %>
     <% end %>
   </dl>
 </div>
