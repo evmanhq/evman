@@ -4,10 +4,10 @@ class Talk < ApplicationRecord
   belongs_to  :user
   belongs_to  :event_type
 
-  has_many :event_talks
+  has_many :event_talks, dependent: :destroy
   has_many :events, :through => :event_talks
 
-  has_many  :taggeds, :as => :item
+  has_many  :taggeds, :as => :item, dependent: :destroy, inverse_of: :item
   has_many  :tags, -> { distinct }, :through => :taggeds
 
   validates :name, presence: true

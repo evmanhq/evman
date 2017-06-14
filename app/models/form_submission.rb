@@ -1,5 +1,5 @@
 class FormSubmission < ApplicationRecord
-  belongs_to :form
+  belongs_to :form, inverse_of: :submissions
   belongs_to :submitted_by, class_name: 'User'
   belongs_to :associated_object, polymorphic: true
 
@@ -22,6 +22,7 @@ class FormSubmission < ApplicationRecord
   end
 
   def form_structure_changed?
+    return true unless form
     form_structure_hash != form.structure_hash
   end
 end

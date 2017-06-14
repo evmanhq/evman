@@ -97,7 +97,9 @@
 
                                 <div class="col-lg-6" style="font-weight: bold;">
                                     <div class="hideOverflow">
+                                      <% if talk.event %>
                                         <a href="<%= event_path(talk.event) %>"><%= talk.event.name %></a>
+                                      <% end %>
                                     </div>
                                 </div>
 

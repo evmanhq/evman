@@ -1,7 +1,6 @@
 class ExpenseType < ApplicationRecord
 
-  has_many  :expenses
-
   belongs_to  :team
+  has_many  :expenses
 
 end

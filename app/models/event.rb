@@ -11,18 +11,18 @@ class Event < ApplicationRecord
 
   belongs_to  :owner, :class_name => 'User'
 
-  has_many  :attendees
+  has_many  :attendees, dependent: :destroy, inverse_of: :event
   has_many  :users, :through => :attendees, :as => :attendees
 
-  has_many  :event_talks
+  has_many  :event_talks, dependent: :destroy
   has_many  :talks, :through => :event_talks
-  has_many  :event_notes
+  has_many  :event_notes, dependent: :destroy, inverse_of: :event
 
-  has_many :expenses
+  has_many :expenses, dependent: :destroy, inverse_of: :event
 
-  has_many :attachments, :as => :parent
+  has_many :attachments, :as => :parent, inverse_of: :parent, dependent: :destroy
 
-  has_many  :taggeds, :as => :item
+  has_many  :taggeds, :as => :item, dependent: :destroy, inverse_of: :item
   has_many  :tags, -> { distinct }, :through => :taggeds
   has_many  :warehouse_transactions
   has_many :form_submissions, as: :associated_object

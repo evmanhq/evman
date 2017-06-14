@@ -1,6 +1,6 @@
 class Form < ApplicationRecord
   belongs_to :team
-  has_many :submissions, class_name: 'FormSubmission'
+  has_many :submissions, class_name: 'FormSubmission', dependent: :nullify, inverse_of: :form
 
   validates :name, presence: true, uniqueness: true
 
