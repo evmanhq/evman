@@ -1,8 +1,8 @@
 class ProfilePicturesController < ApplicationController
   before_action :require_modal, only: [:new, :show]
 
-  skip_before_filter :authenticate!, only: [:download]
-  skip_before_filter :require_team!
+  skip_before_action :authenticate!, only: [:download]
+  skip_before_action :require_team!
 
   def toggle_public
     @profile_picture = ProfilePicture.find(params[:id])

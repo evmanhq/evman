@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'bundler', '>= 1.7.0'
 
-gem 'rails', '~> 5.0.0'
+gem 'rails', '~> 5.1.0'
 
 gem 'pg'
 
@@ -58,6 +58,7 @@ gem 'patron'
 
 gem 'brakeman', require: false
 gem 'rubocop', require: false
+gem "sentry-raven"
 
 gem 'vuejs-rails'
 

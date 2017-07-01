@@ -9,7 +9,8 @@
 .pry_history
 evman.sql
 geodata
-
+test.sh
+psql.sh
 # Ignore bundler config.
 /.bundle
 

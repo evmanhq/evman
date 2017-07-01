@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/evman/docker-env:latest
+FROM docker.io/evman/docker-env:latest
 
 ENV RAILS_ENV="production"
 

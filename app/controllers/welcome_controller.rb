@@ -27,7 +27,7 @@ class WelcomeController < ApplicationController
       user.save
       return render :json => {:token => user.token, :id => user.id, :name => user.name, :avatar => user.avatar_url}
     end
-    render :text => 'FAILED'
+    render plain: 'FAILED'
   end
 
   def signin

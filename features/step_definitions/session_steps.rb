@@ -7,8 +7,8 @@ Given /^I am logged in as user with (.+)/ do |permissions|
     profile = Authorization::Profile.new
   end
 
-  Team.where(:name => 'Public', :system => true).first_or_create
-  Team.where(:name => 'Members', :system => true).first_or_create
+  Team.where(:name => 'Public').first_or_create
+  Team.where(:name => 'Members').first_or_create
 
   team = FactoryGirl.create :team
   role = FactoryGirl.create :role, team: team, authorization_profile: profile

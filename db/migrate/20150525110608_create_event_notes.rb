@@ -1,4 +1,4 @@
-class CreateEventNotes < ActiveRecord::Migration
+class CreateEventNotes < ActiveRecord::Migration[5.0]
   def change
     create_table :event_notes do |t|
       t.references  :user

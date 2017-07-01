@@ -1,4 +1,4 @@
-class CreateEvents < ActiveRecord::Migration
+class CreateEvents < ActiveRecord::Migration[5.0]
   def change
     create_table :events do |t|
       t.string      :name
@@ -28,12 +28,6 @@ class CreateEvents < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_index :events, :city_id
-    add_index :events, :team_id
-    add_index :events, :owner_id
-    add_index :events, :event_series_id
-    add_index :events, :event_type_id
 
   end
 end

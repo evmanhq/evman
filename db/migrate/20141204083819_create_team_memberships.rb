@@ -1,4 +1,4 @@
-class CreateTeamMemberships < ActiveRecord::Migration
+class CreateTeamMemberships < ActiveRecord::Migration[5.0]
   def change
     create_table :team_memberships do |t|
       t.references :user
@@ -9,10 +9,6 @@ class CreateTeamMemberships < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_index :team_memberships, :team_id
-    add_index :team_memberships, :user_id
-    add_index :team_memberships, :team_membership_type_id
 
   end
 end

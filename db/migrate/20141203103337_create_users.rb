@@ -1,4 +1,4 @@
-class CreateUsers < ActiveRecord::Migration
+class CreateUsers < ActiveRecord::Migration[5.0]
   def change
     create_table(:users) do |t|
       t.string      :name,  :null => true
@@ -19,7 +19,6 @@ class CreateUsers < ActiveRecord::Migration
     end
 
     add_index :users, :email, unique: true
-    add_index :users, :home_country_id
 
   end
 end

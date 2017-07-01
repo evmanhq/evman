@@ -1,4 +1,4 @@
-class CreateExpenses < ActiveRecord::Migration
+class CreateExpenses < ActiveRecord::Migration[5.0]
   def change
     create_table :expenses do |t|
       t.references    :event

@@ -8,8 +8,12 @@ class EvMan.Views.Events.Show
     @renderMap()
 
   renderMap: ->
-    L.mapbox.accessToken = window.mapbox;
-    map = L.mapbox.map('map', 'mapbox.streets').setView([40, -74.50], 9)
+    map = L.map('map').setView([40, -74.50], 9)
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map)
+
     params = {q: @options.event_full_location, format: 'json'}
 
     $.get 'https://nominatim.openstreetmap.org/search', params, (data) ->

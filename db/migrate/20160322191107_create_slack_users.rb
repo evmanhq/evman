@@ -1,4 +1,4 @@
-class CreateSlackUsers < ActiveRecord::Migration
+class CreateSlackUsers < ActiveRecord::Migration[5.0]
   def change
     create_table :slack_users do |t|
       t.references  :user

@@ -1,4 +1,4 @@
-class CreateCityNames < ActiveRecord::Migration
+class CreateCityNames < ActiveRecord::Migration[5.0]
   def change
     create_table :city_names do |t|
       t.string      :geoid
@@ -14,8 +14,6 @@ class CreateCityNames < ActiveRecord::Migration
 
     add_index :city_names, :geoid
     add_index :city_names, :keyword
-    add_index :city_names, :city_id
-    add_index :city_names, :language_id
 
   end
 end

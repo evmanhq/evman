@@ -16,27 +16,16 @@ class ApplicationController < ActionController::Base
   append_before_action :breadcrumb_nav
 
   before_action do
+    Raven.user_context(id: session[:user_id])
+    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+  end
+
+  before_action do
     prepend_view_path(Rails.root.join("app/themes/base/views"))
   end
 
   after_action do
     Thread.current[:dictator] = nil
-  end
-
-  if ['staging', 'production'].include?(Rails.env)
-    rescue_from Exception do |e|
-      message = {
-          :fallback => "Exception #{e.message}",
-          :pretext => "Exception #{e.message}",
-          :fields => [
-              {:title => 'URL', :value => request.original_url, :short => false},
-              {:title => 'Backtrace', :value => e.backtrace.take(5).join("\n"), :short => false}
-          ]
-      }
-
-      Slack.post(message, ENV['SLACK_ID'])
-      raise e
-    end
   end
 
   rescue_from Authorization::UnauthorizedAccess, with: :deny_access
@@ -137,7 +126,7 @@ class ApplicationController < ActionController::Base
 
   def nginx_download(url)
     response.headers['X-Accel-Redirect'] = url.gsub(/(https?:)?\/\/s3\.amazonaws\.com/,'/attachments_downloads')
-    render :text => ''
+    render plain: ''
   end
 
   helper_method :breadcrumb_nav

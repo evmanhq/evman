@@ -17,7 +17,7 @@ class CalendarsController < ApplicationController
         e.location      = event.full_location if event.respond_to?(:full_location)
       end if event.begins_at && event.ends_at
     end
-    render  :text => calendar.to_ical
+    render plain: calendar.to_ical
   end
 
   def cfps
@@ -34,7 +34,7 @@ class CalendarsController < ApplicationController
         e.location      = event.full_location if event.respond_to?(:full_location)
       end if event.begins_at && event.ends_at
     end
-    render  :text => calendar.to_ical
+    render plain: calendar.to_ical
   end
 
   def user_cfps
@@ -51,7 +51,7 @@ class CalendarsController < ApplicationController
         e.location      = event.full_location if event.respond_to?(:full_location)
       end if event.begins_at && event.ends_at
     end
-    render  :text => calendar.to_ical
+    render plain: calendar.to_ical
   end
 
 end

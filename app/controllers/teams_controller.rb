@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
 
-  skip_before_filter :require_team!, :only => [:new, :create, :select, :slack]
+  skip_before_action :require_team!, :only => [:new, :create, :select, :slack]
 
   def index
     respond_to do |response|

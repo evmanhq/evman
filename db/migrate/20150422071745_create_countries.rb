@@ -1,4 +1,4 @@
-class CreateCountries < ActiveRecord::Migration
+class CreateCountries < ActiveRecord::Migration[5.0]
   def change
     create_table :countries do |t|
       t.string      :code
@@ -12,7 +12,5 @@ class CreateCountries < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_index :countries, :currency_id
-    add_index :countries, :continent_id
   end
 end

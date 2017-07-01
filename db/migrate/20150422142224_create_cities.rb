@@ -1,4 +1,4 @@
-class CreateCities < ActiveRecord::Migration
+class CreateCities < ActiveRecord::Migration[5.0]
   def change
     create_table :cities do |t|
       t.string      :geoid
@@ -13,8 +13,6 @@ class CreateCities < ActiveRecord::Migration
     end
 
     add_index :cities, :geoid
-    add_index :cities, :country_id
-    add_index :cities, :time_zone_id
 
   end
 end
