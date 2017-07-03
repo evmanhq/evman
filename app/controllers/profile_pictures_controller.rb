@@ -37,7 +37,7 @@ class ProfilePicturesController < ApplicationController
     @profile_picture = ProfilePicture.find(params[:id])
     type = params[:type] || :original
     if !@profile_picture.public? and (!current_user or current_user != @profile_picture.user)
-      render text: '', status: :unauthorized
+      render plain: '', status: :unauthorized
       return
     end
 
