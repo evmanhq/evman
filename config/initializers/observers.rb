@@ -1,0 +1,1 @@
+Observer.setup_observers

@@ -1,7 +1,5 @@
 class Event < ApplicationRecord
 
-  REJECTS = ['updated_at']
-
   belongs_to  :team, inverse_of: :events
 
   belongs_to  :city
@@ -36,23 +34,6 @@ class Event < ApplicationRecord
   authorize_values_for :event_type
   authorize_values_for :owner
   authorize_values_for :team
-
-  before_update do
-    changes = self.changes.keys.reject { |k| REJECTS.include?(k) }
-    if changes.length > 0
-      changes = changes.map { |k| Event.human_attribute_name(k) }.join(',')
-
-      mentions = [self.owner.slack_id(self.team)]
-      mentions += self.attendees.all.map {|attendee| attendee.user.slack_id(self.team) }
-      mentions = mentions.reject { |mention| mention == nil }.uniq.map { |member| "<@#{member}>"}.join(', ')
-
-      Slack.post("Event <#{ENV['EVMAN_SCHEME']}://#{team.subdomain}.#{ENV['EVMAN_DOMAIN']}/events/#{self.id}|#{self.name}> was updated (#{changes}) /cc #{mentions}.", self.team)
-    end
-  end
-
-  after_create do
-    Slack.post("New event <#{ENV['EVMAN_SCHEME']}://#{team.subdomain}.#{ENV['EVMAN_DOMAIN']}/events/#{self.id}|#{self.name}> was created.", self.team)
-  end
 
   def full_location
     if city
