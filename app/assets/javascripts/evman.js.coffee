@@ -1,4 +1,5 @@
 window.EvMan = {
-  Views: {}
+  Views: {},
+  Components: {}
 }
 
