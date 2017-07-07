@@ -25,7 +25,7 @@
   </script>
 </head>
 
-<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden" data-controller="<%= params[:controller] %>" data-action="<%= params[:action] %>">
+<body class="app header-fixed sidebar-fixed aside-menu-fixed <% unless content_for?(:aside) %>aside-menu-hidden<% end %>" data-controller="<%= params[:controller] %>" data-action="<%= params[:action] %>">
 
 <div id="permanent-elements" data-turbolinks-permanent>
   <%= render partial: "layouts/confirm_dialog" %>
