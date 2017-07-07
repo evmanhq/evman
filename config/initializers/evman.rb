@@ -13,7 +13,3 @@ if ENV['S3_BUCKET_NAME']
     s3_region: ENV['AWS_REGION']
   }
 end
-
-Dir.glob("#{Rails.root}/app/themes/*/assets/*").each do |dir|
-  Rails.application.config.assets.paths << dir
-end
