@@ -1,12 +1,8 @@
 <%= render 'layouts/application' do %>
-  <header class="navbar">
-    <div class="container-fluid">
-      <button class="navbar-toggler mobile-toggler hidden-lg-up" type="button">☰</button>
-
-      <!--<a class="navbar-brand" href="#">EvMan</a>-->
-
-      <ul class="nav navbar-nav pull-right">
-
+    <header class="app-header navbar">
+      <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">☰</button>
+      <a class="navbar-brand" href="#"></a>
+      <ul class="nav navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" href="<%= user_path(current_user) %>">
             <i class="fa fa-user"></i>
@@ -19,15 +15,15 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <% current_user.teams.each do |team| %>
-              <% if team == current_team %>
-                  <div class="dropdown-item">
-                    <strong><i class="fa fa-group"></i>&nbsp;&nbsp;<%= team.name %></strong>
-                  </div>
-              <% else %>
-                  <a href="<%= dashboard_url(:subdomain => team.subdomain) %>" class="dropdown-item">
-                    <i class="fa fa-group"></i>&nbsp;&nbsp;<%= team.name %>
-                  </a>
-              <% end %>
+                <% if team == current_team %>
+                    <div class="dropdown-item">
+                      <strong><i class="fa fa-group"></i>&nbsp;&nbsp;<%= team.name %></strong>
+                    </div>
+                <% else %>
+                    <a href="<%= dashboard_url(:subdomain => team.subdomain) %>" class="dropdown-item">
+                      <i class="fa fa-group"></i>&nbsp;&nbsp;<%= team.name %>
+                    </a>
+                <% end %>
             <% end %>
             <%= link_to "Create new team", new_team_path, data: { modal: true }, class: 'dropdown-item' %>
           </div>
@@ -38,34 +34,39 @@
           </a>
         </li>
       </ul>
-    </div>
-  </header>
+    </header>
 
-  <div class="sidebar">
+    <div class="app-body">
+      <div class="sidebar">
+        <div class="profile">
+          <img src="<%= current_user.avatar_url(76) %>" class="img-circle">
 
-    <div class="profile">
-      <img src="<%= current_user.avatar_url(76) %>" class="img-circle">
+          <div class="user">
+            <div class="name"><%= current_user.name %></div>
+            <% if @current_team %>
+                <div>
+                  <span class="team"><%= current_team.name %></span>
+                </div>
+            <% end %>
+          </div>
+        </div>
 
-      <div class="user">
-        <div class="name"><%= current_user.name %></div>
-        <% if @current_team %>
-            <div>
-              <span class="team"><%= current_team.name %></span>
-            </div>
-        <% end %>
+        <nav class="sidebar-nav">
+          <%= render main_menu %>
+        </nav>
       </div>
+      <main class="main">
+        <%= render 'application/breadcrumb_nav' %>
+
+        <div class="container-fluid">
+          <%= yield %>
+        </div>
+      </main>
     </div>
 
-    <nav class="sidebar-nav">
-      <%= render main_menu %>
-    </nav>
-  </div>
-
-  <main class="main">
-    <%= render 'application/breadcrumb_nav' %>
-
-    <div class="container-fluid">
-      <%= yield %>
-    </div>
-  </main>
+    <footer class="app-footer">
+      <div class="pull-right">
+        &copy; 2017 <a href="https://www.evman.io">EvMan</a>
+      </div>
+    </footer>
 <% end %>

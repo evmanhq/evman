@@ -40,6 +40,12 @@ body {
   width: 6px;
 }
 
+.app-header.navbar .navbar-brand {
+  background-image: url(image-path("logo.png"));
+  background-size: contain;
+  background-origin: content-box;
+}
+
 .navbar {
   border-radius: 0;
 }
@@ -90,10 +96,6 @@ div.btn.btn-passive {
   }
 }
 
-body.navbar-fixed .main {
-  padding-top: 54px;
-}
-
 header.navbar a.navbar-brand {
   background-image: none;
   background-color: transparent;
@@ -105,7 +107,7 @@ header.navbar a.navbar-brand {
 }
 
 .sidebar .profile {
-  width: 200px;
+  //width: 200px;
   margin-bottom: 10px;
 
   img {
@@ -237,10 +239,6 @@ body.modal-open {
 .field_with_errors {
   padding: 2px;
   background-color: #f86c6b;
-}
-
-.sidebar {
-  overflow: auto;
 }
 
 .cursor-pointer {
