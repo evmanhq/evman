@@ -2,6 +2,14 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
+  scope :api, module: :api do
+    resources :tokens do
+      collection do
+        post :validation
+      end
+    end
+  end
+
   get '/auth/:provider/callback', :to => 'o_auth#callback'
   get '/auth/failure', :to => 'o_auth#failure'
 
