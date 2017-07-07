@@ -5,4 +5,14 @@ class Attachment < ApplicationRecord
 
   belongs_to  :user
   belongs_to  :parent, :polymorphic => true
+
+  def concerned_teams
+    parent.concerned_teams
+  end
+
+  def concerned_users
+    (parent.concerned_users + [user]).uniq
+  end
+
+
 end

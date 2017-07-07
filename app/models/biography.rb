@@ -8,4 +8,5 @@ class Biography < ApplicationRecord
   def default?
     user.default_biography_id == id
   end
+
 end

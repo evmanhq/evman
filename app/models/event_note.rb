@@ -14,4 +14,12 @@ class EventNote < ApplicationRecord
                }, self.event.team)
   end
 
+  def concerned_teams
+    event.concerned_teams
+  end
+
+  def concerned_users
+    (event.concerned_users + event.event_notes.map { |note| note.user } + [user]).uniq
+  end
+
 end

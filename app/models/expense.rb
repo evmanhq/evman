@@ -18,4 +18,12 @@ class Expense < ApplicationRecord
     self.usd
   end
 
+  def concerned_teams
+    event.concerned_teams
+  end
+
+  def concerned_users
+    (event.concerned_users + [user]).uniq
+  end
+
 end

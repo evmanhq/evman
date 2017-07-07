@@ -55,4 +55,9 @@ class Team < ApplicationRecord
     self.name
   end
 
+  def concerned_teams
+    [self]
+  end
+
+
 end

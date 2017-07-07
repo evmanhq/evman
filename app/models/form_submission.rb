@@ -25,4 +25,13 @@ class FormSubmission < ApplicationRecord
     return true unless form
     form_structure_hash != form.structure_hash
   end
+
+  def concerned_teams
+    form.concerned_teams
+  end
+
+  def concerned_users
+    [submitted_by]
+  end
+
 end

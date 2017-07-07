@@ -34,4 +34,9 @@ class WarehouseTransaction < ApplicationRecord
   def lock_batch
     batch.lock!
   end
+
+  def concerned_teams
+    batch.concerned_teams + event.concerned_teams
+  end
+
 end

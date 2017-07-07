@@ -67,6 +67,10 @@ class User < ApplicationRecord
 
   end
 
+  def concerned_users
+    [self]
+  end
+
   def to_s
     "#{name} (#{email})"
   end

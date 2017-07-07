@@ -15,4 +15,9 @@ class WarehouseBatch < ApplicationRecord
     new_total = transactions.sum(:total)
     update_attribute(:total, new_total)
   end
+
+  def concerned_teams
+    item.concerned_teams
+  end
+
 end

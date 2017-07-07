@@ -58,4 +58,13 @@ class Event < ApplicationRecord
   def label
     "#{name} (#{begins_at})"
   end
+
+  def concerned_teams
+    [team]
+  end
+
+  def concerned_users
+    ([owner] + users.to_a).uniq
+  end
+
 end
