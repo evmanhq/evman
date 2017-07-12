@@ -1,6 +1,11 @@
 <div class="card">
   <div class="card-header">
     Notes
+    <div class="pull-right">
+      <%= link_to new_event_note_path(event_id: @event.id), data: { modal: true }, class: 'btn btn-info btn-sm new-note-button' do %>
+          <%= icon(:plus, :fa) %> Note
+      <% end %>
+    </div>
   </div>
   <div class="container-fluid event-notes">
     <% @event.event_notes.includes(:user).order(:created_at => :desc).each do |note| %>

@@ -1,6 +1,11 @@
 <div class="card event-talks-container">
   <div class="card-header">
     Talks
+    <div class="pull-right">
+      <%= link_to new_event_talk_path(event_id: @event.id), data: { modal: true }, class: 'btn btn-info btn-sm new-event-talk-button' do %>
+          <%= icon(:plus, :fa) %> Talk
+      <% end %>
+    </div>
   </div>
   <ul class="list-group">
     <% @event.event_talks.includes(:user, :talk).each do |talk| %>

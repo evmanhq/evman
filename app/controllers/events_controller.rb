@@ -242,8 +242,8 @@ class EventsController < ApplicationController
         :cfp_date,
         :begins_at,
         :ends_at,
-        :owner_id
-
+        :owner_id,
+        properties_assignments: {}
     )
   end
 end

@@ -19,6 +19,9 @@ Rails.application.routes.draw do
 
   get '/dashboard', :to => 'dashboard#index'
 
+  resources :event_properties
+  resources :event_property_options, except: [:index]
+
   resources :events do
     member do
       get :add_attendee, :expenses, :attachments

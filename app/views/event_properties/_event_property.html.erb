@@ -1,0 +1,37 @@
+<div class="card card-default">
+  <div class="card-header">
+    <%= link_to event_property.name, event_property %>
+    <div class="card-actions">
+      <%= link_to new_event_property_option_path(event_property_id: event_property.id), class: 'btn-minimize', data: { modal: true } do %>
+          <%= icon(:plus, :fa) %>
+      <% end %>
+
+      <%= link_to edit_event_property_path(event_property), class: 'btn-minimize', data: { modal: true } do %>
+          <%= icon(:edit, :fa) %>
+      <% end %>
+
+      <%= link_to event_property, class: 'btn-minimize',
+                  method: :delete,
+                  data: {
+                      confirm: {
+                          title: "Remove property",
+                          question: "Are you sure you want to remove this property ?"
+                      }
+                  } do %>
+          <%= icon(:remove, :fa) %>
+      <% end %>
+
+      <% unless @expanded %>
+        <a class="btn-minimize collapsed" data-toggle="collapse" href="#<%= dom_id(event_property, :details) %>" aria-expanded="false" aria-controls="propertyDetail">
+          <%= icon('chevron-down', :fa) %>
+        </a>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="<%= 'collapse' unless @expanded %>" id="<%= dom_id(event_property, :details) %>">
+    <div class="list-group list-group-flush">
+      <%= render partial: 'event_property_option', collection: event_property.options %>
+    </div>
+  </div>
+</div>

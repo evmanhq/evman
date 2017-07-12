@@ -1,0 +1,25 @@
+<div class="list-group-item">
+  <div class="row">
+    <div class="col-sm-8">
+      <%= event_property_option.name %>
+    </div>
+
+    <div class="col-sm-4 text-sm-right">
+      <%= link_to edit_event_property_option_path(event_property_option), class: 'btn btn-warning btn-xs', data: { modal: true } do %>
+          <%= icon(:edit, :fa) %> Edit
+      <% end %>
+
+      <%= link_to event_property_option, class: 'btn btn-danger btn-xs',
+                  method: :delete,
+                  data: {
+                      confirm: {
+                          title: "Remove option",
+                          question: "Are you sure you want to remove this option ?"
+                      }
+                  } do %>
+          <%= icon(:remove, :fa) %> Remove
+      <% end %>
+    </div>
+  </div>
+
+</div>

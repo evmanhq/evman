@@ -29,6 +29,7 @@ gem 'omniauth-gitlab'
 gem 'assignable_values'
 
 gem 'multi_json'
+gem 'jsonb_accessor', '1.0.0.beta.6'
 gem 'oj'
 gem 'jbuilder', '~> 2.0'
 gem 'axlsx'

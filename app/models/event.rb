@@ -67,4 +67,16 @@ class Event < ApplicationRecord
     ([owner] + users.to_a).uniq
   end
 
+  private
+
+  # force keys and values to be strings in json
+  before_validation :serialize_properties_assignments
+  def serialize_properties_assignments
+    return if properties_assignments.blank?
+    self.properties_assignments = properties_assignments.each_with_object({}) do |args, memo|
+      key, value = args
+      memo[key.to_s] = Array.wrap(value).reject(&:blank?).map(&:to_s)
+    end
+  end
+
 end

@@ -9,14 +9,6 @@
           <%= icon(:plus, :fa) %> attendee
       <% end %>
 
-      <%= link_to new_event_talk_path(event_id: @event.id), data: { modal: true }, class: 'btn btn-secondary text-success new-event-talk-button' do %>
-          <%= icon(:plus, :fa) %> talk
-      <% end %>
-
-      <%= link_to new_event_note_path(event_id: @event.id), data: { modal: true }, class: 'btn btn-secondary text-success new-note-button' do %>
-          <%= icon(:plus, :fa) %> note
-      <% end %>
-
       <%= link_to edit_event_path(@event), data: { modal: true }, class: 'btn btn-secondary text-warning edit-event-button' do %>
           <%= icon(:edit, :fa) %> Edit
       <% end %>
@@ -61,22 +53,6 @@
   }
 </style>
 
-<div class="modal fade map-modal">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Event location</h4>
-      </div>
-      <div class="modal-body">
-        <div id="map"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <%
   data_js = {
       render_class: 'EvMan.Views.Events.Show',
@@ -96,35 +72,35 @@
         <div class="card-block">
           <div class="row">
             <div class="col-lg-12 event-panels">
-              <div class="attendee-list pull-right">
-                <div class="btn-group">
-                  <% @event.attendees.includes(:user, :attendee_type).each do |attendee| %>
-                      <div class="btn-group">
-                        <div class="btn" data-toggle="dropdown">
-                          <img src="<%= attendee.user.avatar_url %>" class="img-circle" alt="<%= attendee.user.name %>">
-                        </div>
-                        <div class="dropdown-menu dropdown-menu-right">
-                          <a href="<%= user_path(attendee.user) %>" class="dropdown-item">
-                            <%= icon(:user, :fa) %>
-                            <%= attendee.user.name %>
-                            (<%= attendee.attendee_type.name %>)
-                          </a>
+              <h4><%= @event.name %></h4>
 
-                          <%= link_to attendee, method: :delete,
-                                      title: 'Remove attendee',
-                                      data: {
-                                          confirm: {
-                                              question: 'Are you sure you want to remove this attendee ?',
-                                              title: 'Remove attendee'
-                                          }
-                                      },
-                                      class: 'dropdown-item' do %>
-                              <%= icon(:remove, :fa) %> Remove attendee
-                          <% end %>
-                        </div>
+              <div class="attendee-list pull-right">
+                <% @event.attendees.includes(:user, :attendee_type).each do |attendee| %>
+                    <div>
+                      <div class="btn" data-toggle="dropdown">
+                        <img src="<%= attendee.user.avatar_url %>" class="img-circle" alt="<%= attendee.user.name %>">
                       </div>
-                  <% end %>
-                </div>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a href="<%= user_path(attendee.user) %>" class="dropdown-item">
+                          <%= icon(:user, :fa) %>
+                          <%= attendee.user.name %>
+                          (<%= attendee.attendee_type.name %>)
+                        </a>
+
+                        <%= link_to attendee, method: :delete,
+                                    title: 'Remove attendee',
+                                    data: {
+                                        confirm: {
+                                            question: 'Are you sure you want to remove this attendee ?',
+                                            title: 'Remove attendee'
+                                        }
+                                    },
+                                    class: 'dropdown-item' do %>
+                            <%= icon(:remove, :fa) %> Remove attendee
+                        <% end %>
+                      </div>
+                    </div>
+                <% end %>
               </div>
 
               <div class="btn-group event-flags">
@@ -176,22 +152,36 @@
                       <i class="fa fa-home"></i>
                     </a>
                 <% end %>
+              </div>
 
-                <div class="btn btn-secondary btn-passive">
-                  <i class="fa fa-calendar"></i>
-                  <%= l @event.begins_at, format: :short %> - <%= l @event.ends_at, format: :short %>
+              <div class="row">
+                <div class="col col-auto">
+                    <small class="text-muted">Dates</small><br>
+                    <strong class="p">
+                      <i class="fa fa-calendar"></i>
+                      <%= l @event.begins_at, format: :short %> - <%= l @event.ends_at, format: :short %>
+                    </strong>
                 </div>
 
                 <% if @event.event_type %>
-                  <div class="btn btn-secondary btn-passive">
-                    <%= @event.event_type.name %>
+                  <div class="col col-auto">
+                      <small class="text-muted">Event Type</small><br>
+                      <strong class="p">
+                        <%= @event.event_type.name %>
+                      </strong>
                   </div>
                 <% end %>
 
-                <div class="btn btn-secondary map-trigger">
-                  <i class="fa fa-map-marker"></i> <%= @event.full_location %>
+                <div class="col col-auto cursor-pointer map-trigger">
+                    <small class="text-muted">City</small><br>
+                    <strong class="p">
+                      <i class="fa fa-map-marker"></i> <%= @event.full_location %>
+                    </strong>
                 </div>
+
+                <%= render partial: 'event_properties_show', locals: { event: @event } %>
               </div>
+
             </div>
           </div>
 
@@ -210,6 +200,22 @@
 
     <div class="col-lg-4">
       <%= render 'feedback' if @event.team.event_feedback_form %>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade map-modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Event location</h4>
+      </div>
+      <div class="modal-body">
+        <div id="map"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>
