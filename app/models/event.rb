@@ -67,6 +67,10 @@ class Event < ApplicationRecord
     ([owner] + users.to_a).uniq
   end
 
+  def urls
+    @urls ||= [url, url2, url3].reject(&:blank?)
+  end
+
   private
 
   # force keys and values to be strings in json

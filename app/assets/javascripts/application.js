@@ -59,4 +59,6 @@ $(document).on('turbolinks:load', function(){
             body.toggleClass('mobile-open');
         }
     });
+
+    $('[data-toggle="tooltip"]').tooltip();
 });

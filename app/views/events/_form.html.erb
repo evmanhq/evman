@@ -21,6 +21,13 @@
       </div>
 
       <div class="form-group row">
+        <label class="col-form-label col-lg-2">Description</label>
+        <div class="col-lg-10">
+          <%= form.text_area(:description, :class => 'form-control', :size => '150x3') %>
+        </div>
+      </div>
+
+      <div class="form-group row">
         <label class="col-form-label col-lg-2">Type</label>
         <div class="col-lg-10">
           <%= form.collection_select :event_type_id, form.object.assignable_event_types, :id, :name %>
@@ -42,9 +49,23 @@
       </div>
 
       <div class="form-group row">
-        <label class="col-form-label col-lg-2">URL</label>
+        <label class="col-form-label col-lg-2">URL 1</label>
         <div class="col-lg-10">
           <%= form.text_field(:url, :class => 'form-control') %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2">URL 2</label>
+        <div class="col-lg-10">
+          <%= form.text_field(:url2, :class => 'form-control') %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2">URL 3</label>
+        <div class="col-lg-10">
+          <%= form.text_field(:url3, :class => 'form-control') %>
         </div>
       </div>
 
@@ -78,14 +99,12 @@
 
       <div class="form-group row">
         <label class="col-form-label col-lg-2">Begins</label>
-        <div class="col-lg-10">
+        <div class="col-lg-4">
           <%= form.text_field(:begins_at, :class => 'form-control date') %>
         </div>
-      </div>
 
-      <div class="form-group row">
         <label class="col-form-label col-lg-2">Ends</label>
-        <div class="col-lg-10">
+        <div class="col-lg-4">
           <%= form.text_field(:ends_at, :class => 'form-control date') %>
         </div>
       </div>

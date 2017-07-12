@@ -229,6 +229,7 @@ class EventsController < ApplicationController
   def event_params
     params.require(:event).permit(
         :name,
+        :description,
         :event_type_id,
         :approved,
         :committed,
@@ -236,6 +237,8 @@ class EventsController < ApplicationController
         :city_id,
         :location,
         :url,
+        :url2,
+        :url3,
         :sponsorship,
         :sponsorship_date,
         :cfp_url,

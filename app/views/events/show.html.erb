@@ -76,9 +76,9 @@
 
               <div class="attendee-list pull-right">
                 <% @event.attendees.includes(:user, :attendee_type).each do |attendee| %>
-                    <div>
+                    <div class="btn-group">
                       <div class="btn" data-toggle="dropdown">
-                        <img src="<%= attendee.user.avatar_url %>" class="img-circle" alt="<%= attendee.user.name %>">
+                        <img src="<%= attendee.user.avatar_url %>" class="img-circle" alt="<%= attendee.user.name %>"  title="<%= attendee.user.name %> (<%= attendee.attendee_type.name %>)" data-toggle="tooltip">
                       </div>
                       <div class="dropdown-menu dropdown-menu-right">
                         <a href="<%= user_path(attendee.user) %>" class="dropdown-item">
@@ -147,10 +147,16 @@
               </div>
 
               <div class="btn-group">
-                <% if @event.url && @event.url != '' %>
-                    <a href="<%= @event.url %>" class="btn btn-secondary" target="_blank">
-                      <i class="fa fa-home"></i>
-                    </a>
+                <% @event.urls.each_with_index do |url, index| %>
+                    <%= link_to url, class: 'btn btn-secondary', target: :blank, title: url,
+                                data: {
+                                    toggle: 'tooltip',
+                                    placement: 'bottom'
+                                } do %>
+                      <%= icon(:'external-link', :fa) %>
+                        &nbsp;
+                      <span class="badge badge-pill badge-primary"><%= index + 1 %></span>
+                    <% end %>
                 <% end %>
               </div>
 
@@ -182,6 +188,12 @@
                 <%= render partial: 'event_properties_show', locals: { event: @event } %>
               </div>
 
+              <div class="row">
+                <div class="col col-auto">
+                  <small class="text-muted">Description</small><br>
+                  <p style="white-space: pre-wrap;"><%= @event.description %></p>
+                </div>
+              </div>
             </div>
           </div>
 

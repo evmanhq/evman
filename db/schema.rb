@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170711231240) do
+ActiveRecord::Schema.define(version: 20170712102759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -204,6 +204,9 @@ ActiveRecord::Schema.define(version: 20170711231240) do
     t.datetime "updated_at"
     t.date "sponsorship_date"
     t.jsonb "properties_assignments"
+    t.text "description"
+    t.string "url2"
+    t.string "url3"
     t.index ["city_id"], name: "index_events_on_city_id"
     t.index ["owner_id"], name: "index_events_on_owner_id"
     t.index ["properties_assignments"], name: "index_events_on_properties_assignments", using: :gin
