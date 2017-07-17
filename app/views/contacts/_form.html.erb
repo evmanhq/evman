@@ -1,0 +1,64 @@
+<%= form_for @contact_form, data: {
+        js: {
+            render_class: "EvMan.Views.Contacts.Form",
+            render_options: {
+                contacts_path: @contact_form.event_id && suggest_contacts_path(@contact_form.event_id),
+                suggest_contacts: @contact_form.new_record?
+            }
+        },
+        modal: { render_type: :replace }
+    } do |f| %>
+    <%= f.hidden_field :event_id %>
+    <div class="modal-header">
+      <h4 class="modal-title">Contact</h4>
+    </div>
+
+    <div class="modal-body">
+
+      <%= validation_errors(@contact_form) %>
+
+      <div class="form-group row">
+        <%= f.label :name, "Name", class: "col-form-label col-lg-2" %>
+        <div class=" col-lg-10">
+          <%= f.text_field :name, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <%= f.label :job_title, "Job Title", class: "col-form-label col-lg-2" %>
+        <div class=" col-lg-10">
+          <%= f.text_field :job_title, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <%= f.label :email, "E-mail", class: "col-form-label col-lg-2" %>
+        <div class=" col-lg-10">
+          <%= f.text_field :email, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <%= f.label :phone_office, "Office Phone", class: "col-form-label col-lg-2" %>
+        <div class=" col-lg-10">
+          <%= f.text_field :phone_office, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <%= f.label :phone_cell, "Cell Phone", class: "col-form-label col-lg-2" %>
+        <div class=" col-lg-10">
+          <%= f.text_field :phone_cell, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="contact_suggestions"></div>
+
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default modal-close">Close</button>
+      <%= f.submit "Save", class: "btn btn-success" %>
+    </div>
+<% end %>

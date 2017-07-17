@@ -1,0 +1,50 @@
+<% if @contacts.any? %>
+  <div class="card">
+    <div class="card-header">
+      Suggested existing contacts
+      <div class="card-actions">
+        <button class="close_suggestions" class="btn-minimize">
+          <%= icon(:remove, :fa) %>
+        </button>
+      </div>
+    </div>
+    <li class="list-group list-group-flush">
+      <% @contacts.each do |contact| %>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-lg-2">
+                <%= link_to contact_event_path(@event,  contact), method: :post, class: 'btn btn-success' do %>
+                  <%= icon(:plus, :fa) %> Select
+                <% end %>
+              </div>
+              <div class=" col-lg-5">
+                <small class="text-muted">Name</small><br>
+                <%= contact.name %>
+              </div>
+              <div class="col-lg-5">
+                <small class="text-muted">E-mail</small><br>
+                <%= contact.email %>
+              </div>
+
+              <div class="col-lg-6">
+                <small class="text-muted">Job Title</small><br>
+                <%= contact.job_title %>
+              </div>
+
+              <div class="col-lg-3">
+                <small class="text-muted">Office Phone</small><br>
+                <%= contact.phone_office %>
+              </div>
+
+              <div class="col-lg-3">
+                <small class="text-muted">Cell Phone</small><br>
+                <%= contact.phone_cell %>
+              </div>
+
+
+            </div>
+          </li>
+      <% end %>
+    </li>
+  </div>
+<% end %>

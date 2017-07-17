@@ -10,7 +10,7 @@ class EventProperty < ApplicationRecord
 
     # search through array if options are eager loaded
     if options.loaded?
-      options.select{ |option| values.include?(option.id) }
+      options.select{ |option| values.include?(option.id.to_s) }
     else
       options.where(id: values)
     end

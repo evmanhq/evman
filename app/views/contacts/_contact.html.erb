@@ -1,0 +1,22 @@
+<tr>
+  <th scope="row">
+    <%= link_to edit_contact_path(contact), class: 'btn btn-warning btn-sm', data: { modal: true } do %>
+        <%= icon(:edit, :fa) %> Edit
+    <% end %>
+
+    <%= link_to contact_path(contact), class: 'btn btn-danger btn-sm', method: :delete, data:                         {
+        confirm: {
+            title:    "Remove contact",
+            question: "Are you sure you want to remove this contact ? You will also remove it from all assigned events."
+        }
+    } do %>
+        <%= icon(:remove, :fa) %> Remove
+    <% end %>
+  </th>
+
+  <td><%= link_to contact.name, contact %></td>
+  <td><%= contact.job_title %></td>
+  <td><%= contact.email %></td>
+  <td><%= contact.phone_office %></td>
+  <td><%= contact.phone_cell %></td>
+</tr>

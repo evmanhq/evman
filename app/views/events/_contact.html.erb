@@ -1,0 +1,48 @@
+<li class="list-group-item">
+  <div class="row">
+    <div class="col-lg-1">
+      <div class="btn btn-secondary btn-sm" data-toggle="dropdown">
+        <%= icon(:'caret-down', :fa) %>
+      </div>
+      <div class="dropdown-menu">
+        <%= link_to edit_contact_path(contact, event_id: @event.id), class: 'dropdown-item', data: { modal: true } do %>
+            <%= icon(:edit, :fa) %> Edit
+        <% end %>
+
+        <%= link_to contact_event_path(@event, contact), class: 'dropdown-item', method: :delete, data:                         {
+            confirm: {
+                title:    "Remove contact",
+                question: "Are you sure you want to remove this contact from the event ?"
+            }
+        } do %>
+            <%= icon(:edit, :fa) %> Remove from event
+        <% end %>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-5">
+      <small class="text-muted">Name</small><br>
+      <%= link_to contact.name, contact %>
+    </div>
+    <div class="col-xl-2 col-lg-6">
+      <small class="text-muted">E-mail</small><br>
+      <%= contact.email %>
+    </div>
+
+    <div class="col-xl-3 col-lg-6">
+      <small class="text-muted">Job Title</small><br>
+      <%= contact.job_title %>
+    </div>
+
+    <div class="col-xl-2 col-lg-3">
+      <small class="text-muted">Office Phone</small><br>
+      <%= contact.phone_office %>
+    </div>
+
+    <div class="col-xl-2 col-lg-3">
+      <small class="text-muted">Cell Phone</small><br>
+      <%= contact.phone_cell %>
+    </div>
+
+
+  </div>
+</li>

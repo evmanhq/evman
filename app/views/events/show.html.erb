@@ -148,7 +148,7 @@
 
               <div class="btn-group">
                 <% @event.urls.each_with_index do |url, index| %>
-                    <%= link_to url, class: 'btn btn-secondary', target: :blank, title: url,
+                    <%= link_to url, class: 'btn btn-secondary', target: '_blank', title: url,
                                 data: {
                                     toggle: 'tooltip',
                                     placement: 'bottom'
@@ -165,7 +165,7 @@
                     <small class="text-muted">Dates</small><br>
                     <strong class="p">
                       <i class="fa fa-calendar"></i>
-                      <%= l @event.begins_at, format: :short %> - <%= l @event.ends_at, format: :short %>
+                      <%= l @event.begins_at, format: :short if @event.begins_at %> - <%= l @event.ends_at, format: :short if @event.ends_at %>
                     </strong>
                 </div>
 
@@ -191,7 +191,7 @@
               <div class="row">
                 <div class="col col-auto">
                   <small class="text-muted">Description</small><br>
-                  <p style="white-space: pre-wrap;"><%= @event.description %></p>
+                  <p style="white-space: pre-wrap;"><%= markdown(@event.description) %></p>
                 </div>
               </div>
             </div>
@@ -210,8 +210,14 @@
       <%= render 'notes' %>
     </div>
 
-    <div class="col-lg-4">
-      <%= render 'feedback' if @event.team.event_feedback_form %>
+    <% if @event.team.event_feedback_form %>
+      <div class="col-lg-4">
+        <%= render 'feedback' %>
+      </div>
+    <% end %>
+
+    <div class="col-lg-12">
+      <%= render 'contacts' %>
     </div>
   </div>
 </div>

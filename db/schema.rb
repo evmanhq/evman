@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170712102759) do
+ActiveRecord::Schema.define(version: 20170713112049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,25 @@ ActiveRecord::Schema.define(version: 20170712102759) do
     t.index ["city_id"], name: "index_city_names_on_city_id"
     t.index ["geoid"], name: "index_city_names_on_geoid"
     t.index ["keyword"], name: "index_city_names_on_keyword"
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "name"
+    t.string "job_title"
+    t.string "email"
+    t.string "phone_office"
+    t.string "phone_cell"
+    t.bigint "team_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_contacts_on_team_id"
+  end
+
+  create_table "contacts_events", id: false, force: :cascade do |t|
+    t.bigint "contact_id", null: false
+    t.bigint "event_id", null: false
+    t.index ["contact_id"], name: "index_contacts_events_on_contact_id"
+    t.index ["event_id"], name: "index_contacts_events_on_event_id"
   end
 
   create_table "continents", id: :serial, force: :cascade do |t|

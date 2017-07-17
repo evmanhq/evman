@@ -1,0 +1,62 @@
+<%
+  breadcrumb_nav.add_item 'Contacts', contacts_path
+  breadcrumb_nav.add_item @contact.name
+%>
+
+<% content_for :breadcrumb_menu do %>
+    <%= link_to edit_contact_path(@contact), class: 'btn btn-secondary text-warning btn-xs', data: { modal: true } do %>
+        <%= icon(:edit, :fa) %> Edit
+    <% end %>
+
+    <%= link_to contact_path(@contact), class: 'btn btn-secondary text-danger btn-xs', method: :delete, data:                         {
+        confirm: {
+            title:    "Remove contact",
+            question: "Are you sure you want to remove this contact ? You will also remove it from all assigned events."
+        }
+    } do %>
+        <%= icon(:remove, :fa) %> Remove
+    <% end %>
+<% end %>
+
+<div class="card">
+  <div class="card-header">
+    Contact Details
+  </div>
+
+  <div class="card-block">
+    <dl class="dl-horizontal">
+      <dt>Name</dt>
+      <dd><%= @contact.name %></dd>
+
+      <dt>Job Title</dt>
+      <dd><%= @contact.job_title %></dd>
+
+      <dt>E-mail</dt>
+      <dd><%= @contact.email %></dd>
+
+      <dt>Office Phone</dt>
+      <dd><%= @contact.phone_office %></dd>
+
+      <dt>Cell Phone</dt>
+      <dd><%= @contact.phone_cell %></dd>
+    </dl>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">In Events</div>
+  <div class="list-group list-group-flush">
+    <% @contact.events.each do |event| %>
+      <div class="list-group-item">
+        <div class="row">
+          <div class="col-lg-6"><%= link_to event.name, event %></div>
+          <div class="col-lg-6">
+            <i class="fa fa-calendar"></i>
+            <%= l event.begins_at, format: :short if event.begins_at %> - <%= l event.ends_at, format: :short if event.ends_at %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>

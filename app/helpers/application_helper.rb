@@ -9,6 +9,7 @@ module ApplicationHelper
   end
 
   def markdown(content)
+    return nil unless content
     raw Kramdown::Document.new(content).to_html
   end
 

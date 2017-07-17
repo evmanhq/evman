@@ -21,6 +21,9 @@ Rails.application.routes.draw do
 
   resources :event_properties
   resources :event_property_options, except: [:index]
+  resources :contacts do
+    get 'suggest/:event_id', to: 'contacts#suggest', on: :collection, as: :suggest
+  end
 
   resources :events do
     member do
@@ -28,6 +31,8 @@ Rails.application.routes.draw do
       get :approved
       get :committed
       get :archived
+      delete 'contacts/:contact_id', to: 'event_contacts#destroy', as: :contact
+      post 'contacts/:contact_id', to: 'event_contacts#create'
     end
     collection do
       get :archive
@@ -35,14 +40,10 @@ Rails.application.routes.draw do
       get :export
       post :export, to: 'events#generate_export'
 
-      resources :event_talks, :controller => :event_talks, :as => :event_talks do
-      end
-      resources :attendees, :controller => :attendees do
-      end
-      resources :expenses, :controller => :expenses do
-      end
-      resources :event_notes, :controller => :event_notes do
-      end
+      resources :event_talks, :controller => :event_talks, :as => :event_talks
+      resources :attendees, :controller => :attendees
+      resources :expenses, :controller => :expenses
+      resources :event_notes, :controller => :event_notes
     end
   end
 

@@ -172,6 +172,7 @@ class ApplicationController < ActionController::Base
             s.page name: 'Roles', icon: 'user-md', path: roles_path if can? :role, :read
             s.page name: 'Forms', icon: 'pencil-square-o', path: forms_path if authorized? current_team, :manage_forms
             s.page name: 'Event Properties', icon: 'pencil-square-o', path: event_properties_path # TODO: if authorized? current_team, :manage_event_properties
+            s.page name: 'Contacts', icon: 'address-book', path: contacts_path # TODO: if authorized? current_team, :manage_contacts
             s.page name: 'Tags', icon: 'tag', path: tags_path if can? :team, :tags
             s.page name: 'Statistics', icon: 'line-chart', path: statistics_teams_path if can? :team, :statistics
           end

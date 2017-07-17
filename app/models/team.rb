@@ -23,6 +23,7 @@ class Team < ApplicationRecord
   has_one   :slack_setting
   has_and_belongs_to_many :warehouses
   has_many :event_properties, inverse_of: :team, dependent: :destroy
+  has_many :contacts
 
   validates :subdomain, uniqueness: true
 
