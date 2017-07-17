@@ -1,7 +1,11 @@
-<div class="card card-default">
-  <div class="card-header">
+<div class="card card-default" id="<%= event_property.id %>" >
+  <div class="card-header d-flex">
+    <a class="sort-handle cursor-move"><%= icon(:bars, :fa) %></a>
+    &nbsp;&nbsp;
     <%= link_to event_property.name, event_property %>
     <div class="card-actions">
+
+
       <%= link_to new_event_property_option_path(event_property_id: event_property.id), class: 'btn-minimize', data: { modal: true } do %>
           <%= icon(:plus, :fa) %>
       <% end %>

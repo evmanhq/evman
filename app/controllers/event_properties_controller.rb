@@ -1,6 +1,13 @@
 class EventPropertiesController < ApplicationController
+  def sort
+    sorter = EventPropertyServices::Sorter.new(params[:sorted_ids])
+    sorter.perform
+
+    render status: :ok, json: { ok: true }
+  end
+
   def index
-    @event_properties = current_team.event_properties.includes(:options)
+    @event_properties = current_team.event_properties.includes(:options).order(position: :asc)
 
     respond_to :html
   end

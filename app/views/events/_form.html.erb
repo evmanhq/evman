@@ -116,16 +116,7 @@
         </div>
       </div>
 
-      <% current_team.event_properties.each do |event_property| %>
-          <div class="form-group row">
-            <label class="col-form-label col-lg-2"><%= event_property.name %></label>
-            <div class="col-lg-10">
-              <%= form.fields_for :properties_assignments, OpenStruct.new(@event.properties_assignments) do |pf| %>
-                <%= pf.collection_select event_property.id, event_property.options, :id, :name,  { prompt: false }, multiple: true %>
-              <% end %>
-            </div>
-          </div>
-      <% end %>
+      <%= render partial: 'event_properties_form', locals: { form: form } %>
     </div>
 
     <div class="modal-footer">

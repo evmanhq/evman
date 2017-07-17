@@ -19,7 +19,9 @@ Rails.application.routes.draw do
 
   get '/dashboard', :to => 'dashboard#index'
 
-  resources :event_properties
+  resources :event_properties do
+    put :sort, on: :collection
+  end
   resources :event_property_options, except: [:index]
   resources :contacts do
     get 'suggest/:event_id', to: 'contacts#suggest', on: :collection, as: :suggest

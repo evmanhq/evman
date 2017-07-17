@@ -1,4 +1,4 @@
-<% event.team.event_properties.includes(:options).each do |event_property| %>
+<% event.team.event_properties.includes(:options).order(position: :asc).each do |event_property| %>
     <% next if event.properties_assignments.blank? or event.properties_assignments[event_property.id.to_s].blank? %>
     <div class="col col-auto">
       <small class="text-muted"><%= event_property.name %></small><br>

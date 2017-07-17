@@ -245,6 +245,10 @@ body.modal-open {
   cursor: pointer;
 }
 
+.cursor-move {
+  cursor: move;
+}
+
 @media (max-width: 450px) {
   .main .container-fluid {
     padding: 0 5px;

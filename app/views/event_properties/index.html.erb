@@ -10,4 +10,12 @@
     <% end %>
 <% end %>
 
-<%= render @event_properties %>
+<%= content_tag :div, data: { js: {
+    render_class: 'EvMan.Views.EventProperties.Index',
+    render_options: {
+        sort_path: sort_event_properties_path
+    }
+}} do %>
+  <%= render @event_properties %>
+<% end %>
+
