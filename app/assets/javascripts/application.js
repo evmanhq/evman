@@ -21,7 +21,6 @@
 //= require tools
 //= require evman
 //= require_tree ./evman
-//= require extracts
 
 Vue.component('Multiselect', VueMultiselect.default);
 

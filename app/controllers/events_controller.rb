@@ -43,10 +43,11 @@ class EventsController < ApplicationController
       end
 
       format.json do
+        @base = @base.includes(:event_type)
         @base = @base.where('begins_at >= ? OR ends_at >= ?', Date.parse(params['start']), Date.parse(params['start'])) if params['start']
         @base = @base.where('begins_at <= ? OR ends_at <= ?', Date.parse(params['end']), Date.parse(params['end'])) if params['end']
         @base = @base.where('LOWER(name) LIKE ?', "%#{params[:q][:term].downcase}%") if params['q']
-        render :json => @base.all
+        render :json => @base.as_json(include: :event_type)
       end
     end
   end

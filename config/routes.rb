@@ -153,14 +153,14 @@ Rails.application.routes.draw do
     get 'submit(/:associated_object_type/:associated_object_id)' => 'form_submissions#new', as: :submit
   end
 
+  resources :event_types do
+    post 'default'
+  end
+
   resources :teams do
     resources :members, :controller => :team_members, :as => :team_members
 
     resources :attendee_types do
-      post 'default'
-    end
-
-    resources :event_types do
       post 'default'
     end
 

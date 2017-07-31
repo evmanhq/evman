@@ -1,0 +1,29 @@
+<%= form_for @event_type, data: { modal: { render_type: :replace } },
+                          html: { class: 'form-horizontal' } do |form| %>
+  <div class="modal-header">
+    <h3><%= @event_type.new_record? ? 'New' : 'Edit' %> event type</h3>
+  </div>
+
+  <div class="modal-body">
+    <%= validation_errors(@event_type) %>
+
+    <div class="form-group row">
+      <label class="col-form-label col-lg-2">Name</label>
+      <div class="col-lg-10">
+        <%= form.text_field(:name, :class => 'form-control') %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-form-label col-lg-2">Color</label>
+      <div class="col-lg-10">
+        <%= form.color_field(:color) %>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default modal-close">Close</button>
+      <%= form.submit "Save", class: "btn btn-success" %>
+    </div>
+  </div>
+<% end %>

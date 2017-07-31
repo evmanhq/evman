@@ -14,8 +14,8 @@
       <%= validation_errors(@team) %>
 
       <div class="form-group row">
-        <%= f.label :event_feedback_form_id, 'Event feedback form', class: 'col-form-label col-lg-2' %>
-        <div class="col-lg-10">
+        <%= f.label :event_feedback_form_id, 'Event feedback form', class: 'col-form-label col-lg-4' %>
+        <div class="col-lg-8">
           <%= f.collection_select :event_feedback_form_id, @team.forms.order('name ASC'), :id, :name, include_blank: true %>
         </div>
       </div>

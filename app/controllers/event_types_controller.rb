@@ -1,13 +1,36 @@
 class EventTypesController < ApplicationController
 
-  def create
-    @event_type = EventType.new
-    @event_type.name = params[:name]
-    @event_type.team = current_team
-    authorize! @event_type, :create
-    @event_type.save
+  before_action :require_modal, only: [:new]
 
-    redirect_to(settings_team_path(current_team))
+  def new
+    @event_type = current_team.event_types.build
+  end
+
+  def edit
+    @event_type = current_team.event_types.find(params[:id])
+  end
+
+  def create
+    @event_type = current_team.event_types.build(event_type_params)
+    authorize! @event_type, :create
+
+    if @event_type.save
+      redirect_to settings_team_path(current_team)
+    else
+      render action: :edit
+    end
+  end
+
+  def update
+    @event_type = current_team.event_types.find(params[:id])
+    @event_type.attributes = event_type_params
+    authorize! @event_type, :update
+
+    if @event_type.save
+      redirect_to settings_team_path(current_team)
+    else
+      render action: :edit
+    end
   end
 
   def default
@@ -34,6 +57,12 @@ class EventTypesController < ApplicationController
     Talk.where(:event_type_id => params[:id]).update_all(:event_type_id => current_team.default_event_type)
 
     redirect_to(settings_team_path(current_team))
+  end
+
+  private
+
+  def event_type_params
+    params.require(:event_type).permit(:name, :color)
   end
 
 end
