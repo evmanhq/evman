@@ -5,25 +5,25 @@ class Team < ApplicationRecord
   has_many  :roles, dependent: :destroy
   has_one   :default_role, -> { where(default: true) }, class_name: 'Role'
 
-  has_many  :events, inverse_of: :team
+  has_many  :events, inverse_of: :team, dependent: :destroy
 
-  has_many  :event_types
-  has_many  :attendee_types
-  has_many  :expense_types
+  has_many  :event_types, dependent: :destroy
+  has_many  :attendee_types, dependent: :destroy
+  has_many  :expense_types, dependent: :destroy
 
-  has_many  :talks
+  has_many  :talks, dependent: :destroy
   has_many :event_talks, :through => :events
 
-  has_many  :tags
+  has_many  :tags, dependent: :destroy
 
-  has_many  :team_invitations
-  has_many :forms
+  has_many  :team_invitations, dependent: :destroy
+  has_many :forms, dependent: :destroy
   belongs_to :event_feedback_form, class_name: 'Form'
 
-  has_one   :slack_setting
+  has_one   :slack_setting, dependent: :destroy
   has_and_belongs_to_many :warehouses
   has_many :event_properties, inverse_of: :team, dependent: :destroy
-  has_many :contacts
+  has_many :contacts, dependent: :destroy
 
   validates :subdomain, uniqueness: true
 
