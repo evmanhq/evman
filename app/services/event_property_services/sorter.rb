@@ -26,5 +26,6 @@ module EventPropertyServices
         end
       end
     end
+
   end
 end

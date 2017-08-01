@@ -1,0 +1,12 @@
+en:
+  models:
+    event_property:
+      behaviours:
+        multiple_choice: Multiple Choice
+        select: Single Select
+        test: Text Field
+  activerecord:
+    attributes:
+      event_property:
+        name: Name
+        behaviour: Type

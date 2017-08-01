@@ -1,4 +1,7 @@
-<%= form_for @event_property, data: { modal: { render_type: :replace } } do |f| %>
+<%= form_for @event_property, data: {
+    modal: { render_type: :replace },
+    js: { render_class: 'EvMan.Views.EventProperties.Form' }
+} do |f| %>
     <div class="modal-header">
       <h4 class="modal-title">Event Property</h4>
     </div>
@@ -8,9 +11,21 @@
       <%= validation_errors(@event_property) %>
 
       <div class="form-group row">
-        <%= f.label :name, "Name", class: "col-form-label col-lg-2" %>
+        <%= f.label :name, class: "col-form-label col-lg-2" %>
         <div class=" col-lg-10">
           <%= f.text_field :name, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <%= f.label :behaviour, class: "col-form-label col-lg-2" %>
+        <div class=" col-lg-10">
+          <% behaviours = EventProperty::BEHAVIOURS.collect do |b|
+            OpenStruct.new(id: b,
+                           label: t(b, scope: [:models, :event_property, :behaviours])
+            )
+          end %>
+          <%= f.collection_select :behaviour, behaviours, :id, :label %>
         </div>
       </div>
 

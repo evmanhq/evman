@@ -1,6 +1,11 @@
 class EventProperty < ApplicationRecord
+  BEHAVIOURS = %w[multiple_choice select text]
+
   belongs_to :team
   has_many :options, class_name: 'EventPropertyOption', inverse_of: :property, dependent: :destroy, foreign_key: :property_id
+
+  validates :behaviour, inclusion: BEHAVIOURS
+  validates :name, presence: true, uniqueness: { scope: :team_id }
 
   def selected_options(event)
     return [] if new_record?
@@ -16,6 +21,16 @@ class EventProperty < ApplicationRecord
     end
   end
 
+  def value(event)
+    return nil if new_record?
+    return nil if event.properties_assignments.blank?
+    event.properties_assignments[id.to_s].first
+  end
+
+  def allows_options?
+    %w[multiple_choice select].include? behaviour
+  end
+
   def events
     team.events.jsonb_where(:properties_assignments, {id => []})
   end
@@ -24,5 +39,11 @@ class EventProperty < ApplicationRecord
   after_destroy :clear_event_assignments
   def clear_event_assignments
     events.update_all("properties_assignments = (properties_assignments - '#{id}')")
+  end
+
+  before_validation :set_position
+  def set_position
+    return unless new_record?
+    self.position = (team.event_properties.maximum(:position) || 0) + 1
   end
 end

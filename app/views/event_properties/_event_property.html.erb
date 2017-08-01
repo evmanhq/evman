@@ -8,7 +8,7 @@
 
       <%= link_to new_event_property_option_path(event_property_id: event_property.id), class: 'btn-minimize', data: { modal: true } do %>
           <%= icon(:plus, :fa) %>
-      <% end %>
+      <% end if event_property.allows_options? %>
 
       <%= link_to edit_event_property_path(event_property), class: 'btn-minimize', data: { modal: true } do %>
           <%= icon(:edit, :fa) %>
@@ -25,7 +25,7 @@
           <%= icon(:remove, :fa) %>
       <% end %>
 
-      <% unless @expanded %>
+      <% if not @expanded and event_property.allows_options? %>
         <a class="btn-minimize collapsed" data-toggle="collapse" href="#<%= dom_id(event_property, :details) %>" aria-expanded="false" aria-controls="propertyDetail">
           <%= icon('chevron-down', :fa) %>
         </a>
