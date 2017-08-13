@@ -195,6 +195,19 @@
                   <p style="white-space: pre-wrap;"><%= markdown(@event.description) %></p>
                 </div>
               </div>
+
+              <div class="row">
+                <div class="col col-auto">
+                  <small class="text-muted">Last Edited</small><br>
+                  <% if @event.versions.last %>
+                    <% actor = @event.versions.last.actor %>
+                    <strong class="p"><%= link_to actor.try(:name), actor %></strong> at
+                    <strong class="p"><%= l @event.versions.last.created_at, format: :long %></strong>
+                  <% else %>
+                      <strong class="p"><%= l @event.updated_at, format: :long %></strong>
+                  <% end %>
+                </div>
+              </div>
             </div>
           </div>
 

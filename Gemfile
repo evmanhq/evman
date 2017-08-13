@@ -39,6 +39,8 @@ gem 'twitter-text'
 gem 'multi_markdown'
 gem 'kramdown'
 
+gem 'paper_trail', '~> 7.1'
+gem 'paper_trail-globalid', '~> 0.2.0'
 gem 'closure_tree'
 gem 'wisper'
 

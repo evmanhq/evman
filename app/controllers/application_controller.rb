@@ -28,6 +28,8 @@ class ApplicationController < ActionController::Base
     Thread.current[:dictator] = nil
   end
 
+  before_action :set_paper_trail_whodunnit
+
   rescue_from Authorization::UnauthorizedAccess, with: :deny_access
 
   def deny_access exception
@@ -56,6 +58,10 @@ class ApplicationController < ActionController::Base
     else
       'application'
     end
+  end
+
+  def user_for_paper_trail
+    current_user
   end
 
   def current_user
