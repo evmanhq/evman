@@ -13,13 +13,13 @@ class ContactsController < ApplicationController
     name, email = params.values_at(:name, :email)
 
     if name.present?
-      @contacts = Contact.all
+      @contacts = current_team.contacts
       name = name.split(' ').map { |item| item  + ':*' }.join('&') if name.present?
       @contacts = @contacts.where('to_tsvector(\'english\', f_unaccent(name)) @@ to_tsquery(unaccent(?))', name)
     end
 
     if email.present? and email.length > 4
-      @contacts ||= Contact.all
+      @contacts ||= current_team.contacts
       @contacts = @contacts.where('email ILIKE ?', "#{email}%");
     end
 
