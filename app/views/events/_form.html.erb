@@ -117,6 +117,27 @@
       </div>
 
       <%= render partial: 'event_properties_form', locals: { form: form } %>
+
+      <div class="form-group row">
+        <label class="col-form-label col-lg-2">Test</label>
+        <div class="col-lg-10">
+          <select id="test_select" multiple>
+            <optgroup label="EMEA">
+              <option value="1">Europe</option>
+              <option value="2">Middle-east</option>
+              <option value="3">Balkan</option>
+            </optgroup>
+            <optgroup label="LATAM">
+              <option value="1">Peru</option>
+              <option value="2">Chille</option>
+              <option value="3">Brazil</option>
+            </optgroup>
+            <option value="7">USA</option>
+            <option value="8">Mexico</option>
+            <option value="9">Australia</option>
+          </select>
+        </div>
+      </div>
     </div>
 
     <div class="modal-footer">

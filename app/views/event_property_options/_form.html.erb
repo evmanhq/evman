@@ -1,4 +1,7 @@
-<%= form_for @event_property_option, data: { modal: { render_type: :replace } } do |f| %>
+<%= form_for @event_property_option, data: {
+    modal: { render_type: :replace },
+    js: { render_class: 'EvMan.Views.EventPropertyOptions.Form' }
+} do |f| %>
     <%= f.hidden_field :property_id %>
     <div class="modal-header">
       <h4 class="modal-title">Property Option</h4>
@@ -12,6 +15,13 @@
         <%= f.label :name, "Name", class: "col-form-label col-lg-2" %>
         <div class=" col-lg-10">
           <%= f.text_field :name, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <%= f.label :parent_id, "Parent", class: "col-form-label col-lg-2" %>
+        <div class=" col-lg-10">
+          <%= f.collection_select :parent_id, @event_property_option.property.options.root.where('id != ?', @event_property_option.id), :id, :name, include_blank: true, class: 'form-control' %>
         </div>
       </div>
 

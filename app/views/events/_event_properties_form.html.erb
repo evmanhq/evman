@@ -5,11 +5,11 @@
       <% case event_property.behaviour %>
       <% when 'multiple_choice' then %>
         <%= form.fields_for :properties_assignments, OpenStruct.new(@event.properties_assignments) do |pf| %>
-            <%= pf.collection_select event_property.id, event_property.options, :id, :name,  { prompt: false }, multiple: true %>
+            <%= pf.select event_property.id, nested_option_groups_from_collection_for_select(event_property.options.root, :children, :name, :id, :name, event_property.selected_options(@event).collect(&:id)), {}, multiple: true %>
         <% end %>
       <% when 'select' then %>
           <%= form.fields_for :properties_assignments, OpenStruct.new(@event.properties_assignments) do |pf| %>
-              <%= pf.collection_select event_property.id, event_property.options, :id, :name,  { prompt: false }, multiple: false %>
+              <%= pf.select event_property.id, nested_option_groups_from_collection_for_select(event_property.options.root, :children, :name, :id, :name, event_property.selected_options(@event).collect(&:id)), { include_blank: true }, multiple: false %>
           <% end %>
       <% when 'text' then %>
           <%= form.fields_for :properties_assignments, OpenStruct.new(@event.properties_assignments) do |pf| %>

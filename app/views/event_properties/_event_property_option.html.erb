@@ -1,7 +1,14 @@
 <div class="list-group-item">
   <div class="row">
     <div class="col-sm-8">
-      <%= event_property_option.name %>
+      <% if event_property_option.parent_id.present? %>
+          &nbsp;&nbsp;<%= icon('square', :fa) %>&nbsp;&nbsp;
+      <% end %>
+      <% if event_property_option.children.any? %>
+          <strong><%= event_property_option.name %></strong>
+      <% else %>
+          <%= event_property_option.name %>
+      <% end %>
     </div>
 
     <div class="col-sm-4 text-sm-right">
@@ -21,5 +28,7 @@
       <% end %>
     </div>
   </div>
-
 </div>
+<% if event_property_option.children.any? %>
+  <%= render partial: 'event_property_option', collection: event_property_option.children %>
+<% end %>

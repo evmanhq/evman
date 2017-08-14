@@ -35,7 +35,7 @@
 
   <div class="<%= 'collapse' unless @expanded %>" id="<%= dom_id(event_property, :details) %>">
     <div class="list-group list-group-flush">
-      <%= render partial: 'event_property_option', collection: event_property.options %>
+      <%= render partial: 'event_property_option', collection: event_property.options.root.includes(:children).order(:name) %>
     </div>
   </div>
 </div>

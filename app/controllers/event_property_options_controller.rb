@@ -47,6 +47,6 @@ class EventPropertyOptionsController < ApplicationController
   end
 
   def event_property_option_params
-    params.require(:event_property_option).permit(:name, :property_id)
+    params.require(:event_property_option).permit(:name, :property_id, :parent_id)
   end
 end

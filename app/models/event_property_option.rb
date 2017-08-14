@@ -1,6 +1,10 @@
 class EventPropertyOption < ApplicationRecord
   belongs_to :property, class_name: 'EventProperty', inverse_of: :options
+  belongs_to :parent, class_name: 'EventPropertyOption', inverse_of: :children
+  has_many :children, class_name: 'EventPropertyOption', foreign_key: :parent_id, inverse_of: :parent, dependent: :nullify
   has_one :team, through: :property
+
+  scope :root, -> { where(parent_id: nil).order(:name) }
 
   def events
     team.events.jsonb_where(:properties_assignments, { property.id.to_s => [id.to_s] })
