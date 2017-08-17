@@ -11,6 +11,6 @@ class PerformanceMetricEntry < ApplicationRecord
 
   def percentage
     return nil if target.to_s.to_d.zero?
-    actual.to_s.to_d / target.to_s.to_d * 100
+    (actual.to_s.to_d / target.to_s.to_d * 100).round
   end
 end
