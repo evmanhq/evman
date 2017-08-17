@@ -1,0 +1,55 @@
+<div class="card">
+  <div class="card-header">
+    Performance Metrics
+    <div class="pull-right">
+      <%= link_to new_performance_metric_entry_path(event_id: @event.id), data: { modal: true }, class: 'btn btn-info btn-sm new-note-button' do %>
+          <%= icon(:plus, :fa) %> Metric
+      <% end %>
+    </div>
+  </div>
+  <div>
+    <ul class="list-group list-group-flush">
+      <% @event.performance_metric_entries.includes(:performance_metric).order('performance_metrics.name ASC').each do |entry| %>
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-lg-1">
+              <div class="btn btn-secondary btn-sm" data-toggle="dropdown">
+                <%= icon(:'caret-down', :fa) %>
+              </div>
+              <div class="dropdown-menu">
+                <%= link_to edit_performance_metric_entry_path(entry), class: 'dropdown-item', data: { modal: true } do %>
+                    <%= icon(:edit, :fa) %> Edit
+                <% end %>
+
+                <%= link_to performance_metric_entry_path(entry), class: 'dropdown-item', method: :delete, data:                         {
+                    confirm: {
+                        title:    "Remove performance metric",
+                        question: "Are you sure you want to remove this performance metric from the event ?"
+                    }
+                } do %>
+                    <%= icon(:edit, :fa) %> Remove
+                <% end %>
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <%= entry.label %>
+            </div>
+
+            <div class="col-lg-2">
+              <%= entry.actual %> / <%= entry.target %>
+            </div>
+
+            <div class="col-lg-5">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: <%= entry.percentage %>%" aria-valuenow="<%= entry.target %>" aria-valuemin="0" aria-valuemax="<%= entry.target %>">
+                  <%= entry.percentage %>%
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

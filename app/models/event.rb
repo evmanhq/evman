@@ -19,6 +19,7 @@ class Event < ApplicationRecord
   has_many :expenses, dependent: :destroy, inverse_of: :event
 
   has_many :attachments, :as => :parent, inverse_of: :parent, dependent: :destroy
+  has_many :performance_metric_entries, dependent: :destroy, inverse_of: :event
 
   has_many  :taggeds, :as => :item, dependent: :destroy, inverse_of: :item
   has_many  :tags, -> { distinct }, :through => :taggeds

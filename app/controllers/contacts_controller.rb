@@ -1,6 +1,5 @@
 class ContactsController < ApplicationController
   before_action :require_modal, only: [:new, :edit]
-  before_action :find_event, onlu: [:destroy]
 
   def index
     @contacts = current_team.contacts.order(name: :asc)
@@ -80,9 +79,5 @@ class ContactsController < ApplicationController
   private
   def contact_params
     params.require(:contact).permit(:name, :job_title, :email, :phone_office, :phone_cell, :team_id, :event_id)
-  end
-
-  def find_event
-    @event = Event.where(id: params[:event_id]).first
   end
 end

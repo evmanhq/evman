@@ -1,0 +1,25 @@
+<%
+  breadcrumb_nav.add_item 'Team'
+  breadcrumb_nav.add_item current_team.name, team_path(current_team)
+  breadcrumb_nav.add_item 'Performance metrics'
+%>
+
+<div class="card">
+  <div class="card-block no-padding table-responsive">
+    <table class="table table-hover">
+      <tr>
+        <th>
+          <%= link_to new_performance_metric_path, data: { modal: true }, class: 'btn btn-success btn-xs' do %>
+              <%= icon(:plus, :fa) %> Metric
+          <% end %>
+        </th>
+        <th>Name</th>
+      </tr>
+
+      <tbody>
+        <%= render @performance_metrics %>
+      </tbody>
+
+    </table>
+  </div>
+</div>

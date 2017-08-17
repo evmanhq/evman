@@ -27,6 +27,9 @@ Rails.application.routes.draw do
     get 'suggest/:event_id', to: 'contacts#suggest', on: :collection, as: :suggest
   end
 
+  resources :performance_metrics
+  resources :performance_metric_entries, only: [:new, :edit, :create, :update, :destroy]
+
   resources :events do
     member do
       get :add_attendee, :expenses, :attachments

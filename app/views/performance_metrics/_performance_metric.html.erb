@@ -1,0 +1,18 @@
+<tr>
+  <th scope="row">
+    <%= link_to edit_performance_metric_path(performance_metric), class: 'btn btn-warning btn-sm', data: { modal: true } do %>
+        <%= icon(:edit, :fa) %> Edit
+    <% end %>
+
+    <%= link_to performance_metric_path(performance_metric), class: 'btn btn-danger btn-sm', method: :delete, data:                         {
+        confirm: {
+            title:    "Remove contact",
+            question: "Are you sure you want to remove this performance metric ? You will also remove it from all assigned events."
+        }
+    } do %>
+        <%= icon(:remove, :fa) %> Remove
+    <% end %>
+  </th>
+
+  <td><%= performance_metric.name %></td>
+</tr>

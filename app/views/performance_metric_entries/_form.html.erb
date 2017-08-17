@@ -1,0 +1,44 @@
+<%= form_for @entry, data: {
+    js: { render_class: 'EvMan.Views.PerformanceMetricEntries.Form' },
+    modal: { render_type: :replace }
+} do |f| %>
+    <div class="modal-header">
+      <h4 class="modal-title">Metric</h4>
+    </div>
+
+    <div class="modal-body">
+
+      <%= validation_errors(@entry) %>
+
+      <%= f.hidden_field :event_id %>
+
+      <div class="form-group row">
+        <%= f.label :performance_metric_id, "Metric", class: "col-form-label col-lg-2" %>
+        <div class=" col-lg-10">
+          <%= f.collection_select :performance_metric_id, current_team.performance_metrics.order(:name), :id, :name, class: 'form-control select2' %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <%= f.label :target, "Target", class: "col-form-label col-lg-2" %>
+        <div class=" col-lg-10">
+          <%= f.number_field :target, step: 0.001, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <%= f.label :actual, "Actual", class: "col-form-label col-lg-2" %>
+        <div class=" col-lg-10">
+          <%= f.number_field :actual, step: 0.001, class: 'form-control' %>
+        </div>
+      </div>
+
+
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default modal-close">Close</button>
+      <%= f.submit "Save", class: "btn btn-success" %>
+    </div>
+<% end %>
