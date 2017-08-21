@@ -62,6 +62,7 @@ gem 'patron'
 gem 'brakeman', require: false
 gem 'rubocop', require: false
 gem "sentry-raven"
+gem 'skylight'
 
 gem 'vuejs-rails'
 

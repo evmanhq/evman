@@ -30,6 +30,8 @@
     <% unless @providers.include?('twitter') %><a href="/auth/twitter" class="btn btn-secondary"><i class="fa fa-twitter"></i> Twitter</a><% end %>
     <% unless @providers.include?('facebook') %><a href="/auth/facebook" class="btn btn-secondary"><i class="fa fa-facebook"></i> Facebook</a><% end %>
 
-    <% unless @providers.include?('google_oauth2') %><a href="/auth/google_oauth2" class="btn btn-secondary"><i class="fa fa-google"></i> Google</a><% end %>
+    <% unless @providers.include?('google') %><a href="/auth/google" class="btn btn-secondary"><i class="fa fa-google"></i> Google</a><% end %>
+
+    <% unless @providers.include?('google_calendar') %><a href="/auth/google_calendar" class="btn btn-secondary"><i class="fa fa-google"></i> Google Calendar</a><% end %>
   </div>
 </div>
