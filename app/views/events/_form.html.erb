@@ -14,7 +14,7 @@
       <%= validation_errors(@event) %>
 
       <div class="form-group row">
-        <label class="col-form-label col-lg-2">Name</label>
+        <label class="col-form-label col-lg-2">Name <b class="text-danger">*</b></label>
         <div class="col-lg-10">
           <%= form.text_field(:name, :class => 'form-control') %>
         </div>
@@ -28,7 +28,7 @@
       </div>
 
       <div class="form-group row">
-        <label class="col-form-label col-lg-2">Type</label>
+        <label class="col-form-label col-lg-2">Type <b class="text-danger">*</b></label>
         <div class="col-lg-10">
           <%= form.collection_select :event_type_id, form.object.assignable_event_types, :id, :name %>
         </div>
@@ -98,7 +98,7 @@
       </div>
 
       <div class="form-group row">
-        <label class="col-form-label col-lg-2">Begins</label>
+        <label class="col-form-label col-lg-2">Begins <b class="text-danger">*</b></label>
         <div class="col-lg-4">
           <%= form.text_field(:begins_at, :class => 'form-control date') %>
         </div>
@@ -110,7 +110,7 @@
       </div>
 
       <div class="form-group row">
-        <label class="col-form-label col-lg-2">Owner</label>
+        <label class="col-form-label col-lg-2">Owner <b class="text-danger">*</b></label>
         <div class="col-lg-10">
           <%= form.collection_select :owner_id, form.object.assignable_owners, :id, :name %>
         </div>
