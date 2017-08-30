@@ -1,5 +1,14 @@
 class EventProperty < ApplicationRecord
-  BEHAVIOURS = %w[multiple_choice select text]
+  module Behaviour
+    MULTIPLE_CHOICE = 'multiple_choice'
+    SELECT = 'select'
+    TEXT = 'text'
+  end
+  BEHAVIOURS = [
+      Behaviour::MULTIPLE_CHOICE,
+      Behaviour::SELECT,
+      Behaviour::TEXT
+  ]
 
   belongs_to :team
   has_many :options, class_name: 'EventPropertyOption', inverse_of: :property, dependent: :destroy, foreign_key: :property_id
@@ -28,7 +37,7 @@ class EventProperty < ApplicationRecord
   end
 
   def allows_options?
-    %w[multiple_choice select].include? behaviour
+    [Behaviour::MULTIPLE_CHOICE, Behaviour::SELECT].include? behaviour
   end
 
   def events

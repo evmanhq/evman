@@ -1,0 +1,60 @@
+<template class="vue-template" id="filterer_constrain_template">
+  <div class="constrain d-sm-flex">
+    <input type="hidden" v-model="name" name="filter[constrains][][name]">
+    <div class="field">
+      <multiselect :value="selected_field"
+                   @input="selectField"
+                   :options="field_definitions"
+                   deselect-label=""
+                   select-label=""
+                   selected-label=""
+                   track-by="name"
+                   label="label"
+                   :searchable="true"
+                   :allow-empty="false">
+      </multiselect>
+    </div>
+
+    <input type="hidden" v-model="condition" name="filter[constrains][][condition]">
+    <div class="condition">
+      <multiselect :value="selected_condition"
+                   @input="selectCondition"
+                   :options="selected_field.conditions"
+                   deselect-label=""
+                   select-label=""
+                   selected-label=""
+                   track-by="name"
+                   label="label"
+                   :searchable="false"
+                   :allow-empty="false">
+      </multiselect>
+    </div>
+
+    <div class="value">
+      <input type="text" v-if="selected_field.type == 'text'" :value="values[0]" @input="setValue" name="filter[constrains][][values][]" class="form-control">
+      <input type="number" v-if="selected_field.type == 'number'" :value="values[0]" @input="setValue" name="filter[constrains][][values][]" class="form-control">
+
+      <input type="hidden" :value="value"
+             name="filter[constrains][][values][]"
+             v-for="value in values"
+             v-if="selected_field.type == 'multiple_choice'">
+      <multiselect :value="selected_values"
+                   @input="setValues"
+                   :options="options"
+                   deselect-label=""
+                   select-label=""
+                   selected-label=""
+                   track-by="value"
+                   label="label"
+                   :searchable="true"
+                   :allow-empty="true"
+                   :multiple="true"
+                   v-if="selected_field.type == 'multiple_choice'">
+      </multiselect>
+    </div>
+
+    <button class="btn btn-danger" @click.prevent="$emit('remove-constrain')">
+      <i class="fa fa-remove"></i>
+    </button>
+  </div>
+</template>

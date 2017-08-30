@@ -1,0 +1,19 @@
+en:
+  filterer:
+    base:
+      conditions:
+        like: '~'
+        not_like: '!~'
+        equals: '='
+        begins: begins
+        all: includes
+        none: excludes
+
+      fields:
+#        name: Name
+
+    events_filterer:
+      fields:
+        name: Name
+        description: Description
+        event_type: Type

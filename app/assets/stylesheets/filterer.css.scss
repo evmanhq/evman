@@ -1,0 +1,46 @@
+$border-color: #e8e8e8;
+
+.filterer {
+  .constrains {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    & > * {
+      margin: 3px;
+    }
+  }
+
+  .constrain {
+    flex-wrap: nowrap;
+    flex-direction: row;
+    border: 1px $border-color solid;
+    border-radius: 5px;
+    padding: 2px;
+    background-color: $border-color;
+
+    .multiselect__tags {
+      border-radius: 0;
+      border-right-width: 0;
+
+      &:last-child {
+        border-right-width: 1px;
+      }
+
+    }
+
+    .multiselect__content {
+      width: auto;
+      min-width: 100%;
+    }
+
+    input[type=text], input[type=number] {
+      border-color: #e8e8e8;
+      height: 100%;
+    }
+
+    //.value,  {
+    //  flex-grow: 1;
+    //}
+  }
+}

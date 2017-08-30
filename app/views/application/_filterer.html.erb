@@ -1,0 +1,16 @@
+<%= content_tag :div, data: {
+    js: {
+        render_class: 'EvMan.Components.Filterer',
+        render_options: {
+            definition: filterer.definition,
+            payload: filterer.payload.as_json
+        }
+    }
+} do %>
+  <%= form_tag calendars_path, data: { remote: true }, method: :get do %>
+    <filterer :definition="definition" :constrains_data="constrains"></filterer>
+  <% end %>
+<% end %>
+
+<%= render 'application/filterer_template' %>
+<%= render 'application/filterer_constrain_template' %>
