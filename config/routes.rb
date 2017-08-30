@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     end
     collection do
       get :archive
+      get :list
 
       get :export
       post :export, to: 'events#generate_export'

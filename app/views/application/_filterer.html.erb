@@ -7,7 +7,7 @@
         }
     }
 } do %>
-  <%= form_tag calendars_path, data: { remote: true }, method: :get do %>
+  <%= form_tag filterer.path, method: :get do %>
     <filterer :definition="definition" :constrains_data="constrains"></filterer>
   <% end %>
 <% end %>

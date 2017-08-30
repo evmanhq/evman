@@ -14,6 +14,18 @@ class EventsController < ApplicationController
     respond_to :html
   end
 
+  def list
+    @events = current_team.events.includes(:event_type)
+    @filterer = Filterer::EventsFilterer.new(scope: @events,
+                                             payload: params[:filter],
+                                             path: list_events_path,
+                                             current_team: current_team)
+    @events = @filterer.filtered
+    @events = @events.page(params[:page] || 1).per(50)
+
+    respond_to :html
+  end
+
   def index
     @base = current_team.events.where(:archived => [false, nil])
 

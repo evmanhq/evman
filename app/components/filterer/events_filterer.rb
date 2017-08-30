@@ -1,7 +1,9 @@
 module Filterer
   class EventsFilterer < Base
-    def initialize(scope: nil, payload: {}, current_team: nil)
-      raise ArgumentError, 'current_team' unless current_team
+    def initialize(scope: nil, payload: {}, current_team: nil, path: nil)
+      raise ArgumentError, '`current_team` is required' unless current_team
+      payload ||= {}
+
       @scope = scope || current_team.events
       definition = [
           {
@@ -20,7 +22,7 @@ module Filterer
               name: 'event_type',
               type: 'multiple_choice',
               conditions: BASIC_MULTIPLE_CHOICE_CONDITIONS,
-              options: current_team.event_types.order(:name).map{|t| { value: t.id, label: t.name }}
+              options: current_team.event_types.order(:name).map{|t| { value: t.id.to_s, label: t.name }}
           }
       ]
 
@@ -29,7 +31,7 @@ module Filterer
         define_event_property(property, definition)
       end
 
-      super(definition, payload)
+      super(definition, payload, path)
     end
 
     private
@@ -46,7 +48,7 @@ module Filterer
           label: property.name,
           type: property.behaviour,
           conditions: conditions[property.behaviour],
-          options: property.options.order(:name).collect{|o| { label: o.name, value: o.id} }
+          options: property.options.order(:name).collect{|o| { label: o.name, value: o.id.to_s} }
       }
     end
 
@@ -72,6 +74,15 @@ module Filterer
         @scope = @scope.where('to_tsvector(\'english\', f_unaccent(events.description)) @@ to_tsquery(unaccent(?))', q)
       else
         perform_filter_text('events.description', values, condition)
+      end
+    end
+
+    def filter_event_type(values, condition)
+      case condition
+      when 'all' then
+        @scope = @scope.where(event_type_id: values)
+      when 'none'
+        @scope = @scope.where.not(event_type_id: values)
       end
     end
 

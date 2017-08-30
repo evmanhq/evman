@@ -157,6 +157,7 @@ class ApplicationController < ActionController::Base
               capture controller: :events, action: :edit
             end
 
+            s.page name: 'List', path: list_events_path, icon: 'list'
             s.page name: 'Create event', path: new_event_path, icon: 'plus', modal: true
             s.page name: 'Archive', path: archive_events_path, icon: 'archive'
             s.page name: 'Export', path: export_events_path, icon: 'table'

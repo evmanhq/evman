@@ -48,17 +48,18 @@ module Filterer
     BASIC_TEXT_CONDITIONS = ['like', 'not_like', 'equals', 'begins']
     BASIC_MULTIPLE_CHOICE_CONDITIONS = ['all', 'none']
 
-    attr_reader :fields, :payload
-    def initialize(definition, payload)
+    attr_reader :fields, :payload, :path
+    def initialize(definition, payload, path)
       @fields = build_fields(definition)
       @payload = payload
+      @path = path
     end
 
     def apply_filters
       payload[:constrains].each do |data|
         raise ArgumentError, 'missing payload key' if data.values_at(:name, :values, :condition).any?(&:blank?)
         dispatch_filter(data[:name], data[:values], data[:condition])
-      end
+      end if payload[:constrains]
       filter_finalizer
       apply_order(payload[:order]) if payload[:order].present?
       apply_limit(payload[:limit]) if payload[:limit].present?
@@ -164,7 +165,8 @@ module Filterer
     def label
       defaults = [
           :"filterer.#{@filterer.i18n_name}.conditions.#{name}",
-          :"filterer.base.conditions.#{name}"
+          :"filterer.base.conditions.#{name}",
+          name
       ]
       I18n.translate(defaults.shift, default: defaults)
     end

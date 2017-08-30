@@ -1,0 +1,11 @@
+<tr>
+  <td><%= link_to event.name, event %></td>
+  <td>
+    <%= l event.begins_at if event.begins_at %>
+    <% if event.ends_at %>
+      - <%= l event.ends_at %>
+    <% end %>
+  </td>
+  <td><%= event.full_location %></td>
+  <td><%= event.event_type.name %></td>
+</tr>

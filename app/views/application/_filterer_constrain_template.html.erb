@@ -31,8 +31,21 @@
     </div>
 
     <div class="value">
-      <input type="text" v-if="selected_field.type == 'text'" :value="values[0]" @input="setValue" name="filter[constrains][][values][]" class="form-control">
-      <input type="number" v-if="selected_field.type == 'number'" :value="values[0]" @input="setValue" name="filter[constrains][][values][]" class="form-control">
+      <input type="text"
+             v-if="selected_field.type == 'text'"
+             :value="values[0]"
+             @input="setValue"
+             @keypress.enter.prevent
+             name="filter[constrains][][values][]"
+             class="form-control">
+
+      <input type="number"
+             v-if="selected_field.type == 'number'"
+             :value="values[0]"
+             @input="setValue"
+             @keypress.enter.prevent
+             name="filter[constrains][][values][]"
+             class="form-control">
 
       <input type="hidden" :value="value"
              name="filter[constrains][][values][]"

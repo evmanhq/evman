@@ -93,6 +93,9 @@ class EvMan.Components.Filterer
         setValues: (selected) ->
           @values = _.map(selected, (o) -> o.value)
 
+      beforeMount: ->
+        @options = @selected_field.options
+
     }
 
 

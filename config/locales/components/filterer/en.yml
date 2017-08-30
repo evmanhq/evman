@@ -8,6 +8,7 @@ en:
         begins: begins
         all: includes
         none: excludes
+        fulltext: fulltext
 
       fields:
 #        name: Name
