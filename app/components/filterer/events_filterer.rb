@@ -1,6 +1,6 @@
 module Filterer
   class EventsFilterer < Base
-    def initialize(scope: nil, payload: {}, current_team: nil, path: nil)
+    def initialize(scope: nil, payload: {}, current_team: nil)
       raise ArgumentError, '`current_team` is required' unless current_team
       payload ||= {}
 
@@ -31,7 +31,7 @@ module Filterer
         define_event_property(property, definition)
       end
 
-      super(definition, payload, path)
+      super(definition, payload)
     end
 
     private

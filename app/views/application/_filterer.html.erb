@@ -7,9 +7,7 @@
         }
     }
 } do %>
-  <%= form_tag filterer.path, method: :get do %>
-    <filterer :definition="definition" :constrains_data="constrains"></filterer>
-  <% end %>
+  <filterer :definition="definition" :constrains_data="constrains"></filterer>
 <% end %>
 
 <%= render 'application/filterer_template' %>

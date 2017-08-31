@@ -1,3 +1,11 @@
-.panel-footer ul.pagination {
+.card-footer ul.pagination {
   margin: 0;
+  list-style: none;
+  display: flex;
+  width: auto;
+
+  li {
+    display: block;
+    padding: 0;
+  }
 }

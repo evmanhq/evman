@@ -48,11 +48,10 @@ module Filterer
     BASIC_TEXT_CONDITIONS = ['like', 'not_like', 'equals', 'begins']
     BASIC_MULTIPLE_CHOICE_CONDITIONS = ['all', 'none']
 
-    attr_reader :fields, :payload, :path
-    def initialize(definition, payload, path)
+    attr_reader :fields, :payload
+    def initialize(definition, payload)
       @fields = build_fields(definition)
       @payload = payload
-      @path = path
     end
 
     def apply_filters
