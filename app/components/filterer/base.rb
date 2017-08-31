@@ -90,7 +90,7 @@ module Filterer
     end
 
     def i18n_name
-      self.class.class_name.underscore
+      self.class.name.split("::").last.underscore
     end
 
     private
