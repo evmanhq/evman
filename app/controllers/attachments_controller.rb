@@ -21,7 +21,7 @@ class AttachmentsController < ApplicationController
       data = File.read(attachment.file.path)
       send_data data, disposition: :inline, type: attachment.file.content_type
     else
-      nginx_download(attachment.file.url)
+      nginx_download(attachment.file.expiring_url(10))
     end
   end
 

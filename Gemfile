@@ -48,7 +48,7 @@ gem 'icalendar'
 gem 'kaminari'
 
 gem 'paperclip'
-gem 'aws-sdk'
+gem 'aws-sdk', '~> 2.0'
 
 gem 'puma'
 
@@ -58,11 +58,13 @@ gem 'jquery-rails'
 
 gem 'faraday'
 gem 'patron'
+gem 'ruby-kafka'
 
 gem 'brakeman', require: false
 gem 'rubocop', require: false
-gem "sentry-raven"
+gem 'sentry-raven'
 gem 'skylight'
+gem 'sqreen'
 
 gem 'webpacker'
 

@@ -131,7 +131,12 @@ class ApplicationController < ActionController::Base
   end
 
   def nginx_download(url)
-    response.headers['X-Accel-Redirect'] = url.gsub(/(https?:)?\/\/s3\.amazonaws\.com/,'/attachments_downloads')
+    ct = Rack::Mime::MIME_TYPES.fetch(File.extname(url), 'application/octet-stream')
+
+    response.headers['X-Accel-Redirect'] = '/reproxy'
+    response.headers['X-Reproxy-URL'] = url
+    response.headers['Content-Type'] = ct
+
     render plain: ''
   end
 

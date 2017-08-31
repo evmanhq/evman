@@ -1,59 +1,16 @@
-FROM docker.io/evman/docker-env:latest
+FROM registry.gitlab.com/evman/environment
 
-USER root
-RUN curl -sL https://rpm.nodesource.com/setup_7.x | bash - &&\
-    curl https://dl.yarnpkg.com/rpm/yarn.repo -o /etc/yum.repos.d/yarn.repo &&\
-    yum install -y nodejs yarn
+COPY --chown=ruby:root Gemfile Gemfile.lock /home/ruby/app/
 
-USER evman
+RUN bundle install --deployment --without=test development
+COPY --chown=ruby:root docker/evman.sh Rakefile config.ru \
+     package.json yarn.lock .babelrc /home/ruby/app/
 
-ENV RAILS_ENV="production"
+COPY --chown=ruby:root bin /home/ruby/app/bin
+COPY --chown=ruby:root config /home/ruby/app/config
+COPY --chown=ruby:root app /home/ruby/app/app
+COPY --chown=ruby:root db /home/ruby/app/db
+COPY --chown=ruby:root lib /home/ruby/app/lib
+COPY --chown=ruby:root public /home/ruby/app/public
 
-USER root
-
-RUN mkdir /app
-RUN mkdir /app/log
-RUN mkdir /app/tmp
-
-COPY docker/evman.sh /home/evman/evman.sh
-RUN chown -R evman:root /home/evman/evman.sh
-
-COPY Gemfile \
-     Gemfile.lock \
-     Rakefile \
-     config.ru \
-     /app/
-RUN chown -R evman:root /app
-
-USER evman
-
-WORKDIR /app
-
-RUN bundle install --without=test development
-
-COPY package.json \
-     yarn.lock \
-     .babelrc \
-     /app/
-
-COPY bin /app/bin
-COPY config /app/config
-COPY app /app/app
-COPY db /app/db
-COPY lib /app/lib
-COPY public /app/public
-
-USER root
-
-# Remove packs from development
-RUN rm -rf /app/public/packs
-
-RUN chown -R evman:root /app
-
-USER evman
-
-ENV NODE_ENV="production"
-
-RUN bundle exec rake assets:precompile
-
-WORKDIR /home/evman
+RUN assets.sh

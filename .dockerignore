@@ -4,3 +4,7 @@ log
 .idea
 .bundle
 vendor
+
+public/packs
+public/packs-test
+node_modules

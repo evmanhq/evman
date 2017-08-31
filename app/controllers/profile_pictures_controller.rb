@@ -45,7 +45,7 @@ class ProfilePicturesController < ApplicationController
       data = File.read(@profile_picture.image.path(type))
       send_data data, disposition: :inline, type: @profile_picture.image.content_type
     else
-      nginx_download(@profile_picture.image.url(type))
+      nginx_download(@profile_picture.image.expiring_url(10, type))
     end
   end
 

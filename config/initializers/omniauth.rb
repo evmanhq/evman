@@ -12,7 +12,8 @@ Rails.application.config.middleware.use(OmniAuth::Builder) do
       :name => 'google_calendar',
       :scope => 'calendar',
       :prompt => 'consent',
-      :include_granted_scopes => 'true'
+      :include_granted_scopes => 'true',
+      :access_type => 'offline'
   }
 end
 

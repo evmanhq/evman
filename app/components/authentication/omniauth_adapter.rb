@@ -36,8 +36,7 @@ module Authentication
       identity = Identity.new provider: data[:provider],
                               user: user,
                               uid: data[:uid],
-                              token: credentials[:token],
-                              secret: credentials[:secret]
+                              token: MultiJson.dump(credentials)
 
       if credentials[:expires]
         identity.expires = credentials[:expires_at]
@@ -53,8 +52,8 @@ module Authentication
     private
     def find_user_by_email
       email = UserEmail.where(email: info[:email]).first
-      return nil unless email
-      email.user
+      return email.user if email
+      User.where(email: info[:email]).first
     end
 
     # Saves email if user does not have already

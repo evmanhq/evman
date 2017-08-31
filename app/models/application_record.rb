@@ -3,7 +3,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   self.abstract_class = true
 
-  if ENV['NOTIFICATIONS_URL']
+  if MessageQueue.provider
     after_create do
       send_notification(:create, self)
     end
@@ -25,21 +25,9 @@ class ApplicationRecord < ActiveRecord::Base
           id: instance.id,
       }
 
-      response = notifications_connection.post do |req|
-        req.url '/notification'
-        req.headers['Content-Type'] = 'application/json'
-        req.body = MultiJson.dump(payload)
-      end
+      MessageQueue.provider.publish(payload, 'notifications')
     rescue => e
       Raven.capture_exception(e)
-    end
-
-    def notifications_connection
-      @notifications_connection ||= Faraday.new(:url => ENV['NOTIFICATIONS_URL']) do |faraday|
-        faraday.request  :url_encoded
-        faraday.response :logger
-        faraday.adapter  :patron
-      end
     end
   end
 

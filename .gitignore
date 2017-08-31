@@ -11,6 +11,7 @@ evman.sql
 geodata
 test.sh
 psql.sh
+
 # Ignore bundler config.
 /.bundle
 
@@ -25,9 +26,13 @@ psql.sh
 /vendor/bundle
 /public/assets
 /public/system
+
 # Ignore development environemnt using docker
 /docker_dev
 /bin/dev
 /public/packs
 /public/packs-test
 /node_modules
+
+# Config files
+config/sqreen.yml
