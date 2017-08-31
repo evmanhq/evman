@@ -5,9 +5,10 @@ class City < ApplicationRecord
 
   belongs_to  :time_zone
   has_many :city_names
+  has_one :english_city_name, -> { joins(:language).where(languages: { code: 'en' }) }, class_name: 'CityName'
 
   def name
-    CityName.where(:city => id, :language => Language.find_by_code('en')).first.name
+    english_city_name.name
   end
 
   def to_s

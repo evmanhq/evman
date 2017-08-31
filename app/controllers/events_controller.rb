@@ -15,7 +15,7 @@ class EventsController < ApplicationController
   end
 
   def list
-    @events = current_team.events.includes(:event_type)
+    @events = current_team.events.includes(:event_type, city: [:country, :state, :english_city_name])
     @filterer = Filterer::EventsFilterer.new(scope: @events,
                                              payload: params[:filter],
                                              current_team: current_team)
