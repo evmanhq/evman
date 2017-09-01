@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170810170934) do
+ActiveRecord::Schema.define(version: 20170901152933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,6 +195,8 @@ ActiveRecord::Schema.define(version: 20170810170934) do
     t.bigint "property_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "parent_id"
+    t.index ["parent_id"], name: "index_event_property_options_on_parent_id"
     t.index ["property_id"], name: "index_event_property_options_on_property_id"
   end
 
@@ -444,6 +446,25 @@ ActiveRecord::Schema.define(version: 20170810170934) do
     t.datetime "logo_updated_at"
     t.index ["owner_id"], name: "index_organized_events_on_owner_id"
     t.index ["team_id"], name: "index_organized_events_on_team_id"
+  end
+
+  create_table "performance_metric_entries", force: :cascade do |t|
+    t.bigint "performance_metric_id"
+    t.bigint "event_id"
+    t.decimal "target", precision: 11, scale: 3, default: "0.0"
+    t.decimal "actual", precision: 11, scale: 3, default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_performance_metric_entries_on_event_id"
+    t.index ["performance_metric_id"], name: "index_performance_metric_entries_on_performance_metric_id"
+  end
+
+  create_table "performance_metrics", force: :cascade do |t|
+    t.string "name"
+    t.bigint "team_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_performance_metrics_on_team_id"
   end
 
   create_table "profile_pictures", id: :serial, force: :cascade do |t|

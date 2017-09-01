@@ -201,7 +201,9 @@
                   <small class="text-muted">Last Edited</small><br>
                   <% if @event.versions.last %>
                     <% actor = @event.versions.last.actor %>
-                    <strong class="p"><%= link_to actor.try(:name), actor %></strong> at
+                    <% if actor %>
+                      <strong class="p"><%= link_to actor.name, actor %></strong> at
+                    <% end %>
                     <strong class="p"><%= l @event.versions.last.created_at, format: :long %></strong>
                   <% else %>
                       <strong class="p"><%= l @event.updated_at, format: :long %></strong>
