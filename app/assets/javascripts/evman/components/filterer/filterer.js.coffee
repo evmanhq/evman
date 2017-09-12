@@ -4,6 +4,12 @@ class EvMan.Components.Filterer
     @definition = options.definition
     @payload = options.payload
 
+    @container = $('<div></div>')
+    @container.html(@element.html())
+
+    @element.empty()
+    @element.append(@container)
+
     @filterer_template = $('#filterer_template')
     @constrain_template = $('#filterer_constrain_template')
 
@@ -11,7 +17,7 @@ class EvMan.Components.Filterer
     $view = this
 
     new Vue(
-      el: @element[0]
+      el: @container[0]
       data:
         definition: @definition
         constrains: @payload.constrains
