@@ -31,7 +31,7 @@ class EvMan.Views.Events.Edit
       ajax:
         url: "/geo/cities.json"
         dataType: 'json'
-        quietMillis: 250
+        delay: 250
         data: (term, page) ->
           {q: term}
         processResults: (data, page) ->

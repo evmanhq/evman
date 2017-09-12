@@ -25,7 +25,7 @@ When(/^I fill event form$/) do
   @data.each do |attr, value|
     case attr
     when :city_id
-      select2 "event[#{attr}]", search: @bootstrap_data[:city].display
+      select2 "event[#{attr}]", search: @bootstrap_data[:city].display, wait_for_request: 0.3
     when :owner_id, :event_type_id
       fill_dynamic_select "event[#{attr}]", with: value
     else

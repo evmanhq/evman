@@ -29,4 +29,9 @@ class City < ApplicationRecord
     end
   end
 
+  def self.update_fulltext_view
+    ActiveRecord::Base.connection.execute <<-SQL
+      REFRESH MATERIALIZED VIEW cities_fulltext_view WITH DATA;
+    SQL
+  end
 end

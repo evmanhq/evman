@@ -73,6 +73,7 @@ Capybara::Screenshot.prune_strategy = { keep: 20 }
 
 Capybara.javascript_driver = :poltergeist
 Capybara.default_driver = :poltergeist
+Capybara.default_max_wait_time = 4
 
 Around do |scenario, block|
   DatabaseCleaner.cleaning(&block)

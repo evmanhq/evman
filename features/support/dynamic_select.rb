@@ -1,6 +1,6 @@
 module DynamicSelect
 
-  def select2 name, search: nil
+  def select2 name, search: nil, wait_for_request: nil
     label = page.first("select[name='#{name}']")
     label_parent = label.find(:xpath, '..')
     select2_container = label_parent.find('.select2-container')
@@ -9,6 +9,7 @@ module DynamicSelect
     select2_search_input = page.first('.select2-search__field')
     select2_search_input.set(search)
 
+    sleep wait_for_request if wait_for_request.present?
     wait_for_ajax # wait if select2 uses ajax to load results
 
     select2_result_option = page.first('.select2-results__option')

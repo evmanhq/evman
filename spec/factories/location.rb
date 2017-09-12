@@ -5,6 +5,7 @@ FactoryGirl.define do
 
     after :create do |city|
       FactoryGirl.create :city_name, city: city, name: "#{city.display}"
+      City.update_fulltext_view
     end
   end
 
