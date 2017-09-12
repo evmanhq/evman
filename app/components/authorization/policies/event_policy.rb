@@ -21,7 +21,7 @@ module Authorization
       end
 
       assignable_attribute :team do
-        dictator.team
+        Array.wrap(dictator.team)
       end
 
       assignable_attribute :owner do

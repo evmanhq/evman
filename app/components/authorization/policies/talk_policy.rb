@@ -24,7 +24,7 @@ module Authorization
       # Assignable attributes
 
       assignable_attribute :team do
-        dictator.team
+        Array.wrap(dictator.team)
       end
 
       assignable_attribute :user do
