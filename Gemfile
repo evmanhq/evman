@@ -65,6 +65,7 @@ gem "sentry-raven"
 gem 'skylight'
 
 gem 'vuejs-rails'
+gem 'webpacker'
 
 source 'http://rails-assets.org' do
   gem 'rails-assets-jquery-ui'

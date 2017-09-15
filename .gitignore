@@ -28,3 +28,6 @@ psql.sh
 # Ignore development environemnt using docker
 /docker_dev
 /bin/dev
+/public/packs
+/public/packs-test
+/node_modules
