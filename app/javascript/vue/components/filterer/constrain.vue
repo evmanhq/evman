@@ -1,4 +1,4 @@
-<template class="vue-template" id="filterer_constrain_template">
+<template>
   <div class="constrain d-sm-flex">
     <input type="hidden" v-model="name" name="filter[constrains][][name]">
     <div class="field">
@@ -51,6 +51,7 @@
              name="filter[constrains][][values][]"
              v-for="value in values"
              v-if="selected_field.type == 'multiple_choice'">
+
       <multiselect :value="selected_values"
                    @input="setValues"
                    :options="options"
@@ -71,3 +72,64 @@
     </button>
   </div>
 </template>
+
+<script>
+import _ from 'underscore'
+import Multiselect from 'vue-multiselect'
+
+export default {
+  components: { Multiselect },
+  props: {
+    value: Object,
+    field_definitions: Array
+  },
+
+  data() {
+    return _.extend(this.value, { options: [] })
+  },
+
+  computed: {
+    selected_field() {
+      return _.find(this.field_definitions, (d) => d.name === this.name)
+    },
+
+    selected_condition() {
+      return _.find(this.selected_field.conditions, (c) => c.name === this.condition)
+    },
+
+    selected_values() {
+      return _.filter(this.options, (o) => this.values.includes(o.value))
+    }
+  },
+
+  watch: {
+    selected_field() {
+      this.options = this.selected_field.options
+      this.condition = this.selected_field.conditions[0].name
+      this.values = []
+    }
+  },
+
+  methods: {
+    selectField(option) {
+      this.name = option.name
+    },
+
+    selectCondition(condition) {
+      this.condition = condition.name
+    },
+
+    setValue(event) {
+      this.values = [event.target.value]
+    },
+
+    setValues(selected) {
+      this.values = _.map(selected, (o) => o.value)
+    }
+  },
+
+  beforeMount() {
+    this.options = this.selected_field.options
+  }
+}
+</script>

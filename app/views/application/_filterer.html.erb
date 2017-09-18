@@ -1,6 +1,6 @@
 <%= content_tag :div, data: {
     js: {
-        render_class: 'EvMan.Components.Filterer',
+        render_vue: 'Filterer',
         render_options: {
             definition: filterer.definition,
             payload: filterer.payload.as_json
@@ -9,6 +9,3 @@
 } do %>
   <filterer :definition="definition" :constrains_data="constrains"></filterer>
 <% end %>
-
-<%= render 'application/filterer_template' %>
-<%= render 'application/filterer_constrain_template' %>

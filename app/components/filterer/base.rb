@@ -56,7 +56,7 @@ module Filterer
 
     def apply_filters
       payload[:constrains].each do |data|
-        raise ArgumentError, 'missing payload key' if data.values_at(:name, :values, :condition).any?(&:blank?)
+        next if data.values_at(:name, :values, :condition).any?(&:blank?)
         dispatch_filter(data[:name], data[:values], data[:condition])
       end if payload[:constrains]
       filter_finalizer
