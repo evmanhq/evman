@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
 
-  before_action :require_modal, only: [:new, :edit, :add_attendee]
+  before_action :require_modal, only: [:add_attendee]
 
   EXPORT_FIELDS = %w(name committed approved archived city location url sponsorship sponsorship_date cfp_url cfp_date
                      begins_at ends_at owner event_type created_at updated_at)

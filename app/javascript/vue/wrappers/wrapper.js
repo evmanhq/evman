@@ -1,4 +1,9 @@
-export default class Wrapper {
+import Vue from 'vue/dist/vue.esm'
+import Vuex from 'vuex/dist/vuex.esm'
+import 'vue/rails_resource'
+Vue.config.productionTip = false
+
+class Wrapper {
   constructor(element, options) {
     this.element = element
     this.options = options
@@ -11,3 +16,5 @@ export default class Wrapper {
     this.element.appendChild(this.container)
   }
 }
+
+export {Wrapper, Vue, Vuex}

@@ -1,7 +1,10 @@
 import Filterer from 'vue/wrappers/filterer'
+import Events from 'vue/wrappers/events/loader'
+
 import $ from 'jquery'
 const WRAPPERS = {
-  'Filterer': Filterer
+  'Filterer': Filterer,
+  'Events.Form': Events.Form
 }
 
 export default class WrappersLoader {

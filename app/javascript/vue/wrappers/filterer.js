@@ -1,7 +1,6 @@
 /* eslint no-console: 0 */
-import Vue from 'vue/dist/vue.esm'
 import FiltererComponent from 'vue/components/filterer/base.vue'
-import Wrapper from './wrapper'
+import {Wrapper, Vue} from './wrapper'
 
 export default class Filterer extends Wrapper {
   render() {
