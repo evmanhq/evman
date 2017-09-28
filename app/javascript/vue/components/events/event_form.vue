@@ -33,6 +33,7 @@
             @search-change="findCities"
             track-by="id"
             label="name"
+            placeholder="Search for city"
             :options="cities"
             :searchable="true"
             :internalSearch="false"
