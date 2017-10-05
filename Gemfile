@@ -64,7 +64,6 @@ gem 'rubocop', require: false
 gem "sentry-raven"
 gem 'skylight'
 
-gem 'vuejs-rails'
 gem 'webpacker'
 
 source 'http://rails-assets.org' do
@@ -78,7 +77,6 @@ source 'http://rails-assets.org' do
   gem 'rails-assets-loaders.css'
   gem 'rails-assets-underscore'
   gem 'rails-assets-tether'
-  gem 'rails-assets-vue-multiselect', '2.0.0.beta.13'
 end
 
 group :test do

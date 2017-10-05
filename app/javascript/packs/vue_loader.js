@@ -35,3 +35,5 @@ import WrappersLoader from 'vue/wrappers_loader'
 document.addEventListener('turbolinks:load', () => {
   WrappersLoader.load()
 })
+
+window.WrappersLoader = WrappersLoader

@@ -1,6 +1,3 @@
-// require vue
-// require vue-multiselect
-
 //= require jquery.js
 //= require jquery_ujs
 //= require underscore
@@ -21,8 +18,6 @@
 //= require tools
 //= require evman
 //= require_tree ./evman
-
-// Vue.component('Multiselect', VueMultiselect.default);
 
 $.fn.select2.defaults.set("width", "100%");
 

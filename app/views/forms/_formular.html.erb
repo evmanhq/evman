@@ -1,7 +1,12 @@
 <%= form_for @form, html: { class: 'form-horizontal' },
              data: {
                  modal: { render_type: :replace },
-                 js: { render_class: "EvMan.Views.Forms.Edit" },
+                 js: {
+                     render_vue: "Forms.Formular",
+                     render_options: {
+                         data: @form.data.as_json
+                     }
+                 },
              } do |f| %>
   <div class="modal-header">
     <h4 class="modal-title">Form</h4>
@@ -25,7 +30,7 @@
     </div>
 
     <%= content_tag :div, class: 'form-builder vue-component', data: { builder: @form.data } do %>
-      <form-builder :fields_data="fields" name="form[data]"></form-builder>
+      <form-builder></form-builder>
     <% end %>
 
   </div>
@@ -34,7 +39,4 @@
     <button type="button" class="btn btn-default modal-close">Close</button>
     <%= f.submit 'Save', class: 'btn btn-success' %>
   </div>
-
-  <%= render 'form_builder_template' %>
-  <%= render 'form_builder_field_template' %>
 <% end %>

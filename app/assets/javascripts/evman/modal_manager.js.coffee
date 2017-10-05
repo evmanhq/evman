@@ -31,6 +31,8 @@ class EvMan.ModalManager
     modal.show()
     @justHide = false
     $.evman.renderViews()
+    WrappersLoader.load() if WrappersLoader
+
 
   closeCurrent: =>
     modal = @modal_stack.pop()
