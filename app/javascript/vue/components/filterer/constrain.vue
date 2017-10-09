@@ -50,7 +50,7 @@
       <input type="hidden" :value="value"
              name="filter[constrains][][values][]"
              v-for="value in values"
-             v-if="selected_field.type == 'multiple_choice'">
+             v-if="isMultiselect">
 
       <multiselect :value="selected_values"
                    @input="setValues"
@@ -63,7 +63,7 @@
                    :searchable="true"
                    :allow-empty="true"
                    :multiple="true"
-                   v-if="selected_field.type == 'multiple_choice'">
+                   v-if="isMultiselect">
       </multiselect>
     </div>
 
@@ -99,6 +99,10 @@ export default {
 
     selected_values() {
       return _.filter(this.options, (o) => this.values.includes(o.value))
+    },
+
+    isMultiselect() {
+      return ['multiple_choice', 'select'].includes(this.selected_field.type)
     }
   },
 

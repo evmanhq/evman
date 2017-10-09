@@ -40,14 +40,18 @@ module Filterer
     def define_event_property(property, definition)
       conditions = {
           'text' => BASIC_TEXT_CONDITIONS,
-          'multiple_choice' => BASIC_MULTIPLE_CHOICE_CONDITIONS
+          'multiple_choice' => BASIC_MULTIPLE_CHOICE_CONDITIONS,
+          'select' => BASIC_MULTIPLE_CHOICE_CONDITIONS
       }
+
+      property_conditions = conditions[property.behaviour]
+      raise StandardError, "no conditions defined for behaviour: #{property.behaviour}" if property_conditions.nil?
 
       definition << {
           name: "event_property_#{property.id}",
           label: property.name,
           type: property.behaviour,
-          conditions: conditions[property.behaviour],
+          conditions: property_conditions,
           options: property.options.order(:name).collect{|o| { label: o.name, value: o.id.to_s} }
       }
     end
