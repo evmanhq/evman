@@ -3,6 +3,8 @@ import Events from 'vue/wrappers/events/loader'
 import Forms from 'vue/wrappers/forms/loader'
 
 import $ from 'jquery'
+$.noConflict(true)
+
 const WRAPPERS = {
   'Filterer': Filterer,
   'Events.Form': Events.Form,

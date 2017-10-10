@@ -2,11 +2,11 @@ Feature: Creation of the Event
   Background: login user with all permissions
     Given I am logged in as user with all permissions
 
-  Scenario: Open new event modal from main menu
+  Scenario: Open new event form from main menu
     When I am on the "events" page
     Then I should see "Create event"
     When I click on "Create event"
-    Then I should see new event modal
+    Then I should see events form
 
   Scenario: Create new event using form
     When Event associations are bootstraped

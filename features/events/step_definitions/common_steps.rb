@@ -69,11 +69,6 @@ When(/^I submit event form$/) do
   wait_for_ajax
 end
 
-Then(/^I should see new event modal$/) do
-  expect(page).to have_content 'New event'
-  step 'I should see events form'
-end
-
 When(/^Example event exists and observed$/) do
   observe_object FactoryGirl.create(:event, team: @current_team)
 end

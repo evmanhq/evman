@@ -29,6 +29,7 @@
 //   <app></app>
 // </div>
 
+import 'phantomjs-polyfill-find'
 import WrappersLoader from 'vue/wrappers_loader'
 
 
