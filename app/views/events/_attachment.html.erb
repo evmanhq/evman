@@ -1,0 +1,46 @@
+<li class="list-group-item">
+  <div class="row">
+
+    <div class="col-sm-1">
+      <div class="dropdown">
+        <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-secondary btn-sm">
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+          <li>
+            <%= link_to attachment, method: :delete,
+                        title: "Remove",
+                        data: {
+                            confirm: {
+                                question: "Are you sure you want to remove this attachment ?",
+                                title: "Remove attachment"
+                            }
+                        },
+                        class: 'dropdown-item' do %>
+              <%= icon(:remove, :fa) %> Remove
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="hideOverflow">
+        <%= link_to attachment.name, attachment, class: 'blue-link', target: :_blank %>
+      </div>
+    </div>
+
+    <div class="col-sm-2" align="right">
+      <%= number_to_human_size attachment.file_file_size %>
+    </div>
+
+    <div class="col-sm-3" align="right">
+      <%= l attachment.created_at, format: :long %>
+    </div>
+
+    <div class="col-sm-2" align="right">
+      <%= attachment.user.name %>
+    </div>
+
+  </div>
+</li>

@@ -95,6 +95,8 @@ class EventsController < ApplicationController
 
   def attachments
     @event = Event.find(params[:id])
+    @attachment = Attachment.new(parent_type: 'Event', parent_id: @event.id)
+
     authorize! @event, :read
   end
 

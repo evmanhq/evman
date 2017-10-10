@@ -1,0 +1,29 @@
+<%= form_for @attachment, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.hidden_field :parent_id %>
+  <%= f.hidden_field :parent_type %>
+
+  <div>
+    <%= validation_errors(@attachment) %>
+  </div>
+
+  <br>
+
+  <div class="form-group row">
+    <label class="col-form-label col-lg-2">Name</label>
+    <div class="col-lg-10">
+      <%= f.text_field :name, :class => 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-form-label col-lg-2">File</label>
+    <div class="col-lg-10">
+      <%= f.file_field(:file, :class => 'form-control') %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-10">
+      <%= f.submit 'Upload', class: 'btn btn-success btn-sm' %>
+    </div>
+  </div>
+<% end %>

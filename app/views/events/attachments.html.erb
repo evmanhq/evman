@@ -13,33 +13,38 @@
           <div class="card-block">
             <div class="row">
               <div class="col-lg-8">
-                <ul>
-                  <% @event.attachments.each do |attachment| %>
-                      <li><a href="<%= attachment_path(attachment) %>" target="_blank"><%= attachment.name %></a></li>
-                  <% end %>
+                <ul class="list-group list-group-flush warehouse-transactions-container">
+                  <li class="list-group-item">
+                    <div class="row">
+
+                      <div class="col-sm-1"></div>
+
+                      <div class="col-sm-5">
+                        <b>Name</b>
+                      </div>
+
+                      <div class="col-sm-2" align="right">
+                        <b>Size</b>
+                      </div>
+
+                      <div class="col-sm-2" align="right">
+                        <b>Created At</b>
+                      </div>
+
+                      <div class="col-sm-2" align="right">
+                        <b>Created By</b>
+                      </div>
+                    </div>
+                  </li>
+
+
+                  <%= render partial: 'attachment', collection: @event.attachments.order('created_at DESC') %>
+
                 </ul>
               </div>
               <div class="col-lg-4">
                 <div class="container-fluid">
-                  <%= form_for Attachment.new, :html => { :class => 'form-horizontal' } do |form| %>
-                      <input type="hidden" name="attachment[parent_id]" value="<%= @event.id %>">
-                      <input type="hidden" name="attachment[parent_type]" value="Event">
-                      <div class="form-group row">
-                        <label class="col-form-label col-lg-2">Name</label>
-                        <div class="col-lg-10">
-                          <%= form.text_field :name, :class => 'form-control' %>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-form-label col-lg-2">File</label>
-                        <div class="col-lg-10">
-                          <%= form.file_field(:file, :class => 'form-control') %>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <button class="btn btn-success btn-sm pull-right" type="submit">Upload</button>
-                      </div>
-                  <% end %>
+                  <%= render 'attachments/form' %>
                 </div>
               </div>
             </div>

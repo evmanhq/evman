@@ -1,11 +1,17 @@
 class AttachmentsController < ApplicationController
 
-  def create
-    attachment = Attachment.create(params.require(:attachment).permit(:file, :name, :parent_id, :parent_type))
-    attachment.user = current_user
-    attachment.save
+  def edit
 
-    redirect_to(url_for(attachment.parent))
+  end
+
+  def create
+    @attachment = Attachment.create(attachment_params)
+    @attachment.user = current_user
+    if @attachment.save
+      redirect_to(@attachment.redirect_path)
+    else
+      render action: :edit
+    end
   end
 
   def show
@@ -17,5 +23,18 @@ class AttachmentsController < ApplicationController
     else
       nginx_download(attachment.file.url)
     end
+  end
+
+  def destroy
+    attachment = Attachment.find(params[:id])
+    authorize! attachment.parent, :update
+    attachment.destroy
+
+    redirect_to attachment.redirect_path
+  end
+
+  private
+  def attachment_params
+    params.require(:attachment).permit(:file, :name, :parent_id, :parent_type)
   end
 end

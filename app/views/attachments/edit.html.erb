@@ -1,0 +1,14 @@
+<%
+  action = @attachment.new_record? ? 'New' : 'Edit'
+  breadcrumb_nav.add_item 'Attachments'
+  breadcrumb_nav.add_item @attachment.name, @attachment unless @attachment.new_record?
+  breadcrumb_nav.add_item action
+%>
+
+<div class="card-deck">
+  <div class="card">
+    <div class="card-block">
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>

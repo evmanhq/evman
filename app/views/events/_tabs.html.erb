@@ -6,6 +6,11 @@
     <%= link_to "Expenses", expenses_event_path(@event), class: params[:action] == 'expenses' ? 'active nav-link' : 'nav-link' %>
   </li>
   <li class="nav-item">
-    <%= link_to "Attachments", attachments_event_path(@event), class: params[:action] == 'attachments' ? 'active nav-link' : 'nav-link' %>
+    <%= link_to attachments_event_path(@event), class: params[:action] == 'attachments' ? 'active nav-link' : 'nav-link' do %>
+      Attachements
+      <% unless @event.attachments.count.zero? %>
+        <span class="badge badge-info badge-pill"><%= @event.attachments.count %></span>
+      <% end %>
+    <% end %>
   </li>
 </ul>
