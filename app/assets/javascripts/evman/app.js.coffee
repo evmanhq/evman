@@ -30,13 +30,13 @@ class EvMan.App
       continue unless element.data('js')
       view_class_list = element.data('js').render_class
       options = element.data('js').render_options
-      return unless view_class_list
+      continue unless view_class_list
 
       view_class_list = view_class_list.split('.').reverse()
       view_class = eval(view_class_list.pop())
       view_class = view_class[view_class_list.pop()] while _.size(view_class_list) > 0 and view_class
 
-      return unless view_class
+      continue unless view_class
 
       view = new view_class(element, options)
       view.render()

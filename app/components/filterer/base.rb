@@ -46,7 +46,7 @@ module Filterer
 
     include Helpers
     BASIC_TEXT_CONDITIONS = ['like', 'not_like', 'equals', 'begins']
-    BASIC_MULTIPLE_CHOICE_CONDITIONS = ['all', 'none']
+    BASIC_MULTIPLE_CHOICE_CONDITIONS = ['any', 'all', 'none']
 
     attr_reader :fields, :payload
     def initialize(definition, payload)

@@ -21,7 +21,7 @@ module Filterer
           {
               name: 'event_type',
               type: 'multiple_choice',
-              conditions: BASIC_MULTIPLE_CHOICE_CONDITIONS,
+              conditions: ['any', 'none'],
               options: current_team.event_types.order(:name).map{|t| { value: t.id.to_s, label: t.name }}
           }
       ]
@@ -83,7 +83,7 @@ module Filterer
 
     def filter_event_type(values, condition)
       case condition
-      when 'all' then
+      when 'any' then
         @scope = @scope.where(event_type_id: values)
       when 'none'
         @scope = @scope.where.not(event_type_id: values)
@@ -99,8 +99,17 @@ module Filterer
       case condition
       when 'all' then
         @scope = @scope.jsonb_where(:properties_assignments, { property.id.to_s => values})
-      when 'none'
+      when 'none' then
         @scope = @scope.jsonb_where_not(:properties_assignments, { property.id.to_s => values})
+      when 'any' then
+        condition_scopes = values.collect do |value|
+          Event.jsonb_where(:properties_assignments, { property.id.to_s => Array.wrap(value)})
+        end
+        or_scope = condition_scopes.shift
+        condition_scopes.each do |condition_scope|
+          or_scope = or_scope.or(condition_scope)
+        end
+        @scope = @scope.merge(or_scope)
       end
     end
 

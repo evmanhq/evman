@@ -1,7 +1,7 @@
 import {Wrapper, Vue, Vuex} from 'vue/wrappers/wrapper'
-import PropertiesForm from 'vue/components/events/properties_form'
-import EventForm from 'vue/components/events/event_form'
-import store from 'vue/components/events/store'
+import PropertiesForm from 'vue/components/events/form/properties_form'
+import EventForm from 'vue/components/events/form/event_form'
+import store from 'vue/components/events/form/store'
 
 export default class Form extends Wrapper {
   render() {

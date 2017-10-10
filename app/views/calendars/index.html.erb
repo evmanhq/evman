@@ -2,13 +2,38 @@
   breadcrumb_nav.add_item "Calendar"
 %>
 
-<div class="row">
-  <div class="col-lg-12">
-    <div class="card">
-      <div class="card-block">
-        <%= content_tag :div, data: { js: { render_class: 'EvMan.Views.Calendars.Index'}} do %>
-        <% end %>
+<%= content_tag :div, data: { js: { render_class: 'EvMan.Views.Calendars.Index' }} do %>
+  <div class="row">
+    <div class="col-lg-12">
+      <form action="#" id="filter">
+        <%= render @filterer, locals: { trigger_change: true } %>
+      </form>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-9 col-lg-8">
+      <div class="card">
+        <div class="card-block">
+          <div id="calendar"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          Event Types
+        </div>
+        <div class="card-block">
+          <% current_team.event_types.order('name').each do |event_type| %>
+            <p style="border-left: <%= event_type.color %> 20px solid; padding-left: 10px;">
+              <%= event_type.name %>
+            </p>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>

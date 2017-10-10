@@ -12,7 +12,7 @@
                     Clear
                 </button>
 
-                <input type="submit" class="btn btn-primary btn-sm" value="Filter">
+                <input type="submit" class="btn btn-primary btn-sm" value="Filter" ref="submit_button">
             </div>
         </div>
         <div class="card-body">
@@ -21,6 +21,7 @@
                            :field_definitions="definition"
                            :key="constrain.data.id"
                            v-for="(constrain, index) in constrains"
+                           @change="handleChange"
                            @remove-constrain="constrains.splice(index, 1)">
                 </constrain>
             </div>
@@ -34,7 +35,11 @@ import _ from 'underscore'
 export default {
   props: {
     constrains_data: Array,
-    definition: Array
+    definition: Array,
+    triggerChange: {
+      type: Boolean,
+      default: false
+    }
   },
 
   components: {
@@ -45,7 +50,8 @@ export default {
     return {
       constrains: _.map(this.constrains_data, (data) => {
         return { data: _.extend(data, { id: this.newConstrainId() }) }
-      })
+      }),
+      changeTimeout: null
     }
   },
 
@@ -66,6 +72,18 @@ export default {
       let max_id = _.max(_.map(this.constrains, (c) => c.data.id))
       if(!max_id || max_id == -Infinity) max_id = 0
       return max_id + 1
+    },
+
+    handleChange() {
+      if(!this.triggerChange) return
+      let delay = 500
+      if(this.changeTimeout) clearTimeout(this.changeTimeout)
+
+      let submitFn = () => {
+        this.$refs['submit_button'].click()
+      }
+
+      this.changeTimeout = setTimeout(submitFn, delay)
     }
   }
 }

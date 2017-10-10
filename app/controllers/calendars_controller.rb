@@ -1,6 +1,10 @@
 class CalendarsController < ApplicationController
 
   def index
+    @events = current_team.events.includes(:event_type, city: [:country, :state, :english_city_name])
+    @filterer = Filterer::EventsFilterer.new(scope: @events,
+                                             payload: params[:filter],
+                                             current_team: current_team)
   end
 
   def user
@@ -52,6 +56,18 @@ class CalendarsController < ApplicationController
       end if event.begins_at && event.ends_at
     end
     render plain: calendar.to_ical
+  end
+
+  def events
+    @events = current_team.events.where(:archived => [false, nil]).includes(:event_type)
+    @events = @events.where('begins_at >= ? OR ends_at >= ?', Date.parse(params[:start]), Date.parse(params[:start])) if params[:start]
+    @events = @events.where('begins_at <= ? OR ends_at <= ?', Date.parse(params[:end]), Date.parse(params[:end])) if params[:end]
+
+    @filterer = Filterer::EventsFilterer.new(scope: @events,
+                                             payload: params[:filter],
+                                             current_team: current_team)
+    @events = @filterer.filtered
+    render :json => @events.as_json(include: :event_type)
   end
 
 end

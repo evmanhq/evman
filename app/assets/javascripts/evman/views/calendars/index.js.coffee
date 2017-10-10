@@ -4,27 +4,34 @@ class EvMan.Views.Calendars.Index
     @container = container
     @options = options
 
-  render: ->
+    @calendar_div = @container.find('#calendar')
+    @filter_form = @container.find('form#filter')
+
+  render: =>
     @renderCalendar()
 
-  renderCalendar: ->
-    $(@container).fullCalendar(
+    @filter_form.submit(@handleFilter)
+
+  renderCalendar: =>
+    @calendar_div.fullCalendar(
       weekNumbers: true
       firstDay: 1
-      height: window.innerHeight - 110
+      height: window.innerHeight - 320
       header:
         left: 'today prev,next'
         center: 'title'
         right: 'month,basicWeek,agendaWeek'
       windowResize: (view) ->
         $(this).fullCalendar('option', 'height', window.innerHeight - 110)
-      events: (start, end, timezone, callback) ->
+      events: (start, end, timezone, callback) =>
+        params = @filter_form.serializeArray()
+        params.push({name: "start", value: start.format('YYYY-MM-DD') })
+        params.push({name: "end", value: end.format('YYYY-MM-DD') })
+
         $.ajax(
-          url: '/events.json'
+          url: '/calendars/events.json'
           type: 'GET'
-          data:
-            start: start.format('YYYY-MM-DD')
-            end: end.format('YYYY-MM-DD')
+          data: $.param(params)
           success: (data) ->
             events = []
             for event in data
@@ -38,3 +45,9 @@ class EvMan.Views.Calendars.Index
             callback(events)
         )
     )
+
+  handleFilter: (event) =>
+    event.preventDefault()
+    event.stopPropagation()
+
+    @calendar_div.fullCalendar('refetchEvents')

@@ -7,5 +7,12 @@
         }
     }
 } do %>
-  <filterer :definition="definition" :constrains_data="constrains"></filterer>
+  <%
+    trigger_change_prop = nil
+    trigger_change_prop = ':trigger-change="true"'.html_safe if defined? locals and locals[:trigger_change]
+  %>
+  <filterer :definition="definition"
+            :constrains_data="constrains"
+            <%= trigger_change_prop %>
+            ></filterer>
 <% end %>

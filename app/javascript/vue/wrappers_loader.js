@@ -10,7 +10,7 @@ const WRAPPERS = {
 }
 
 export default class WrappersLoader {
-  get wrappers() {
+  static get wrappers() {
     return WRAPPERS
   }
 

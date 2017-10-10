@@ -111,7 +111,11 @@ export default {
       this.options = this.selected_field.options
       this.condition = this.selected_field.conditions[0].name
       this.values = []
-    }
+    },
+
+    values() { this.$emit('change') },
+    name() { this.$emit('change') },
+    condition() { this.$emit('change') }
   },
 
   methods: {

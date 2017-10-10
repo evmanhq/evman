@@ -6,6 +6,7 @@ en:
         not_like: '!~'
         equals: '='
         begins: begins
+        any: any of
         all: includes
         none: excludes
         fulltext: fulltext
