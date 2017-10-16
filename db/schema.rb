@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170919104346) do
+ActiveRecord::Schema.define(version: 20171016204108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,6 +170,7 @@ ActiveRecord::Schema.define(version: 20170919104346) do
     t.integer "position", default: 1
     t.string "behaviour", default: "multiple_choice"
     t.jsonb "restrictions"
+    t.boolean "required", default: false
     t.index ["team_id"], name: "index_event_properties_on_team_id"
   end
 
@@ -294,7 +295,7 @@ ActiveRecord::Schema.define(version: 20170919104346) do
     t.string "uid", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "token", limit: 255
+    t.text "token"
     t.string "secret", limit: 255
     t.datetime "expires"
     t.index ["user_id"], name: "index_identities_on_user_id"

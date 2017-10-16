@@ -1,0 +1,5 @@
+en:
+  activerecord:
+    errors:
+      messages:
+        event_property_blank: "%{event_property} can't be blank"

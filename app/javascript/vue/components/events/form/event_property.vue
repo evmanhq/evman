@@ -1,6 +1,9 @@
 <template>
   <div class="form-group row">
-    <label class="col-form-label col-lg-3">{{ definition.name }}</label>
+    <label class="col-form-label col-lg-3">
+      {{ definition.name }}
+      <b v-if="definition.required" class="text-danger">*</b>
+    </label>
     <div class="col-lg-9">
       <multiselect
           v-if="isMultiselect"

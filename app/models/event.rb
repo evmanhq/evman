@@ -36,6 +36,8 @@ class Event < ApplicationRecord
   validates :city, presence: true
   validates :location, presence: true
 
+  validates_with EventPropertyServices::EventValidator
+
   authorize_values_for :event_type
   authorize_values_for :owner
   authorize_values_for :team

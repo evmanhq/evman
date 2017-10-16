@@ -10,3 +10,4 @@ en:
       event_property:
         name: Name
         behaviour: Type
+        required: Required

@@ -61,6 +61,6 @@ class EventPropertiesController < ApplicationController
 
   private
   def event_property_params
-    params.require(:event_property).permit(:name, :behaviour)
+    params.require(:event_property).permit(:name, :behaviour, :required)
   end
 end

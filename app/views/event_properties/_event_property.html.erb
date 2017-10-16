@@ -3,6 +3,9 @@
     <a class="sort-handle cursor-move"><%= icon(:bars, :fa) %></a>
     &nbsp;&nbsp;
     <%= link_to event_property.name, event_property %>
+    <% if event_property.required %>
+      <b class="text-danger">*</b>
+    <% end %>
     <div class="card-actions">
 
 

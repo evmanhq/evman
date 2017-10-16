@@ -33,7 +33,18 @@ class EventProperty < ApplicationRecord
   def value(event)
     return nil if new_record?
     return nil if event.properties_assignments.blank?
-    event.properties_assignments[id.to_s].first
+    Array.wrap(event.properties_assignments[id.to_s]).first
+  end
+
+  def blank_on_event?(event)
+    case behaviour
+    when Behaviour::MULTIPLE_CHOICE, Behaviour::SELECT then
+      selected_options(event).blank?
+    when Behaviour::TEXT then
+      value(event).blank?
+    else
+      raise StandardError, "unknown property behaviour: #{behaviour}"
+    end
   end
 
   def allows_options?
