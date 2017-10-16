@@ -8,7 +8,7 @@
                     Add <i class="fa fa-plus"></i>
                 </button>
 
-                <button class="btn btn-warning btn-sm" @click.prevent="constrains = []">
+                <button class="btn btn-warning btn-sm" @click.prevent="clearConstrains">
                     Clear
                 </button>
 
@@ -68,6 +68,15 @@ export default {
       })
     },
 
+    clearConstrains() {
+      this.constrains = []
+      this.$nextTick( () => { this.submitForm() })
+    },
+
+    submitForm() {
+      this.$refs['submit_button'].click()
+    },
+
     newConstrainId() {
       let max_id = _.max(_.map(this.constrains, (c) => c.data.id))
       if(!max_id || max_id == -Infinity) max_id = 0
@@ -79,11 +88,7 @@ export default {
       let delay = 500
       if(this.changeTimeout) clearTimeout(this.changeTimeout)
 
-      let submitFn = () => {
-        this.$refs['submit_button'].click()
-      }
-
-      this.changeTimeout = setTimeout(submitFn, delay)
+      this.changeTimeout = setTimeout(this.submitForm, delay)
     }
   }
 }
