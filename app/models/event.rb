@@ -32,6 +32,9 @@ class Event < ApplicationRecord
   validates :owner, presence: true
   validates :team, presence: true
   validates :begins_at, presence: true
+  validates :ends_at, presence: true
+  validates :city, presence: true
+  validates :location, presence: true
 
   authorize_values_for :event_type
   authorize_values_for :owner

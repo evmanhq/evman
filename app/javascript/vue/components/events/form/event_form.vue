@@ -24,7 +24,7 @@
     </div>
 
     <div class="form-group row">
-      <label :class="['col-form-label', labelClass]">City</label>
+      <label :class="['col-form-label', labelClass]">City<b class="text-danger">*</b></label>
       <input type="hidden" :name="fieldName('city_id')" :value="event.city_id">
       <div :class="[valueClass]">
         <multiselect
@@ -45,14 +45,14 @@
       </div>
     </div>
 
-    <field name="location" label="Location / Venue"></field>
+    <field name="location" label="Location / Venue" :required="true"></field>
 
     <div class="form-group row">
       <div class="col-xl-6">
-        <field name="begins_at" label="Begins" type="datepicker" labelClass="col-xl-4" valueClass="col-xl-8"></field>
+        <field name="begins_at" label="Begins" type="datepicker" labelClass="col-xl-4" valueClass="col-xl-8" :required="true"></field>
       </div>
       <div class="col-xl-6">
-        <field name="ends_at" label="Ends" type="datepicker" labelClass="col-xl-4" valueClass="col-xl-8"></field>
+        <field name="ends_at" label="Ends" type="datepicker" labelClass="col-xl-4" valueClass="col-xl-8" :required="true"></field>
       </div>
     </div>
 
@@ -65,7 +65,7 @@
     <field name="cfp_date" label="CFP deadline" type="datepicker"></field>
 
     <div class="form-group row">
-      <label :class="['col-form-label', labelClass]">Owner</label>
+      <label :class="['col-form-label', labelClass]">Owner<b class="text-danger">*</b></label>
       <input type="hidden" :name="fieldName('owner_id')" :value="event.owner_id">
       <div :class="[valueClass]">
         <multiselect

@@ -92,6 +92,8 @@ export default new Vuex.Store({
     },
 
     setEventField(state, {name, value}) {
+      if(name === 'begins_at' && !state.event.ends_at)
+        state.event.ends_at = value
       state.event[name] = value
     },
 
