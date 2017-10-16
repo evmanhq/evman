@@ -7,7 +7,7 @@ class Form < ApplicationRecord
   after_validation :validate_fields
 
   def validate_fields
-    return true unless data['fields']
+    return true if data.blank? or data['fields'].blank?
     data['fields'].each do |field|
       errors.add :base, 'Label must be specified in each field' if field['label'].blank?
       errors.add :base, 'Type must be specified in each field' if field['type'].blank?
