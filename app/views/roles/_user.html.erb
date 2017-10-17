@@ -7,7 +7,7 @@
 
   <td><%= user %></td>
   <td>
-    <% user.roles.each do |role| %>
+    <% user.roles.select{|r| r.team == current_team }.each do |role| %>
       <span class="tag tag-danger"><%= role.name %></span>
     <% end %>
   </td>

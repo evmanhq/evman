@@ -25,7 +25,7 @@ class RolesController < ApplicationController
 
   def index
     @roles = current_team.roles.order(default: :desc, name: :asc)
-    @users = current_team.users.includes(:roles).uniq
+    @users = current_team.users.includes(:roles).order(name: :asc).uniq
 
     respond_to :html
   end
@@ -68,7 +68,7 @@ class RolesController < ApplicationController
   def update
     @role = current_team.roles.find(params[:id])
     @role.attributes = role_params
-    @role.authorization_profile = Authorization::Profile.new(params[:role][:authorization_profile])
+    @role.authorization_profile = Authorization::Profile.new(params[:role][:authorization_profile].permit!)
 
     if @role.save
       redirect_to roles_path

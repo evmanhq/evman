@@ -49,7 +49,7 @@ module Authorization
 
     def initialize data = nil
       @data = data || {}
-      @data = @data.with_indifferent_access
+      @data = ActiveSupport::HashWithIndifferentAccess.new(@data)
       @data = DEFAULT.deep_merge(@data)
       clean_unspecified_permissions @data
       booleanize_values @data
