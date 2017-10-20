@@ -12,7 +12,7 @@
                     Clear
                 </button>
 
-                <input type="submit" class="btn btn-primary btn-sm" value="Filter" ref="submit_button">
+                <input v-if="showSubmit" type="submit" class="btn btn-primary btn-sm" value="Filter" ref="submit_button">
             </div>
         </div>
         <div class="card-body">
@@ -39,6 +39,10 @@ export default {
     triggerChange: {
       type: Boolean,
       default: false
+    },
+    showSubmit: {
+      type: Boolean,
+      default: true
     }
   },
 
@@ -70,7 +74,7 @@ export default {
 
     clearConstrains() {
       this.constrains = []
-      this.$nextTick( () => { this.submitForm() })
+      if(this.triggerChange) this.$nextTick( () => { this.submitForm() })
     },
 
     submitForm() {

@@ -16,6 +16,8 @@ class EventProperty < ApplicationRecord
   validates :behaviour, inclusion: BEHAVIOURS
   validates :name, presence: true, uniqueness: { scope: :team_id }
 
+  scope :in_order, -> { order(position: :asc) }
+
   def selected_options(event)
     return [] if new_record?
     return [] if event.properties_assignments.blank?
@@ -36,15 +38,19 @@ class EventProperty < ApplicationRecord
     Array.wrap(event.properties_assignments[id.to_s]).first
   end
 
-  def blank_on_event?(event)
+  def values(event)
     case behaviour
     when Behaviour::MULTIPLE_CHOICE, Behaviour::SELECT then
-      selected_options(event).blank?
+      selected_options(event).collect(&:name)
     when Behaviour::TEXT then
-      value(event).blank?
+      Array.wrap(value(event)).reject(&:blank?).compact
     else
       raise StandardError, "unknown property behaviour: #{behaviour}"
     end
+  end
+
+  def blank_on_event?(event)
+    values(event).blank?
   end
 
   def allows_options?

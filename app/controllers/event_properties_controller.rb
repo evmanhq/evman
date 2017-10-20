@@ -7,7 +7,7 @@ class EventPropertiesController < ApplicationController
   end
 
   def index
-    @event_properties = current_team.event_properties.includes(:options).order(position: :asc)
+    @event_properties = current_team.event_properties.includes(:options).in_order
 
     respond_to :html
   end

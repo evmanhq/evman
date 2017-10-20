@@ -2,9 +2,6 @@ class EventsController < ApplicationController
 
   before_action :require_modal, only: [:add_attendee]
 
-  EXPORT_FIELDS = %w(name committed approved archived city location url sponsorship sponsorship_date cfp_url cfp_date
-                     begins_at ends_at owner event_type created_at updated_at)
-
   def add_attendee
     @attendee = Attendee.new
     @attendee.user = current_user
@@ -153,74 +150,24 @@ class EventsController < ApplicationController
   end
 
   def export
-    @fields = EXPORT_FIELDS
+    @filterer = Filterer::EventsFilterer.new(current_team: current_team)
+    @exporter = EventServices::Exporter.new(current_team)
   end
 
   def generate_export
-    params[:field] ||= []
-
-    @fields = (params[:field] - (params[:field] - EXPORT_FIELDS))
     @events = current_team.events
+    @filterer = Filterer::EventsFilterer.new(scope: @events,
+                                             payload: params[:filter],
+                                             current_team: current_team)
+    @events = @filterer.filtered
+    @exporter = EventServices::Exporter.new(current_team, params[:exporter])
 
-    if params[:archived] && params[:archived] != ''
-      @events = @events.where('archived = ? OR ends_at < NOW()', params[:archived])
+    if @exporter.valid?
+      result = @exporter.export(@events)
+      send_data result.data, content_type: result.content_type, filename: result.filename
+    else
+      render action: 'new_export'
     end
-
-    if params[:from_date] && params[:from_date] != ''
-      @events = @events.where('begins_at > ?', DateTime.parse(params[:from_date]))
-    end
-
-    if params[:until_date] && params[:until_date] != ''
-      @events = @events.where('ends_at < ?', DateTime.parse(params[:until_date]))
-    end
-
-    if params[:city_id] && params[:city_id] != ''
-      @events = @events.where(city_id: params[:city_id])
-    end
-
-    if params[:country_id] && params[:country_id] != ''
-      @events = @events.joins(:city => :country).where(countries: { id: params[:country_id]})
-    end
-
-    if params[:continent_id] && params[:continent_id] != ''
-      @events = @events.joins(:city => { country: :continent}).where(continents: { id: params[:continent_id]})
-    end
-
-    if params[:committed] && params[:committed] != ''
-      @events = @events.where(committed: params[:committed])
-    end
-
-    if params[:approved] && params[:approved] != ''
-      @events = @events.where(approved: params[:approved])
-    end
-
-    if params[:event_type_id] && params[:event_type_id] != ''
-      @events = @events.where(event_type_id: params[:event_type_id])
-    end
-
-    @events = @events.includes(:city => :city_names).all
-
-    authorize! @events, :read
-
-    Axlsx::Package.new do |p|
-      p.workbook.add_worksheet(:name => 'Events') do |sheet|
-        sheet.add_row(@fields.map { |field| field.humanize })
-        @events.each do |event|
-          sheet.add_row(@fields.map do |field|
-            value = event.send(field)
-            value = 'YES' if value.kind_of?(TrueClass)
-            value = nil if value.kind_of?(FalseClass)
-            value = value.to_s if value.kind_of?(City)
-            value = value.name if value.respond_to?(:name)
-            value
-          end)
-        end
-      end
-
-      data = p.to_stream.string
-      render body: data, content_type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    end
-
   end
 
   def destroy

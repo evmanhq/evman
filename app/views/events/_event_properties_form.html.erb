@@ -1,4 +1,4 @@
-<% current_team.event_properties.order(position: :asc).each do |event_property| %>
+<% current_team.event_properties.in_order.each do |event_property| %>
   <div class="form-group row">
     <label class="col-form-label col-lg-2"><%= event_property.name %></label>
     <div class="col-lg-10">

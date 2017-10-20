@@ -27,7 +27,7 @@ module Filterer
       ]
 
       # Builds definition for event_properties
-      current_team.event_properties.includes(:options).each do |property|
+      current_team.event_properties.in_order.includes(:options).each do |property|
         define_event_property(property, definition)
       end
 
