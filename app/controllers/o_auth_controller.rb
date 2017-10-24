@@ -30,9 +30,14 @@ class OAuthController < ApplicationController
     end
 
     redirect_to (session[:'user_return_to'] || root_path).to_s
+  rescue ActiveRecord::RecordInvalid => e
+    @record_with_errors  = e.record
+    render template: "welcome/index", layout: 'welcome'
+    return
   end
 
   def failure
+    flash[:error] = "Unable to authenticate"
     redirect_to root_path
   end
 

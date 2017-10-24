@@ -1,0 +1,12 @@
+<div class="card card-danger card-inverse">
+  <div class="card-header">
+    <%= record.model_name.human %> could not be saved:
+  </div>
+  <div class="card-block">
+    <ul class="list-group">
+      <% record.errors.full_messages.collect do |msg| %>
+        <li class="list-group-item list-group-item-danger"><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

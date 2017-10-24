@@ -29,7 +29,7 @@ class User < ApplicationRecord
 
   has_many  :emails, class_name: 'UserEmail', dependent: :destroy
 
-  validates :name, presence: true, length: { minimum: 4 }
+  validates :name, presence: true, length: { minimum: 2 }
 
   def slack_id(team)
     u = slack_users.where(:slack_setting => team.slack_setting).first

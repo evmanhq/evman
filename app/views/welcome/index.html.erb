@@ -3,6 +3,16 @@
     <h1>EvMan</h1>
     <p>Manage your spectacular team</p>
 
+    <% unless flash[:error].blank? %>
+      <div class="alert alert-danger">
+        <%= flash[:error] %>
+      </div>
+    <% end %>
+
+    <% if @record_with_errors  %>
+      <%= record_errors @record_with_errors %>
+    <% end %>
+
     <div style="height: 20px;">&nbsp;</div>
 
     <div style="margin-bottom: 10px;">
