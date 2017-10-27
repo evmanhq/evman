@@ -47,6 +47,7 @@ module Filterer
     include Helpers
     BASIC_TEXT_CONDITIONS = ['like', 'not_like', 'equals', 'begins']
     BASIC_MULTIPLE_CHOICE_CONDITIONS = ['any', 'all', 'none']
+    BASIC_DATE_CONDITIONS = ['before', 'after', 'at', 'range']
 
     attr_reader :fields, :payload
     def initialize(definition, payload)

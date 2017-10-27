@@ -11,8 +11,24 @@ module Filterer
       when 'begins' then
         @scope = @scope.where("#{column} ILIKE ?", "#{value}%")
       when 'equals' then
-        @scope = @scope.where(name: value)
+        @scope = @scope.where("#{column} = ?", value)
       end
+    end
+
+    def perform_filter_date(column, values, condition)
+      value = values[0]
+      case condition
+      when 'before'
+        @scope = @scope.where("#{column} <= ?", value)
+      when 'after'
+        @scope = @scope.where("#{column} >= ?", value)
+      when 'at'
+        @scope = @scope.where("#{column} = ?", value)
+      when 'range'
+        from, to = value.split(/\s*to\s*/)
+        @scope = @scope.where("#{column} BETWEEN ? AND ?", from, to)
+      end
+
     end
   end
 end

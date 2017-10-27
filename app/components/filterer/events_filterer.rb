@@ -31,8 +31,50 @@ module Filterer
               type: 'multiple_choice',
               conditions: ['any', 'none'],
               options_url: geo_cities_path
+          },
 
+          {
+              name: 'location',
+              type: 'text',
+              conditions: BASIC_TEXT_CONDITIONS
+          },
+
+          {
+              name: 'url',
+              type: 'text',
+              conditions: BASIC_TEXT_CONDITIONS
+          },
+
+          {
+              name: 'begins_at',
+              type: 'date',
+              conditions: BASIC_DATE_CONDITIONS
+          },
+
+          {
+              name: 'ends_at',
+              type: 'date',
+              conditions: BASIC_DATE_CONDITIONS
+          },
+
+          {
+              name: 'cfp_date',
+              type: 'date',
+              conditions: BASIC_DATE_CONDITIONS
+          },
+
+          {
+              name: 'sponsorship_date',
+              type: 'date',
+              conditions: BASIC_DATE_CONDITIONS
+          },
+
+          {
+              name: 'sponsorship',
+              type: 'text',
+              conditions: BASIC_TEXT_CONDITIONS
           }
+
       ]
 
 
@@ -79,6 +121,50 @@ module Filterer
 
     def filter_name(values, condition)
       perform_filter_text('events.name', values, condition)
+    end
+
+    def filter_location(values, condition)
+      perform_filter_text('events.location', values, condition)
+    end
+
+    def filter_url(values, condition)
+      value = values.first
+      columns = %w[events.url events.url2 events.url3 events.cfp_url]
+
+      case condition
+      when 'like' then
+        where = columns.map{|c| "(#{c} ILIKE ?)"}.join(' OR ')
+        @scope = @scope.where(where, *(["%#{value}%"] * columns.size))
+      when 'not_like' then
+        where = columns.map{|c| "(#{c} NOT ILIKE ?)"}.join(' OR ')
+        @scope = @scope.where(where, *(["%#{value}%"] * columns.size))
+      when 'begins' then
+        where = columns.map{|c| "(#{c} ILIKE ?)"}.join(' OR ')
+        @scope = @scope.where(where, *(["#{value}%"] * columns.size))
+      when 'equals' then
+        where = columns.map{|c| "(#{c} = ?)"}.join(' OR ')
+        @scope = @scope.where(where, *([value] * columns.size))
+      end
+    end
+
+    def filter_begins_at(values, condition)
+      perform_filter_date('events.begins_at', values, condition)
+    end
+
+    def filter_ends_at(values, condition)
+      perform_filter_date('events.ends_at', values, condition)
+    end
+
+    def filter_cfp_date(values, condition)
+      perform_filter_date('events.cfp_date', values, condition)
+    end
+
+    def filter_sponsorship_date(values, condition)
+      perform_filter_date('events.sponsorship_date', values, condition)
+    end
+
+    def filter_sponsorship(values, condition)
+      perform_filter_text('events.sponsorship', values, condition)
     end
 
     def filter_description(values, condition)

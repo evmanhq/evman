@@ -46,7 +46,7 @@
                          label="label"
                          :searchable="false"
                          :allow-empty="false">
-              <template slot="option" scope="props">
+              <template slot="option" slot-scope="props">
                 <i :class="[props.option.icon, 'fa']"></i> &nbsp;
                 {{ props.option.label }}
               </template>

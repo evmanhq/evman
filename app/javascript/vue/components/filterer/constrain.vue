@@ -63,6 +63,7 @@
                    track-by="value"
                    label="label"
                    :searchable="true"
+                   :hide-selected="true"
                    :internalSearch="!selected_field.options_url"
                    :show-pointer="true"
                    :allow-empty="true"
@@ -70,6 +71,18 @@
                    :loading="optionsLoading"
                    v-if="isMultiselect">
       </multiselect>
+
+      <flat-pickr v-if="selected_field.type == 'date' && condition !== 'range'" key="single"
+                  name="filter[constrains][][values][]"
+                  @input="setDateValue"
+                  :config="{mode: 'single'}"
+                  :value="values[0]"></flat-pickr>
+
+      <flat-pickr v-if="selected_field.type == 'date' && condition === 'range'" key="range"
+                  name="filter[constrains][][values][]"
+                  @input="setDateValue"
+                  :config="{mode: 'range'}"
+                  :value="values[0]"></flat-pickr>
     </div>
 
     <button class="btn btn-danger" @click.prevent="$emit('remove-constrain')">
@@ -81,9 +94,10 @@
 <script>
 import _ from 'underscore'
 import Multiselect from 'vue-multiselect'
+import FlatPickr from 'vue-flatpickr-component';
 
 export default {
-  components: { Multiselect },
+  components: { Multiselect, FlatPickr },
   props: {
     value: Object,
     field_definitions: Array
@@ -97,6 +111,7 @@ export default {
       options: [],
       optionsLoading: false,
       optionsQueryTimeout: null,
+      flatPickrConfig: {}
     }
   },
 
@@ -127,7 +142,13 @@ export default {
 
     values() { this.$emit('change') },
     name() { this.$emit('change') },
-    condition() { this.$emit('change') }
+    condition(newValue, oldValue) {
+      this.$emit('change')
+
+      if(this.selected_field.type === 'date' && (newValue === 'range' || oldValue === 'range')) {
+        this.values = []
+      }
+    }
   },
 
   methods: {
@@ -140,11 +161,16 @@ export default {
     },
 
     setValue(event) {
+      console.log(event)
       this.values = [event.target.value]
     },
 
     setValues(selected) {
       this.values = _.map(selected, (o) => o.value)
+    },
+
+    setDateValue(value) {
+      this.values = [value]
     },
 
     loadOptions(query) {
@@ -167,6 +193,7 @@ export default {
     },
 
     loadSelectedOptions() {
+      if(!this.selected_field.options_url) return
       if(this.values.length == 0) return
 
       this.$http.get(this.selected_field.options_url, { params: { ids: this.values }}).then( response => {
@@ -181,3 +208,13 @@ export default {
   }
 }
 </script>
+
+<style>
+  @import 'flatpickr/dist/flatpickr.css';
+</style>
+
+<style scoped>
+  .form-control[readonly] {
+    background-color: #ffffff;
+  }
+</style>

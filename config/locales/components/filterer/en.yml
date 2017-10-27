@@ -19,3 +19,8 @@ en:
         name: Name
         description: Description
         event_type: Type
+        url: URL (any)
+        begins_at: Begins At
+        ends_at: Ends At
+        cfp_date: CFP Deadline
+        sponsorship_date: Sponsorship Deadline
