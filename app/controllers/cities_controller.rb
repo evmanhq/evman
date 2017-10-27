@@ -1,21 +1,22 @@
 class CitiesController < ApplicationController
 
   def index
-    respond_to do |format|
-      format.json do
-        @cities = City
-        if params[:q] && params[:q][:term]
-          @cities = @cities.fulltext_search(params[:q][:term])
-        end
-        @cities = @cities.limit(500)
-        render :json => @cities.all.map { |item| {:id => item.id, :name => item.display} }
-      end
+
+    cities = City.all
+
+    cities = cities.fulltext_search(params[:fulltext]) if params[:fulltext]
+    cities = cities.where(id: params[:ids]) if params[:ids]
+
+    cities = cities.limit(500)
+    json = cities.all.map do |item|
+      {
+          id: item.id,
+          value: item.id.to_s,
+          name: item.display,
+          label: item.display
+      }
     end
-  end
 
-  def show
-    @city = City.find(params[:id])
-    render json: { id: @city.id, name: @city.display }
+    render json: json
   end
-
 end

@@ -54,6 +54,8 @@
 
       <multiselect :value="selected_values"
                    @input="setValues"
+
+                   @search-change="loadOptions"
                    :options="options"
                    deselect-label=""
                    select-label=""
@@ -61,8 +63,11 @@
                    track-by="value"
                    label="label"
                    :searchable="true"
+                   :internalSearch="!selected_field.options_url"
+                   :show-pointer="true"
                    :allow-empty="true"
                    :multiple="true"
+                   :loading="optionsLoading"
                    v-if="isMultiselect">
       </multiselect>
     </div>
@@ -85,7 +90,14 @@ export default {
   },
 
   data() {
-    return _.extend(this.value, { options: [] })
+    return {
+      name: this.value.name,
+      values: this.value.values || [],
+      condition: this.value.condition,
+      options: [],
+      optionsLoading: false,
+      optionsQueryTimeout: null,
+    }
   },
 
   computed: {
@@ -108,7 +120,7 @@ export default {
 
   watch: {
     selected_field() {
-      this.options = this.selected_field.options
+      this.options = this.selected_field.options || []
       this.condition = this.selected_field.conditions[0].name
       this.values = []
     },
@@ -133,11 +145,39 @@ export default {
 
     setValues(selected) {
       this.values = _.map(selected, (o) => o.value)
+    },
+
+    loadOptions(query) {
+      if(!this.selected_field.options_url) return
+
+      if(!query) return
+      let delay = 250
+      this.optionsLoading = true
+      if(this.optionsQueryTimeout) clearTimeout(this.optionsQueryTimeout)
+
+      let loadFn = () => {
+        this.$http.get(this.selected_field.options_url, { params: { fulltext: query }}).then( response => {
+          let selected_options = this.options.filter( o => this.values.includes(o.value) )
+          this.options = selected_options.concat(response.body || [])
+          this.optionsLoading = false
+        })
+      }
+
+      this.optionsQueryTimeout = setTimeout(loadFn, delay)
+    },
+
+    loadSelectedOptions() {
+      if(this.values.length == 0) return
+
+      this.$http.get(this.selected_field.options_url, { params: { ids: this.values }}).then( response => {
+        this.options = response.body || []
+      })
     }
   },
 
   beforeMount() {
-    this.options = this.selected_field.options
+    this.options = this.selected_field.options || []
+    this.loadSelectedOptions()
   }
 }
 </script>

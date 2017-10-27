@@ -1,5 +1,6 @@
 module Filterer
   class EventsFilterer < Base
+    include Rails.application.routes.url_helpers
     def initialize(scope: nil, payload: {}, current_team: nil)
       raise ArgumentError, '`current_team` is required' unless current_team
       payload ||= {}
@@ -23,8 +24,18 @@ module Filterer
               type: 'multiple_choice',
               conditions: ['any', 'none'],
               options: current_team.event_types.order(:name).map{|t| { value: t.id.to_s, label: t.name }}
+          },
+
+          {
+              name: 'city',
+              type: 'multiple_choice',
+              conditions: ['any', 'none'],
+              options_url: geo_cities_path
+
           }
       ]
+
+
 
       # Builds definition for event_properties
       current_team.event_properties.in_order.includes(:options).each do |property|
@@ -87,6 +98,15 @@ module Filterer
         @scope = @scope.where(event_type_id: values)
       when 'none'
         @scope = @scope.where.not(event_type_id: values)
+      end
+    end
+
+    def filter_city(values, condition)
+      case condition
+      when 'any'
+        @scope = @scope.where(city_id: values)
+      when 'none'
+        @scope = @scope.where.not(city_id: values)
       end
     end
 

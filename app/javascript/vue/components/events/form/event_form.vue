@@ -121,7 +121,7 @@
         if(this.citiesQueryTimeout) clearTimeout(this.citiesQueryTimeout)
 
         let loadFn = () => {
-          this.$http.get('/geo/cities.json', { params: { q: { term: query }}}).then( response => {
+          this.$http.get('/geo/cities.json', { params: { fulltext: query }}).then( response => {
             this.cities = response.body || []
             this.citiesLoading = false
           })
@@ -133,8 +133,8 @@
       loadSelectedCity() {
         if(!this.event.city_id) return
 
-        this.$http.get(`/geo/cities/${this.event.city_id}`).then( response => {
-          this.cities = [response.body]
+        this.$http.get('/geo/cities.json', { params: { ids: this.event.city_id }}).then( response => {
+          this.cities = response.body
         })
 
       }
