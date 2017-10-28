@@ -166,7 +166,7 @@ class EventsController < ApplicationController
       result = @exporter.export(@events)
       send_data result.data, content_type: result.content_type, filename: result.filename
     else
-      render action: 'new_export'
+      render action: :export
     end
   end
 

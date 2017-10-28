@@ -210,7 +210,7 @@ export default {
 </script>
 
 <style>
-  @import 'flatpickr/dist/flatpickr.css';
+  @import '~flatpickr/dist/flatpickr.css';
 </style>
 
 <style scoped>
