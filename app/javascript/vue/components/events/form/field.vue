@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group row">
+  <div class="form-group row event-field">
     <label :class="['col-form-label', labelClass]">
       {{ label }}
       <b v-if="required" class="text-danger">*</b>
@@ -18,16 +18,20 @@
                 @input="setEventField(name, $event)"
                 rows="5"
                 class="form-control"></textarea>
+      <div class="input-group" v-if="isDatePicker">
+        <flat-pickr :name="fieldName(name)"
+                    :value="event[name]"
+                    input-class="form-control"
+                    :config="{ altInput: true }"
+                    @input="setEventField(name, { target: { value: $event }})"
+                    ></flat-pickr>
 
-      <datepicker v-if="isDatePicker"
-                  :name="fieldName(name)"
-                  :value="event[name]"
-                  @input="setEventField(name, { target: { value: $event }})"
-                  input-class="vue-date-picker"
-                  :bootstrap-styling="true"
-                  :clear-button="true"
-
-                  clear-button-icon="fa fa-times"></datepicker>
+        <span class="input-group-btn" v-if="event[name] !== '' && event[name] !== null">
+          <button class="btn btn-secondary" type="button" @click.prevent="setEventField(name, { target: { value: null }})">
+            <i class="fa fa-remove"></i>
+          </button>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -35,9 +39,10 @@
 <script>
   import Datepicker from 'vuejs-datepicker'
   import EventMixin from './event_mixin'
+  import FlatPickr from 'vue-flatpickr-component';
 
   export default {
-    components: { Datepicker },
+    components: { Datepicker, FlatPickr },
     mixins: [EventMixin],
     props: {
       name: String,
@@ -80,8 +85,14 @@
 </script>
 
 <style>
+  @import '~flatpickr/dist/flatpickr.css';
+
   .vue-date-picker[readonly] {
     background-color: #fff;
     z-index: 0 !important; /* fix for vue-multiselect dropdown overlay */
+  }
+
+  .event-field .form-control[readonly] {
+    background-color: #ffffff;
   }
 </style>
