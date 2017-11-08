@@ -39,14 +39,14 @@
     <div class="app-body">
       <div class="sidebar">
         <div class="profile">
-          <img src="<%= current_user.avatar_url(76) %>" class="img-circle">
+          <img src="<%= current_user.avatar_url(76) %>" class="img-avatar">
 
           <div class="user">
             <div class="name"><%= current_user.name %></div>
             <% if @current_team %>
-                <div>
-                  <span class="team"><%= current_team.name %></span>
-                </div>
+              <div>
+                <span class="team"><%= current_team.name %></span>
+              </div>
             <% end %>
           </div>
         </div>

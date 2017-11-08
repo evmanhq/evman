@@ -13,7 +13,7 @@
         <li class="list-group-item">
           <div class="row">
             <div class="col-lg-1">
-              <div class="btn btn-secondary btn-sm" data-toggle="dropdown">
+              <div class="btn btn-outline-secondary btn-sm" data-toggle="dropdown">
                 <i class="fa fa-caret-down"></i>
               </div>
               <div class="dropdown-menu">
@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="col-lg-2">
-              <img src="<%= talk.user.avatar_url %>" class="img-circle" style="width: 20px; height: 20px;">
+              <img src="<%= talk.user.avatar_url %>" class="img-avatar" style="width: 20px; height: 20px;">
             </div>
             <div class="col-lg-8 event-talk-name">
               <% if talk.user == current_user %>

@@ -27,7 +27,7 @@
                     ></flat-pickr>
 
         <span class="input-group-btn" v-if="event[name] !== '' && event[name] !== null">
-          <button class="btn btn-secondary" type="button" @click.prevent="setEventField(name, { target: { value: null }})">
+          <button class="btn btn-outline-secondary" type="button" @click.prevent="setEventField(name, { target: { value: null }})">
             <i class="fa fa-remove"></i>
           </button>
         </span>

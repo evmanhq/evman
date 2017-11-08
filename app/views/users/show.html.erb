@@ -9,7 +9,7 @@
 
       <div class="card">
         <div class="card-block">
-          <img src="<%= @user.avatar_url %>" class="img-circle pull-right" style="width: 40px;">
+          <img src="<%= @user.avatar_url %>" class="img-avatar pull-right" style="width: 40px;">
           <h2 class="font-light"><%= @user.name %></h2>
           <div><%= @user.job_title %></div>
         </div>
@@ -48,7 +48,7 @@
         </ul>
         <% if @user == current_user %>
             <div class="card-footer">
-              <a href="<%= edit_user_path(@user) %>" class="btn btn-secondary pull-right">
+              <a href="<%= edit_user_path(@user) %>" class="btn btn-warning pull-right">
                 <i class="fa fa-edit"></i> Edit profile
               </a>
             </div>

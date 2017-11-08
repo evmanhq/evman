@@ -13,7 +13,7 @@
         <%= link_to form_submission, data: { modal: true } do %>
           <div class="row">
             <div class="col-lg-2">
-              <img src="<%= form_submission.submitted_by.avatar_url %>" class="img-circle">
+              <img src="<%= form_submission.submitted_by.avatar_url %>" class="img-avatar">
             </div>
             <div class="col-lg-10 content">
               <% form_submission_form = FormServices::FormSubmissionForm.new(form_submission) %>

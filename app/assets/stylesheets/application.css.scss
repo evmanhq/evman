@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese');
 
-@import "bootstrap";
-@import "coreui";
+// @import "bootstrap"; // Don't use bootstrap and coreui at the same time
+@import "coreui-1.0.4";
 
 @import "font-awesome-sprockets";
 @import "font-awesome";
@@ -256,4 +256,21 @@ body.modal-open {
   .main .container-fluid {
     padding: 0 5px;
   }
+}
+
+
+
+/* CoreUI 1.0.4 Patches */
+
+.col-auto {
+  max-width: fit-content;
+}
+
+
+.sidebar .sidebar-nav,
+.sidebar .nav,
+.sidebar-fixed .sidebar .sidebar-nav,
+.sidebar-fixed .sidebar .nav {
+  //min-height: calc(100vh - 55px);
+  min-height: auto !important;
 }

@@ -5,7 +5,7 @@
       <% case event_property.behaviour %>
       <% when 'multiple_choice' then %>
         <% event_property.selected_options(event).each do |option| %>
-          <span class="badge badge-info"><%= option.name %></span>
+          <span class="badge badge-primary"><%= option.name %></span>
         <% end %>
       <% when 'select' then %>
         <% event_property.selected_options(event).each do |option| %>

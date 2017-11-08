@@ -11,7 +11,7 @@
     <% @event.event_notes.includes(:user).order(:created_at => :desc).each do |note| %>
         <div class="row">
           <div class="col-lg-2">
-            <img src="<%= note.user.avatar_url %>" class="img-circle">
+            <img src="<%= note.user.avatar_url %>" class="img-avatar">
           </div>
           <div class="col-lg-10 content">
             <%= note.content %>

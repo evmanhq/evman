@@ -4,11 +4,11 @@
 %>
 
 <% content_for :breadcrumb_menu do %>
-    <%= link_to edit_contact_path(@contact), class: 'btn btn-secondary text-warning btn-xs', data: { modal: true } do %>
+    <%= link_to edit_contact_path(@contact), class: 'btn text-warning btn-xs', data: { modal: true } do %>
         <%= icon(:edit, :fa) %> Edit
     <% end %>
 
-    <%= link_to contact_path(@contact), class: 'btn btn-secondary text-danger btn-xs', method: :delete, data:                         {
+    <%= link_to contact_path(@contact), class: 'btn text-danger btn-xs', method: :delete, data:                         {
         confirm: {
             title:    "Remove contact",
             question: "Are you sure you want to remove this contact ? You will also remove it from all assigned events."
