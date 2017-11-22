@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
 
   before_action :require_modal, only: [:add_attendee]
+  before_action :ensure_event_team, only: [:show, :edit]
 
   def add_attendee
     @attendee = Attendee.new
@@ -186,6 +187,15 @@ class EventsController < ApplicationController
   end
 
   private
+
+  def ensure_event_team
+    event = Event.find(params[:id])
+    if event.team != current_team
+      redirect_to event_url(event, subdomain: event.team.subdomain)
+      return false
+    end
+    true
+  end
 
   def event_params
     params.require(:event).permit(
