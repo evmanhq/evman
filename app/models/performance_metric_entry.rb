@@ -4,6 +4,8 @@ class PerformanceMetricEntry < ApplicationRecord
 
   validates :event_id, presence: true
   validates :performance_metric_id, presence: true, uniqueness: { scope: [:event_id] }
+  validates :actual, numericality: true
+  validates :target, numericality: true
 
   def label
     performance_metric.name
