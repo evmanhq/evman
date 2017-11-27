@@ -11,7 +11,7 @@ class EventProperty < ApplicationRecord
   ]
 
   belongs_to :team
-  has_many :options, class_name: 'EventPropertyOption', inverse_of: :property, dependent: :destroy, foreign_key: :property_id
+  has_many :options, -> { order(name: :asc) }, class_name: 'EventPropertyOption', inverse_of: :property, dependent: :destroy, foreign_key: :property_id
 
   validates :behaviour, inclusion: BEHAVIOURS
   validates :name, presence: true, uniqueness: { scope: :team_id }

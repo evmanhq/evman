@@ -1,3 +1,7 @@
 .vue-template {
   display: none;
 }
+
+.input-group .form-control {
+  z-index: auto;
+}
