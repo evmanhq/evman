@@ -1,6 +1,6 @@
 <template>
   <div class="constrain d-sm-flex">
-    <input type="hidden" v-model="name" name="filter[constrains][][name]">
+    <input type="hidden" :value="name" name="filter[constrains][][name]">
     <div class="field">
       <multiselect :value="selected_field"
                    @input="selectField"
@@ -47,9 +47,9 @@
              name="filter[constrains][][values][]"
              class="form-control">
 
-      <input type="hidden" :value="value"
+      <input type="hidden" :value="v"
              name="filter[constrains][][values][]"
-             v-for="value in values"
+             v-for="v in value.values"
              v-if="isMultiselect">
 
       <multiselect :value="selected_values"
@@ -105,9 +105,6 @@ export default {
 
   data() {
     return {
-      name: this.value.name,
-      values: this.value.values || [],
-      condition: this.value.condition,
       options: [],
       optionsLoading: false,
       optionsQueryTimeout: null,
@@ -116,8 +113,13 @@ export default {
   },
 
   computed: {
+    payload() { return this.value },
+    name() { return this.payload.name },
+    condition() { return this.payload.condition },
+    values() { return this.payload.values },
+
     selected_field() {
-      return _.find(this.field_definitions, (d) => d.name === this.name)
+      return this.findField(this.name)
     },
 
     selected_condition() {
@@ -134,43 +136,63 @@ export default {
   },
 
   watch: {
-    selected_field() {
+    selected_field(oldField, newField) {
+      // has to check if the new field name is the same because Vue Watcher triggers the watcher whenever
+      // the new value is an object or array, not necessarily a different one
+      if(oldField === newField) return true
+
+      // this.emitInput({ condition: this.selected_field.conditions[0].name, values: [] })
       this.options = this.selected_field.options || []
-      this.condition = this.selected_field.conditions[0].name
-      this.values = []
     },
 
-    values() { this.$emit('change') },
-    name() { this.$emit('change') },
-    condition(newValue, oldValue) {
-      this.$emit('change')
+    selected_condition(newValue, oldValue) {
+      if(newValue === oldValue) return true
 
-      if(this.selected_field.type === 'date' && (newValue === 'range' || oldValue === 'range')) {
-        this.values = []
+      if(this.selected_field.type === 'date' && (newValue.name === 'range' || oldValue.name === 'range')) {
+        this.emitInput({ values: [] })
       }
     }
   },
 
   methods: {
     selectField(option) {
-      this.name = option.name
+      let new_field = this.findField(option.name)
+      this.emitInput({
+        name: option.name,
+        condition: new_field.conditions[0].name,
+        values: []
+      })
     },
 
     selectCondition(condition) {
-      this.condition = condition.name
+      this.emitInput({ condition: condition.name })
     },
 
     setValue(event) {
-      console.log(event)
-      this.values = [event.target.value]
+      this.emitInput({ values: [event.target.value] })
     },
 
     setValues(selected) {
-      this.values = _.map(selected, (o) => o.value)
+      this.emitInput({ values: _.map(selected, (o) => o.value) })
     },
 
     setDateValue(value) {
-      this.values = [value]
+      this.emitInput({ values: [value] })
+    },
+
+    emitInput(changes) {
+      let data = {
+        name: this.name,
+        condition: this.condition,
+        values: this.values
+      }
+
+      Object.keys(changes).forEach( key => { data[key] = changes[key] })
+      this.$emit('input', data)
+    },
+
+    findField(name) {
+      return this.field_definitions.find((d) => d.name === name)
     },
 
     loadOptions(query) {

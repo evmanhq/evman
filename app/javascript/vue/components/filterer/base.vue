@@ -12,16 +12,15 @@
                     Clear
                 </button>
 
-                <input v-if="showSubmit" type="submit" class="btn btn-primary btn-sm" value="Filter" ref="submit_button">
+                <input v-if="showSubmit" type="submit" class="btn btn-primary btn-sm" :value="submitText" ref="submit_button">
             </div>
         </div>
         <div class="card-body">
             <div class="constrains d-sm-flex">
-                <constrain v-model="constrain.data"
+                <constrain v-for="(constrain, index) in constrains"
+                           v-model="constrains[index]"
                            :field_definitions="definition"
-                           :key="constrain.data.id"
-                           v-for="(constrain, index) in constrains"
-                           @change="handleChange"
+                           :key="index"
                            @remove-constrain="constrains.splice(index, 1)">
                 </constrain>
             </div>
@@ -43,6 +42,14 @@ export default {
     showSubmit: {
       type: Boolean,
       default: true
+    },
+    submitText: {
+      type: String,
+      default: 'Filter'
+    },
+    savePath: {
+      type: String,
+      default: ''
     }
   },
 
@@ -52,10 +59,14 @@ export default {
 
   data() {
     return {
-      constrains: _.map(this.constrains_data, (data) => {
-        return { data: _.extend(data, { id: this.newConstrainId() }) }
-      }),
+      constrains: Object.values(this.constrains_data || {}),
       changeTimeout: null
+    }
+  },
+
+  watch: {
+    constrains() {
+      this.handleChange()
     }
   },
 
@@ -63,12 +74,9 @@ export default {
     addConstrain() {
       let definition = this.definition[0]
       this.constrains.push({
-        data: {
-          id: this.newConstrainId(),
-          name: definition.name,
-          condition: definition.conditions[0].name,
-          values: []
-        }
+        name: definition.name,
+        condition: definition.conditions[0].name,
+        values: []
       })
     },
 
