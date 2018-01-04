@@ -18,7 +18,7 @@
           <%= icon(:remove, :fa) %> Remove
         <% end %>
 
-        <% filterer = filter_bookmark.filterer(current_team) %>
+        <% filterer = filter_bookmark.filterer %>
         <% if filterer.links.any? %>
           <h6 class="dropdown-header">Links</h6>
           <% filterer.links.each do |link| %>

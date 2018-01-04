@@ -43,7 +43,10 @@
 
     <div class="form-group row">
       <div class="col-lg-12">
-        <%= render @filterer %>
+        <%= render @filter_bookmark.filterer, locals: { ui_options: {
+            record_name: 'filter_bookmark[payload]',
+            show_submit: false
+        } } %>
       </div>
     </div>
 

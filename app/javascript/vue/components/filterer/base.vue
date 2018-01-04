@@ -97,7 +97,6 @@ export default {
     },
 
     actionButton(path, method) {
-      console.log(path, method);
       Navigation.visit({url: path, method: method, data: { constrains: this.constrains }})
     }
   },

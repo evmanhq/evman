@@ -14,8 +14,8 @@ class FilterBookmark < ApplicationRecord
     Filterer.const_get(filterer_name.classify) rescue nil
   end
 
-  def filterer(current_team)
+  def filterer
     return nil unless filterer_class
-    filterer_class.new(payload: payload, current_team: current_team)
+    filterer_class.new(payload: payload, current_team: team)
   end
 end

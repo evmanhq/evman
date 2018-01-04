@@ -24,14 +24,13 @@ class FilterBookmarksController < ApplicationController
         owner: current_user,
         payload: { constrains: constrains }
     )
-    @filterer = derive_filterer(@filter_bookmark)
+
     respond_to :html
   end
 
   def edit
     @filter_bookmark = current_team.filter_bookmarks.find(params[:id])
     authorize! @filter_bookmark, :update
-    @filterer = derive_filterer(@filter_bookmark)
 
     respond_to :html
   end
@@ -39,7 +38,7 @@ class FilterBookmarksController < ApplicationController
   def create
     @filter_bookmark = current_team.filter_bookmarks.build(filter_bookmark_params)
     authorize! @filter_bookmark, :create
-    @filterer = derive_filterer(@filter_bookmark)
+
     if @filter_bookmark.save
       redirect_to action: :index
     else
@@ -50,11 +49,11 @@ class FilterBookmarksController < ApplicationController
   def update
     @filter_bookmark = current_team.filter_bookmarks.find(params[:id])
     authorize! @filter_bookmark, :update
-    @filterer = derive_filterer(@filter_bookmark)
+
     if @filter_bookmark.update_attributes(filter_bookmark_params)
       redirect_to action: :index
     else
-      render action: :new
+      render action: :edit
     end
   end
 
@@ -70,13 +69,6 @@ class FilterBookmarksController < ApplicationController
   def filter_bookmark_params
     params.require(:filter_bookmark).permit(:name, :public, :owner_id, :filterer_name,
                                             payload: { constrains: [:name, :condition, values: []] })
-  end
-
-  def derive_filterer(filter_bookmark)
-    filterer = filter_bookmark.filterer(current_team)
-    return nil unless filterer
-    filterer.set_ui_options({ record_name: 'filter_bookmark[payload]', show_submit: false })
-    filterer
   end
 
 end
