@@ -33,8 +33,8 @@ class Event < ApplicationRecord
   validates :team, presence: true
   validates :begins_at, presence: true
   validates :ends_at, presence: true
-  validates :city, presence: true
-  validates :location, presence: true
+  validates :city, presence: true, if: proc{|e| e.new_record? or e.city_id_changed? }
+  validates :location, presence: true, if: proc{|e| e.new_record? or e.location_changed? }
 
   validates_with EventPropertyServices::EventValidator
 

@@ -190,6 +190,7 @@ class EventsController < ApplicationController
 
   def ensure_event_team
     event = Event.find(params[:id])
+    return true unless authorized?(event, :read)
     if event.team != current_team
       redirect_to event_url(event, subdomain: event.team.subdomain)
       return false
