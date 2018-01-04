@@ -6,6 +6,7 @@ class Team < ApplicationRecord
   has_one   :default_role, -> { where(default: true) }, class_name: 'Role'
 
   has_many  :events, inverse_of: :team, dependent: :destroy
+  has_many :filter_bookmarks, dependent: :destroy, inverse_of: :team
 
   has_many  :event_types, dependent: :destroy
   has_many  :attendee_types, dependent: :destroy

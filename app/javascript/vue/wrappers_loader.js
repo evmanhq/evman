@@ -35,6 +35,6 @@ export default class WrappersLoader {
     wrapper.render()
 
     element.data('js', null)
-    element.attr('js', null)
+    element.attr('data-js', null)
   }
 }

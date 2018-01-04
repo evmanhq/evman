@@ -6,7 +6,12 @@
   <div class="row">
     <div class="col-lg-12">
       <form action="#" id="filter">
-        <%= render @filterer, locals: { trigger_change: true } %>
+        <%= render @filterer, locals: { ui_options: {
+            trigger_change: true,
+            action_buttons: [
+              { label: 'Bookmark', class: 'btn-danger', icon: 'bookmark', path:  new_filter_bookmark_path, method: :get }
+            ]
+        }} %>
       </form>
 
     </div>

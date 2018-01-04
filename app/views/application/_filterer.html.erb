@@ -1,22 +1,17 @@
-<%= content_tag :div, data: {
+<%
+  filterer.set_ui_options(locals[:ui_options]) if defined? locals
+%><%= content_tag :div, data: {
     js: {
         render_vue: 'Filterer',
         render_options: {
             definition: filterer.definition,
-            payload: filterer.payload.as_json
+            payload: filterer.payload.as_json,
+            ui_options: filterer.ui_options
         }
     }
 } do %>
-  <%
-    trigger_change_prop = nil
-    trigger_change_prop = ':trigger-change="true"'.html_safe if defined? locals and locals[:trigger_change]
 
-    show_submit_prop = nil
-    show_submit_prop = ':show-submit="false"'.html_safe if defined? locals and locals[:show_submit] == false
-  %>
   <filterer :definition="definition"
             :constrains_data="constrains"
-            <%= trigger_change_prop %>
-            <%= show_submit_prop %>
-            ></filterer>
+            :ui_options="ui_options"></filterer>
 <% end %>

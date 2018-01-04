@@ -49,10 +49,32 @@ module Filterer
     BASIC_MULTIPLE_CHOICE_CONDITIONS = ['any', 'all', 'none']
     BASIC_DATE_CONDITIONS = ['before', 'after', 'at', 'range']
 
-    attr_reader :fields, :payload
-    def initialize(definition, payload)
+    DEFAULT_UI_OPTIONS = {
+        record_name: 'filter',
+        trigger_change: false,
+        show_submit: true,
+        action_buttons: [],
+        submit_text: 'Filter'
+    }
+
+    DEFAULT_ACTION_BUTTON = {
+        label: 'Label',
+        path: nil,
+        method: :post,
+        class: '',
+        icon: ''
+    }
+
+    attr_reader :fields, :payload, :ui_options
+    def initialize(definition, payload, ui_options={})
       @fields = build_fields(definition)
       @payload = payload
+      @payload = @payload.with_indifferent_access if @paylod.is_a? Hash
+      set_ui_options(ui_options)
+    end
+
+    def links
+      self.class.links
     end
 
     def apply_filters
@@ -76,6 +98,24 @@ module Filterer
       @definition ||= fields.as_json
     end
 
+    def to_partial_path
+      'application/filterer'
+    end
+
+    def i18n_name
+      self.class.i18n_name
+    end
+
+    def set_ui_options(ui_options)
+      previous_options = @ui_options || DEFAULT_UI_OPTIONS
+      options = (ui_options || {}).reject{|_,v| v.nil? }.slice(*DEFAULT_UI_OPTIONS.keys).reverse_merge(previous_options)
+      options[:action_buttons].collect! do |button|
+        button.slice(*DEFAULT_ACTION_BUTTON.keys).reverse_merge(DEFAULT_ACTION_BUTTON)
+      end
+      @ui_options = options
+    end
+
+    private
     # Default implementation of order
     def apply_order(order)
       @scope = @scope.order("#{order[:by]} #{order[:direction]}")
@@ -86,15 +126,6 @@ module Filterer
       @scope = @scope.limit(limit)
     end
 
-    def to_partial_path
-      'application/filterer'
-    end
-
-    def i18n_name
-      self.class.name.split("::").last.underscore
-    end
-
-    private
     def filter_finalizer
       # nothing
     end
@@ -108,74 +139,20 @@ module Filterer
         Field.new(field_definition.merge(filterer: self))
       end
     end
-  end
-
-  class Field
-    TYPES = %w[text number multiple_choice date]
-
-    attr_reader :name, :conditions, :type, :options, :options_url
-    def initialize(name: nil, label: nil, conditions: [], type: nil, options: [], options_url: nil, filterer: nil)
-      @name = name
-      @label = label
-      @filterer = filterer
-      @conditions = build_conditions(conditions) if conditions.present?
-      @type = type
-      @options = options
-      @options_url = options_url
-    end
-
-    def label
-      return @label if @label
-      defaults = [
-          :"filterer.#{@filterer.i18n_name}.fields.#{name}",
-          :"filterer.base.fields.#{name}",
-          name.capitalize
-      ]
-      I18n.translate(defaults.shift, default: defaults)
-    end
-
-    def as_json(opts={})
-      json = {
-          label: label,
-          name: name,
-          type: type,
-          conditions: conditions.as_json
-      }
-
-      json[:options] = options if options.any?
-      json[:options_url] = options_url if options_url.present?
-      json
-    end
-
-    private
-    def build_conditions(conditions)
-      conditions.collect do |condition_definition|
-        Condition.new(condition_definition, @filterer)
+    
+    class << self
+      def add_link name:, icon:, &block
+        @links ||= []
+        @links << Filterer::Link.new(filterer_class: self, name: name, icon: icon, &block)
       end
-    end
-  end
 
-  class Condition
-    attr_reader :name
-    def initialize(name, filterer)
-      @name = name
-      @filterer = filterer
-    end
+      def links
+        @links
+      end
 
-    def label
-      defaults = [
-          :"filterer.#{@filterer.i18n_name}.conditions.#{name}",
-          :"filterer.base.conditions.#{name}",
-          name
-      ]
-      I18n.translate(defaults.shift, default: defaults)
-    end
-
-    def as_json(options={})
-      {
-          label: label,
-          name: name
-      }
+      def i18n_name
+        self.name.split("::").last.underscore
+      end
     end
   end
 end

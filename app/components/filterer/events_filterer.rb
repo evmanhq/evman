@@ -1,6 +1,11 @@
 module Filterer
   class EventsFilterer < Base
     include Rails.application.routes.url_helpers
+
+    add_link(name: 'calendar', icon: 'calendar') { |bookmark, h| h.calendars_path(filter_bookmark_code: bookmark.code) }
+    add_link(name: 'list', icon: 'list') { |bookmark, h| h.list_events_path(filter_bookmark_code: bookmark.code) }
+    add_link(name: 'export', icon: 'table') { |bookmark, h| h.export_events_path(filter_bookmark_code: bookmark.code) }
+
     def initialize(scope: nil, payload: {}, current_team: nil)
       raise ArgumentError, '`current_team` is required' unless current_team
       payload ||= {}
@@ -84,7 +89,7 @@ module Filterer
         define_event_property(property, definition)
       end
 
-      super(definition, payload)
+      super(definition, payload, {})
     end
 
     private
@@ -105,7 +110,7 @@ module Filterer
           label: property.name,
           type: property.behaviour,
           conditions: property_conditions,
-          options: property.options.order(:name).collect{|o| { label: o.name, value: o.id.to_s} }
+          options: property.options.collect{|o| { label: o.name, value: o.id.to_s} }
       }
     end
 

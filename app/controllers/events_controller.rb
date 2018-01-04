@@ -15,7 +15,7 @@ class EventsController < ApplicationController
   def list
     @events = current_team.events.includes(:event_type, city: [:country, :state, :english_city_name])
     @filterer = Filterer::EventsFilterer.new(scope: @events,
-                                             payload: params[:filter],
+                                             payload: params[:filter] || filter_bookmark_payload,
                                              current_team: current_team)
     @events = @filterer.filtered
     @events = @events.page(params[:page] || 1).per(50)
@@ -151,7 +151,7 @@ class EventsController < ApplicationController
   end
 
   def export
-    @filterer = Filterer::EventsFilterer.new(current_team: current_team)
+    @filterer = Filterer::EventsFilterer.new(current_team: current_team, payload: params[:filter] || filter_bookmark_payload)
     @exporter = EventServices::Exporter.new(current_team)
   end
 

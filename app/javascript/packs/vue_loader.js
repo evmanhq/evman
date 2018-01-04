@@ -32,9 +32,13 @@
 import 'phantomjs-polyfill-find'
 import WrappersLoader from 'vue/wrappers_loader'
 
+import Navigation from 'vue/navigation'
+
 
 document.addEventListener('turbolinks:load', () => {
   WrappersLoader.load()
 })
 
 window.WrappersLoader = WrappersLoader
+
+window.VueNavigation = Navigation

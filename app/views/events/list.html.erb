@@ -5,7 +5,11 @@
 <div class="row">
   <div class="col-lg-12">
     <%= form_tag list_events_path, method: :get do %>
-      <%= render @filterer %>
+      <%= render @filterer, locals: { ui_options: {
+          action_buttons: [
+            { label: 'Bookmark', class: 'btn-danger', icon: 'bookmark', path:  new_filter_bookmark_path, method: :get }
+          ]
+      }} %>
     <% end %>
   </div>
 </div>

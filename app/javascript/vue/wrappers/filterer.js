@@ -17,10 +17,12 @@ export default class Filterer extends Wrapper {
   prepareData() {
     let definition = this.options.definition
     let payload = this.options.payload
+    let ui_options = this.options.ui_options
 
     return {
       definition: definition,
-      constrains: payload.constrains
+      constrains: payload.constrains,
+      ui_options: ui_options
     }
   }
 }

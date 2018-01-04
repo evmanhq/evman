@@ -1,6 +1,6 @@
 <template>
   <div class="constrain d-sm-flex">
-    <input type="hidden" :value="name" name="filter[constrains][][name]">
+    <input type="hidden" :value="name" :name="`${record_name}[constrains][][name]`">
     <div class="field">
       <multiselect :value="selected_field"
                    @input="selectField"
@@ -15,7 +15,7 @@
       </multiselect>
     </div>
 
-    <input type="hidden" v-model="condition" name="filter[constrains][][condition]">
+    <input type="hidden" v-model="condition" :name="`${record_name}[constrains][][condition]`">
     <div class="condition">
       <multiselect :value="selected_condition"
                    @input="selectCondition"
@@ -36,7 +36,7 @@
              :value="values[0]"
              @input="setValue"
              @keypress.enter.prevent
-             name="filter[constrains][][values][]"
+             :name="`${record_name}[constrains][][values][]`"
              class="form-control">
 
       <input type="number"
@@ -44,11 +44,11 @@
              :value="values[0]"
              @input="setValue"
              @keypress.enter.prevent
-             name="filter[constrains][][values][]"
+             :name="`${record_name}[constrains][][values][]`"
              class="form-control">
 
       <input type="hidden" :value="v"
-             name="filter[constrains][][values][]"
+             :name="`${record_name}[constrains][][values][]`"
              v-for="v in value.values"
              v-if="isMultiselect">
 
@@ -73,13 +73,13 @@
       </multiselect>
 
       <flat-pickr v-if="selected_field.type == 'date' && condition !== 'range'" key="single"
-                  name="filter[constrains][][values][]"
+                  :name="`${record_name}[constrains][][values][]`"
                   @input="setDateValue"
                   :config="{mode: 'single'}"
                   :value="values[0]"></flat-pickr>
 
       <flat-pickr v-if="selected_field.type == 'date' && condition === 'range'" key="range"
-                  name="filter[constrains][][values][]"
+                  :name="`${record_name}[constrains][][values][]`"
                   @input="setDateValue"
                   :config="{mode: 'range'}"
                   :value="values[0]"></flat-pickr>
@@ -100,7 +100,11 @@ export default {
   components: { Multiselect, FlatPickr },
   props: {
     value: Object,
-    field_definitions: Array
+    field_definitions: Array,
+    record_name: {
+      type: String,
+      default: 'filter'
+    }
   },
 
   data() {

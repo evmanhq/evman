@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016204108) do
+ActiveRecord::Schema.define(version: 20171129143207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -262,6 +262,21 @@ ActiveRecord::Schema.define(version: 20171016204108) do
     t.float "usd"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "filter_bookmarks", force: :cascade do |t|
+    t.string "code", limit: 36
+    t.string "name"
+    t.string "filterer_name"
+    t.boolean "public"
+    t.bigint "team_id"
+    t.bigint "owner_id"
+    t.jsonb "payload"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_filter_bookmarks_on_code", unique: true
+    t.index ["owner_id"], name: "index_filter_bookmarks_on_owner_id"
+    t.index ["team_id"], name: "index_filter_bookmarks_on_team_id"
   end
 
   create_table "form_submissions", id: :serial, force: :cascade do |t|

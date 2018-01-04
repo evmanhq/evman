@@ -165,6 +165,7 @@ class ApplicationController < ActionController::Base
             s.page name: 'List', path: list_events_path, icon: 'list'
             s.page name: 'Create event', path: new_event_path, icon: 'plus'
             s.page name: 'Archive', path: archive_events_path, icon: 'archive'
+            s.page name: 'Bookmarks', path: filter_bookmarks_path, icon: 'bookmark'
             s.page name: 'Export', path: export_events_path, icon: 'table'
           end if can? :event, :read
 
@@ -208,6 +209,12 @@ class ApplicationController < ActionController::Base
       end
       menu
     end
+  end
+
+  def filter_bookmark_payload
+    filter_bookmark = current_user.filter_bookmarks.where(code: params[:filter_bookmark_code]).first
+    return {} unless filter_bookmark
+    filter_bookmark.payload
   end
 
   private

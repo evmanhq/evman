@@ -1,0 +1,56 @@
+<%= form_for(@filter_bookmark,
+             html: { class: 'form-horizontal' },
+             data: {
+                 js:    { render_class: "EvMan.Views.FilterBookmarks.Form" },
+                 modal: { render_type: :replace }
+             }) do |form| %>
+
+  <%= form.hidden_field :filterer_name %>
+
+  <div class="modal-header">
+    <h4 class="modal-title"><%= title if defined? title %></h4>
+  </div>
+
+  <div class="modal-body">
+    <%= validation_errors @filter_bookmark %>
+
+    <div class="form-group row">
+      <label class="col-form-label col-lg-2">Name</label>
+      <div class="col-lg-10">
+        <%= form.text_field(:name, :class => 'form-control') %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-form-label col-lg-2">Owner</label>
+      <div class="col-lg-10">
+        <%= form.collection_select :owner_id, form.object.assignable_owners, :id, :name %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label :public, class: "col-form-label col-lg-2" %>
+      <div class=" col-lg-10">
+        <div class="form-check">
+          <label class="switch switch-3d switch-danger">
+            <%= form.check_box :public, { class: 'switch-input' } %>
+            <span class="switch-label"></span>
+            <span class="switch-handle"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-lg-12">
+        <%= render @filterer %>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default modal-close">Close</button>
+    <%= form.submit "Save", class: "btn btn-success" %>
+  </div>
+<% end %>

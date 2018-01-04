@@ -2,17 +2,26 @@
     <div class="filterer card">
         <div class="card-header">
             Search
-            <div class="pull-right">
-                <button class="btn btn-success btn-sm"
-                        @click.prevent="addConstrain">
-                    Add <i class="fa fa-plus"></i>
+            <div class="pull-right btn-group">
+                <button class="btn btn-success btn-sm" @click.prevent="addConstrain">
+                  <i class="fa fa-plus"></i> Add
                 </button>
 
                 <button class="btn btn-warning btn-sm" @click.prevent="clearConstrains">
+                  <i class="fa fa-times"></i>
                     Clear
                 </button>
 
-                <input v-if="showSubmit" type="submit" class="btn btn-primary btn-sm" :value="submitText" ref="submit_button">
+                <button v-for="button in ui_options.action_buttons"
+                        :class="['btn', 'btn-sm', button.class]"
+                        @click.prevent="actionButton(button.path, button.method)">
+                  <i :class="['fa', `fa-${button.icon}`]" v-if="button.icon"></i>
+                    {{ button.label }}
+                </button>
+
+
+                <input v-if="ui_options.show_submit" type="submit" class="btn btn-primary btn-sm"
+                       :value="ui_options.submit_text" ref="submit_button">
             </div>
         </div>
         <div class="card-body">
@@ -21,6 +30,7 @@
                            v-model="constrains[index]"
                            :field_definitions="definition"
                            :key="index"
+                           :record_name="ui_options.record_name"
                            @remove-constrain="constrains.splice(index, 1)">
                 </constrain>
             </div>
@@ -31,25 +41,14 @@
 <script>
 import Constrain from './constrain'
 import _ from 'underscore'
+import Navigation from 'vue/navigation'
+
 export default {
   props: {
     constrains_data: Array,
     definition: Array,
-    triggerChange: {
-      type: Boolean,
-      default: false
-    },
-    showSubmit: {
-      type: Boolean,
-      default: true
-    },
-    submitText: {
-      type: String,
-      default: 'Filter'
-    },
-    savePath: {
-      type: String,
-      default: ''
+    ui_options: {
+      type: Object
     }
   },
 
@@ -82,26 +81,29 @@ export default {
 
     clearConstrains() {
       this.constrains = []
-      if(this.triggerChange) this.$nextTick( () => { this.submitForm() })
+      if(this.ui_options.trigger_change) this.$nextTick( () => { this.submitForm() })
     },
 
     submitForm() {
       this.$refs['submit_button'].click()
     },
 
-    newConstrainId() {
-      let max_id = _.max(_.map(this.constrains, (c) => c.data.id))
-      if(!max_id || max_id == -Infinity) max_id = 0
-      return max_id + 1
-    },
-
     handleChange() {
-      if(!this.triggerChange) return
+      if(!this.ui_options.trigger_change) return
       let delay = 500
       if(this.changeTimeout) clearTimeout(this.changeTimeout)
 
       this.changeTimeout = setTimeout(this.submitForm, delay)
+    },
+
+    actionButton(path, method) {
+      console.log(path, method);
+      Navigation.visit({url: path, method: method, data: { constrains: this.constrains }})
     }
+  },
+
+  mounted() {
+    if(this.ui_options.trigger_change) this.$nextTick( () => { this.submitForm() })
   }
 }
 </script>

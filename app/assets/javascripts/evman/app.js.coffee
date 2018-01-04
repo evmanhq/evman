@@ -44,7 +44,7 @@ class EvMan.App
       @globalRender(element)
 
       element.data('js', null)
-      element.attr('js', null)
+      element.attr('data-js', null)
 
   globalRender: (container) ->
     container.find('input').each (input) ->

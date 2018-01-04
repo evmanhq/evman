@@ -24,6 +24,14 @@ module ApplicationHelper
     end
   end
 
+  def boolean_icon(value)
+    if value
+      icon('check-circle', :fa)
+    else
+      icon('times-circle', :fa)
+    end
+  end
+
   def validation_errors record
     return unless record.errors.any?
     render partial: 'application/validation_errors', locals: { record: record }

@@ -3,7 +3,7 @@ class CalendarsController < ApplicationController
   def index
     @events = current_team.events.includes(:event_type, city: [:country, :state, :english_city_name])
     @filterer = Filterer::EventsFilterer.new(scope: @events,
-                                             payload: params[:filter],
+                                             payload: params[:filter] || filter_bookmark_payload,
                                              current_team: current_team)
   end
 

@@ -1,0 +1,38 @@
+<%
+  breadcrumb_nav.add_item 'Bookmarks'
+%>
+
+<% content_for :breadcrumb_menu do %>
+  <%= link_to new_filter_bookmark_path, data: { modal: true }, class: 'btn text-success btn-xs' do %>
+    <%= icon(:plus, :fa) %> Bookmark
+  <% end %>
+<% end %>
+
+<div class="row">
+  <div class="col-xl-6">
+    <div class="card">
+      <div class="card-header">
+        My Bookmarks
+      </div>
+      <div class="card-block no-padding">
+        <ul class="list-group list-group-flush">
+          <%= render @my %>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-xl-6">
+    <div class="card">
+      <div class="card-header">
+        Public Bookmarks
+      </div>
+      <div class="card-block no-padding">
+        <ul class="list-group list-group-flush">
+          <%= render @public %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

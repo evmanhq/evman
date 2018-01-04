@@ -15,6 +15,7 @@ class User < ApplicationRecord
 
   has_many  :attendees
   has_many  :events, :through => :attendees
+  has_many :filter_bookmarks, foreign_key: :owner_id, dependent: :destroy, inverse_of: :owner
 
   has_many :event_talks
   has_many :talks

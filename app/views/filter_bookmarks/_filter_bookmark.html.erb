@@ -1,0 +1,52 @@
+<li class="list-group-item">
+  <div class="row">
+    <div class="col-lg-1">
+      <div class="btn btn-outline-secondary btn-sm" data-toggle="dropdown">
+        <%= icon(:'caret-down', :fa) %>
+      </div>
+      <div class="dropdown-menu">
+        <%= link_to edit_filter_bookmark_path(filter_bookmark), class: 'dropdown-item', data: { modal: true } do %>
+          <%= icon(:edit, :fa) %> Edit
+        <% end %>
+
+        <%= link_to filter_bookmark_path(filter_bookmark), class: 'dropdown-item', method: :delete, data: {
+            confirm: {
+                title:    "Remove bookmark",
+                question: "Are you sure you want to remove this bookmark ?"
+            }
+        } do %>
+          <%= icon(:remove, :fa) %> Remove
+        <% end %>
+
+        <% filterer = filter_bookmark.filterer(current_team) %>
+        <% if filterer.links.any? %>
+          <h6 class="dropdown-header">Links</h6>
+          <% filterer.links.each do |link| %>
+            <%=link_to link_filter_bookmarks_path(code: filter_bookmark.code, link: link.name), class: 'dropdown-item' do %>
+              <%= icon link.icon, :fa %> <%= link.label %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+
+
+
+
+
+    </div>
+    <div class="col-lg-5">
+      <small class="text-muted">Name</small><br>
+      <%= filter_bookmark.name %>
+    </div>
+
+    <div class="col-lg-2">
+      <small class="text-muted">Public</small><br>
+      <%= boolean_icon filter_bookmark.public %>
+    </div>
+
+    <div class="col-lg-3">
+      <small class="text-muted">Owner</small><br>
+      <%= filter_bookmark.owner.name if filter_bookmark.owner %>
+    </div>
+  </div>
+</li>

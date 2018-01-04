@@ -2,6 +2,10 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
+  resources :filter_bookmarks do
+    get '/link/:code/:link' => 'filter_bookmarks#link', as: :link, on: :collection
+  end
+
   scope :api, module: :api do
     resources :tokens do
       collection do
