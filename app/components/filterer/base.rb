@@ -69,7 +69,7 @@ module Filterer
     def initialize(definition, payload, ui_options={})
       @fields = build_fields(definition)
       @payload = payload
-      @payload = @payload.with_indifferent_access if @paylod.is_a? Hash
+      @payload = @payload.with_indifferent_access if @payload.is_a? Hash
       set_ui_options(ui_options)
     end
 
