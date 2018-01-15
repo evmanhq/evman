@@ -2,6 +2,11 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
+  scope :public, module: :public do
+    get '/calendars/' => 'calendars#index', as: :public_calendars
+    get '/calendars/events(.format)' => 'calendars#events', as: :public_calendars_events
+  end
+
   resources :filter_bookmarks do
     get '/link/:code/:link' => 'filter_bookmarks#link', as: :link, on: :collection
   end

@@ -1,13 +1,26 @@
 class FilterBookmarksController < ApplicationController
 
   before_action :require_modal, only: [:show, :new, :edit]
+  skip_before_action :authenticate!, only: [:link]
 
   def link
     filter_bookmark = FilterBookmark.find_by(code: params[:code])
+    unless filter_bookmark
+      render text: 'not found'
+      return
+    end
+    authorize! filter_bookmark, :read
     link = filter_bookmark.filterer_class.links.find do |link|
       link.name == params[:link]
     end
-    redirect_to link.path(filter_bookmark)
+
+    paths = link.paths(filter_bookmark)
+
+    if current_user
+      redirect_to paths.private_path
+    else
+      redirect_to paths.public_path
+    end
   end
 
   def index
@@ -15,6 +28,11 @@ class FilterBookmarksController < ApplicationController
     @public = current_team.filter_bookmarks.where('owner_id != ?', current_user.id).where(public: true).order(:name)
 
     respond_to :html
+  end
+
+  def show
+    @filter_bookmark = current_team.filter_bookmarks.find(params[:id])
+    authorize! @filter_bookmark, :read
   end
 
   def new

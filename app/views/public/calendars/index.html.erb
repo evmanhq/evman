@@ -1,0 +1,29 @@
+<%= content_tag :div, data: { js: {
+    render_class: 'EvMan.Views.Public.Calendars.Index',
+    render_options: { filter_bookmark_code: params[:filter_bookmark_code] }
+}} do %>
+  <div class="row">
+    <div class="col-xl-9 col-lg-8">
+      <div class="card">
+        <div class="card-block">
+          <div id="calendar" style="position: relative; z-index: 0;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          Event Types
+        </div>
+        <div class="card-block">
+          <% @team.event_types.order('name').each do |event_type| %>
+            <p style="border-left: <%= event_type.color %> 20px solid; padding-left: 10px;">
+              <%= event_type.name %>
+            </p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

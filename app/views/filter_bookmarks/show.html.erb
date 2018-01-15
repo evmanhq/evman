@@ -1,0 +1,50 @@
+<div class="modal-header">
+  <h4 class="modal-title">Bookmark</h4>
+</div>
+
+<div class="modal-body">
+  <%= validation_errors @filter_bookmark %>
+
+  <dl class="dl-horizontal">
+    <dt>Name</dt>
+    <dd><%= @filter_bookmark.name %></dd>
+
+    <dt>Owner</dt>
+    <dd><%= @filter_bookmark.owner.name if @filter_bookmark.owner %></dd>
+
+    <dt>Public</dt>
+    <dd><%= boolean_icon @filter_bookmark.public %></dd>
+  </dl>
+
+  <h2>Links:</h2>
+
+  <ul class="list-group">
+    <% @filter_bookmark.filterer_class.links.each do |link| %>
+      <li class="list-group-item">
+        <%=link_to link_filter_bookmarks_path(code: @filter_bookmark.code, link: link.name) do %>
+          <%= icon link.icon, :fa %> <%= link.label %>
+        <% end %><br>
+        <input type="text" value="<%= link_filter_bookmarks_url(code: @filter_bookmark.code, link: link.name) %>" readonly="true" style="width:100%;"></input>
+      </li>
+    <% end %>
+  </ul>
+
+  <br>
+
+  <div class="form-group row">
+    <div class="col-lg-12">
+      <form>
+        <fieldset disabled>
+          <%= render @filter_bookmark.filterer, locals: { ui_options: {
+              show_submit: false
+          } } %>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-default modal-close">Close</button>
+</div>

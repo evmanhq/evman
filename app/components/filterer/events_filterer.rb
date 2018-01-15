@@ -2,15 +2,26 @@ module Filterer
   class EventsFilterer < Base
     include Rails.application.routes.url_helpers
 
-    add_link(name: 'calendar', icon: 'calendar') { |bookmark, h| h.calendars_path(filter_bookmark_code: bookmark.code) }
-    add_link(name: 'list', icon: 'list') { |bookmark, h| h.list_events_path(filter_bookmark_code: bookmark.code) }
-    add_link(name: 'export', icon: 'table') { |bookmark, h| h.export_events_path(filter_bookmark_code: bookmark.code) }
+    add_link(name: 'calendar', icon: 'calendar') do |bookmark|
+      private_link calendars_path(filter_bookmark_code: bookmark.code)
+      public_link public_calendars_path(filter_bookmark_code: bookmark.code)
+    end
+
+    add_link(name: 'list', icon: 'list') do |bookmark|
+      private_link list_events_path(filter_bookmark_code: bookmark.code)
+    end
+
+    add_link(name: 'export', icon: 'table') do |bookmark|
+      private_link export_events_path(filter_bookmark_code: bookmark.code)
+    end
+
 
     def initialize(scope: nil, payload: {}, current_team: nil)
       raise ArgumentError, '`current_team` is required' unless current_team
       payload ||= {}
 
       @scope = scope || current_team.events
+      @scope = @scope.merge(current_team.events)
       definition = [
           {
               name: 'name',

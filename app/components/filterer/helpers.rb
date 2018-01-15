@@ -17,6 +17,7 @@ module Filterer
 
     def perform_filter_date(column, values, condition)
       value = values[0]
+      return if value.blank?
       case condition
       when 'before'
         @scope = @scope.where("#{column} <= ?", value)

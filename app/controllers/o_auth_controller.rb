@@ -2,7 +2,6 @@ class OAuthController < ApplicationController
 
   skip_before_action :authenticate!
   skip_before_action :require_team!
-  skip_before_action :verify_authenticity_token
 
   def callback
     return redirect_to root_path if params[:error]

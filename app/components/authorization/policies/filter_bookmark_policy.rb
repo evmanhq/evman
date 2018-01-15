@@ -4,11 +4,12 @@ module Authorization
       alias_method :filter_bookmark, :model
 
       def read?
-        !!dictator.user
+        return true if filter_bookmark.public?
+        dictator.user and dictator.user.teams.include?(filter_bookmark.team)
       end
 
       def create?
-        read?
+        dictator.user and dictator.user.teams.include?(filter_bookmark.team)
       end
 
       def update?

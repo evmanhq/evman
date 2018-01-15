@@ -105,10 +105,12 @@ module Authorization
     private
 
     def authorizes_roles? team, group, permission
+      return false unless user
       user.roles.select{|r| r.team_id == team.id }.any?{ |role| role.can? group, permission }
     end
 
     def authorizes_default_role? team, group, permission
+      return false unless user
       return false unless user.teams.include? team
       return false unless team.default_role
       team.default_role.can? group, permission

@@ -36,7 +36,7 @@
     </div>
     <div class="col-lg-5">
       <small class="text-muted">Name</small><br>
-      <%= filter_bookmark.name %>
+      <%= link_to filter_bookmark.name, filter_bookmark, data: { modal: true } %>
     </div>
 
     <div class="col-lg-2">
