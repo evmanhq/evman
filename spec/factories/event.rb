@@ -10,6 +10,7 @@ FactoryGirl.define do
     association :owner, factory: :user
     event_type
     city
+    location 'Some Location'
   end
 
   factory :event_type do

@@ -1,5 +1,5 @@
 module Filterer
-  class Field
+  class ConstrainField
     TYPES = %w[text number multiple_choice date]
 
     attr_reader :name, :conditions, :type, :options, :options_url
@@ -16,8 +16,8 @@ module Filterer
     def label
       return @label if @label
       defaults = [
-          :"filterer.#{@filterer.i18n_name}.fields.#{name}",
-          :"filterer.base.fields.#{name}",
+          :"filterer.#{@filterer.i18n_name}.constrain_fields.#{name}",
+          :"filterer.base.constrain_fields.#{name}",
           name.capitalize
       ]
       I18n.translate(defaults.shift, default: defaults)

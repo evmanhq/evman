@@ -1,6 +1,8 @@
 module Filterer
   class EventsFilterer < Base
     include Rails.application.routes.url_helpers
+    include FilterHelpers
+    include SortHelpers
 
     add_link(name: 'calendar', icon: 'calendar') do |bookmark|
       private_link calendars_path(filter_bookmark_code: bookmark.code)
@@ -22,7 +24,7 @@ module Filterer
 
       @scope = scope || current_team.events
       @scope = @scope.merge(current_team.events)
-      definition = [
+      constrain_fields = [
           {
               name: 'name',
               type: 'text',
@@ -94,19 +96,34 @@ module Filterer
       ]
 
 
-
+      sort_rule_fields = [
+          { name: 'name' },
+          { name: 'event_type' },
+          { name: 'city' },
+          { name: 'location' },
+          { name: 'begins_at' },
+          { name: 'ends_at' },
+          { name: 'cfp_date' },
+          { name: 'sponsorship_date' }
+      ]
       # Builds definition for event_properties
       current_team.event_properties.in_order.includes(:options).each do |property|
-        define_event_property(property, definition)
+        define_event_property_constrain(property, constrain_fields)
+
+        if [EventProperty::Behaviour::TEXT, EventProperty::Behaviour::SELECT].include?(property.behaviour)
+          define_event_property_sort_rule(property, sort_rule_fields)
+        end
       end
 
-      super(definition, payload, {})
+      super(constrain_fields: constrain_fields,
+            sort_rule_fields: sort_rule_fields,
+            payload: payload)
     end
 
     private
 
     # helper for building definition
-    def define_event_property(property, definition)
+    def define_event_property_constrain(property, constrain_fields)
       conditions = {
           'text' => BASIC_TEXT_CONDITIONS,
           'multiple_choice' => BASIC_MULTIPLE_CHOICE_CONDITIONS,
@@ -116,12 +133,19 @@ module Filterer
       property_conditions = conditions[property.behaviour]
       raise StandardError, "no conditions defined for behaviour: #{property.behaviour}" if property_conditions.nil?
 
-      definition << {
+      constrain_fields << {
           name: "event_property_#{property.id}",
           label: property.name,
           type: property.behaviour,
           conditions: property_conditions,
           options: property.options.collect{|o| { label: o.name, value: o.id.to_s} }
+      }
+    end
+
+    def define_event_property_sort_rule(property, sort_rule_fields)
+      sort_rule_fields << {
+          name: "event_property_#{property.id}",
+          label: property.name
       }
     end
 
@@ -135,130 +159,18 @@ module Filterer
       end
     end
 
-    def filter_name(values, condition)
-      perform_filter_text('events.name', values, condition)
-    end
-
-    def filter_location(values, condition)
-      perform_filter_text('events.location', values, condition)
-    end
-
-    def filter_url(values, condition)
-      value = values.first
-      columns = %w[events.url events.url2 events.url3 events.cfp_url]
-
-      case condition
-      when 'like' then
-        where = columns.map{|c| "(#{c} ILIKE ?)"}.join(' OR ')
-        @scope = @scope.where(where, *(["%#{value}%"] * columns.size))
-      when 'not_like' then
-        where = columns.map{|c| "(#{c} NOT ILIKE ?)"}.join(' OR ')
-        @scope = @scope.where(where, *(["%#{value}%"] * columns.size))
-      when 'begins' then
-        where = columns.map{|c| "(#{c} ILIKE ?)"}.join(' OR ')
-        @scope = @scope.where(where, *(["#{value}%"] * columns.size))
-      when 'equals' then
-        where = columns.map{|c| "(#{c} = ?)"}.join(' OR ')
-        @scope = @scope.where(where, *([value] * columns.size))
-      end
-    end
-
-    def filter_begins_at(values, condition)
-      perform_filter_date('events.begins_at', values, condition)
-    end
-
-    def filter_ends_at(values, condition)
-      perform_filter_date('events.ends_at', values, condition)
-    end
-
-    def filter_cfp_date(values, condition)
-      perform_filter_date('events.cfp_date', values, condition)
-    end
-
-    def filter_sponsorship_date(values, condition)
-      perform_filter_date('events.sponsorship_date', values, condition)
-    end
-
-    def filter_sponsorship(values, condition)
-      perform_filter_text('events.sponsorship', values, condition)
-    end
-
-    def filter_description(values, condition)
-      value = values.first
-      case condition
-      when 'fulltext' then
-        q = value.split(' ').map { |item| item  + ':*' }.join('&')
-        @scope = @scope.where('to_tsvector(\'english\', f_unaccent(events.description)) @@ to_tsquery(unaccent(?))', q)
-      else
-        perform_filter_text('events.description', values, condition)
-      end
-    end
-
-    def filter_event_type(values, condition)
-      case condition
-      when 'any' then
-        @scope = @scope.where(event_type_id: values)
-      when 'none'
-        @scope = @scope.where.not(event_type_id: values)
-      end
-    end
-
-    def filter_city(values, condition)
-      case condition
-      when 'any'
-        @scope = @scope.where(city_id: values)
-      when 'none'
-        @scope = @scope.where.not(city_id: values)
-      end
-    end
-
-    def filter_event_property(property, values, condition)
-      if property.behaviour == EventProperty::Behaviour::TEXT
-        perform_filter_text("properties_assignments->'#{property.id}'->>0", values, condition)
-        return
-      end
-
-      case condition
-      when 'all' then
-        @scope = @scope.jsonb_where(:properties_assignments, { property.id.to_s => values})
-      when 'none' then
-        @scope = @scope.jsonb_where_not(:properties_assignments, { property.id.to_s => values})
-      when 'any' then
-        condition_scopes = values.collect do |value|
-          Event.jsonb_where(:properties_assignments, { property.id.to_s => Array.wrap(value)})
-        end
-        or_scope = condition_scopes.shift
-        condition_scopes.each do |condition_scope|
-          or_scope = or_scope.or(condition_scope)
-        end
-        @scope = @scope.merge(or_scope)
-      end
-    end
-
     # first register event property filters to avoid N+1 queries
     def register_event_property_filter(id, values, condition)
       @event_property_filters ||= []
       @event_property_filters << { id: id, values: values, condition: condition}
     end
 
-    # efficiently apply event property filters in finalizer
-    def filter_finalizer
-      load_event_properties
-
-      return if @event_property_filters.blank?
-
-      @event_property_filters.each do |filter|
-        event_property = @event_properties[filter[:id]]
-        filter_event_property(event_property, filter[:values], filter[:condition])
-      end
-    end
-
-    # preload registered event properties in one select
-    def load_event_properties
-      return if @event_property_filters.blank?
-      @event_properties = EventProperty.find(@event_property_filters.collect{|f| f[:id] })
-                              .each_with_object(ActiveSupport::HashWithIndifferentAccess.new) do |property, obj|
-        obj[property.id.to_s] = property
+    def apply_sort_rule(name, direction)
+      case name
+      when /event_property_(\d+)/
+        sort_event_property($1, direction)
+      else
+        super
       end
     end
   end

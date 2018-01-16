@@ -37,10 +37,11 @@ class FilterBookmarksController < ApplicationController
 
   def new
     constrains = params[:constrains] || []
+    sort_rules = params[:sort_rules] || []
     @filter_bookmark = current_team.filter_bookmarks.build(
         filterer_name: 'EventsFilterer',
         owner: current_user,
-        payload: { constrains: constrains }
+        payload: { constrains: constrains, sort_rules: sort_rules }
     )
 
     respond_to :html
@@ -86,7 +87,9 @@ class FilterBookmarksController < ApplicationController
   private
   def filter_bookmark_params
     params.require(:filter_bookmark).permit(:name, :public, :owner_id, :filterer_name,
-                                            payload: { constrains: [:name, :condition, values: []] })
+                                            payload: { constrains: [:name, :condition, values: []],
+                                                       sort_rules: [:name, :direction]
+                                            })
   end
 
 end

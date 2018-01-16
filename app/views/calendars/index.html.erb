@@ -8,6 +8,7 @@
       <form action="#" id="filter">
         <%= render @filterer, locals: { ui_options: {
             trigger_change: true,
+            sorting: false,
             action_buttons: [
               { label: 'Bookmark', class: 'btn-danger', icon: 'bookmark', path:  new_filter_bookmark_path, method: :get }
             ]

@@ -1,11 +1,12 @@
 module Filterer
   class Base
     # === Dynamic filter using Vue components
-    # @definition [Array] definition of filter fields
+    # @constrain_fields [Array] definition of filter fields
+    # @sort_rule_fields [Array] definition of sort fields
     # @payload [Hash] hash containing constrains filled by user
     # Example:
     #
-    #   definition = [
+    #   constrain_fields = [
     #       {
     #           name:       'description',
     #           label:      'Event description', # optional, if specified, Filterer will not try to localize field name
@@ -17,8 +18,13 @@ module Filterer
     #                        ],
     #           options_url: event_properties_path # get options from ajax
     #       }, ...
-    #   ]
-    #
+    #   ],
+    #   sort_rule_fields = [
+    #     {
+    #       name: 'type',
+    #       label: 'Event Type'
+    #     }, ...
+    #   ],
     #
     #   payload = {
     #       constrains: [
@@ -33,10 +39,10 @@ module Filterer
     #                           condition: 'includes'
     #                       }
     #                   ],
-    #       order: {
-    #           by: 'name',
-    #           direction: 'ASC'
-    #       },
+    #       sort_rules: [
+    #         { name: 'name', direction: 'ASC' },
+    #         { name: 'price', direction: 'DESC' },
+    #       ],
     #       limit: 15,
     #       offset: 15
     #   }
@@ -54,7 +60,8 @@ module Filterer
         trigger_change: false,
         show_submit: true,
         action_buttons: [],
-        submit_text: 'Filter'
+        submit_text: 'Filter',
+        sorting: true
     }
 
     DEFAULT_ACTION_BUTTON = {
@@ -65,9 +72,10 @@ module Filterer
         icon: ''
     }
 
-    attr_reader :fields, :payload, :ui_options
-    def initialize(definition, payload, ui_options={})
-      @fields = build_fields(definition)
+    attr_reader :constrain_fields, :payload, :sort_rule_fields, :ui_options
+    def initialize(constrain_fields:, sort_rule_fields:, payload:, ui_options: {})
+      @constrain_fields = build_constrain_fields(constrain_fields)
+      @sort_rule_fields = build_sort_rule_fields(sort_rule_fields)
       @payload = payload
       @payload = @payload.with_indifferent_access if @payload.is_a? Hash
       set_ui_options(ui_options)
@@ -83,7 +91,13 @@ module Filterer
         dispatch_filter(data[:name], data[:values], data[:condition])
       end if payload[:constrains]
       filter_finalizer
-      apply_order(payload[:order]) if payload[:order].present?
+
+      payload[:sort_rules].each do |data|
+        direction = data[:direction].upcase
+        direction = 'ASC' unless ['ASC', 'DESC'].include?(direction)
+        apply_sort_rule(data[:name], direction)
+      end if payload[:sort_rules].present?
+
       apply_limit(payload[:limit]) if payload[:limit].present?
     end
 
@@ -95,7 +109,10 @@ module Filterer
 
     # Definition for Javascript component
     def definition
-      @definition ||= fields.as_json
+      @definition ||= {
+          constrain_fields: constrain_fields.as_json,
+          sort_rule_fields: sort_rule_fields.as_json
+      }
     end
 
     def to_partial_path
@@ -116,10 +133,6 @@ module Filterer
     end
 
     private
-    # Default implementation of order
-    def apply_order(order)
-      @scope = @scope.order("#{order[:by]} #{order[:direction]}")
-    end
 
     # Default implementation of limit
     def apply_limit(limit)
@@ -134,9 +147,19 @@ module Filterer
       send("filter_#{name}", values, condition)
     end
 
-    def build_fields definition
-      definition.collect do |field_definition|
-        Field.new(field_definition.merge(filterer: self))
+    def apply_sort_rule(name, direction)
+      send("sort_#{name}", direction)
+    end
+
+    def build_constrain_fields(constrain_fields)
+      constrain_fields.collect do |field_definition|
+        ConstrainField.new(field_definition.merge(filterer: self))
+      end
+    end
+
+    def build_sort_rule_fields(order_rule_fields)
+      order_rule_fields.collect do |field_definition|
+        SortRuleField.new(field_definition.merge(filterer: self))
       end
     end
     

@@ -1,17 +1,18 @@
 $border-color: #e8e8e8;
 
 .filterer {
-  .constrains {
+  .constrains, .sort-rules {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
+    align-items: baseline;
 
     & > * {
       margin: 3px;
     }
   }
 
-  .constrain {
+  .constrain, .sort-rule {
     flex-wrap: nowrap;
     flex-direction: row;
     border: 1px $border-color solid;
@@ -46,5 +47,28 @@ $border-color: #e8e8e8;
     //.value,  {
     //  flex-grow: 1;
     //}
+
+    .direction {
+      .multiselect {
+        width: 100px;
+      }
+    }
   }
+
+  .card-header {
+    @media (min-width: 576px) {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+  }
+
+  .card-text {
+    padding: 5px;
+  }
+
+  .card-text-constrains {
+    border-bottom: 1px solid #c2cfd6;
+  }
+
 }

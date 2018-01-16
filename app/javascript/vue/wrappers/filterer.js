@@ -21,6 +21,7 @@ export default class Filterer extends Wrapper {
 
     return {
       definition: definition,
+      sort_rules: payload.sort_rules,
       constrains: payload.constrains,
       ui_options: ui_options
     }
