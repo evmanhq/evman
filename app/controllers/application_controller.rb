@@ -212,7 +212,7 @@ class ApplicationController < ActionController::Base
   end
 
   def filter_bookmark_payload
-    filter_bookmark = current_user.filter_bookmarks.where(code: params[:filter_bookmark_code]).first
+    filter_bookmark = current_team.filter_bookmarks.where(code: params[:filter_bookmark_code]).first
     return {} unless filter_bookmark
     filter_bookmark.payload
   end
