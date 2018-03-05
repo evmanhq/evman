@@ -3,6 +3,13 @@ class UsersController < ApplicationController
   skip_before_action :validate_user_info!, :only => [:edit, :update]
   skip_before_action :require_team!
 
+  def dump
+    @user = User.find(params[:id])
+    authorize! @user, :dump
+
+    render json: @user, serializer: UserDumpSerializer
+  end
+
   def index
     respond_to do |format|
       format.json do
@@ -13,6 +20,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    authorize! @user, :read
     @providers = @user.identities.pluck(:provider)
 
     respond_to do |format|
@@ -27,10 +35,12 @@ class UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+    authorize! @user, :update
   end
 
   def update
     @user = User.find(params[:id])
+    authorize! @user, :update
     p = user_params
     p.delete(:password) if p[:password].blank?
     
@@ -49,7 +59,8 @@ class UsersController < ApplicationController
   end
 
   def calendars
-
+    @user = User.find(params[:id])
+    authorize! @user, :signed_in?
   end
 
   private

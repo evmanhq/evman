@@ -1,3 +1,9 @@
+<%
+  breadcrumb_nav.add_item 'User'
+  breadcrumb_nav.add_item @user.name, user_path(@user)
+  breadcrumb_nav.add_item 'Calendars'
+%>
+
 <div class="row">
   <div class="col-lg-3">
     <div class="card">
@@ -5,7 +11,7 @@
         Calendars
       </div>
       <div class="card-block">
-        <a href="/calendars/user?user_token=<%= current_user.token %>" class="btn btn-secondary">
+        <a href="/calendars/user?user_token=<%= @user.token %>" class="btn btn-secondary">
           <i class="fa fa-calendar"></i> Calendar
         </a>
       </div>

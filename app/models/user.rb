@@ -4,7 +4,6 @@ class User < ApplicationRecord
 
   include Rails.application.routes.url_helpers
 
-  belongs_to  :team
   has_many  :identities, dependent: :destroy
 
   has_many  :team_invitations

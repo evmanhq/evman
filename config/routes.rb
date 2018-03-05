@@ -87,6 +87,7 @@ Rails.application.routes.draw do
       get 'biographies'
       get 'avatars'
       get 'calendars'
+      get 'dump'
     end
   end
 

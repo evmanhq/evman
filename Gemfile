@@ -31,7 +31,7 @@ gem 'assignable_values'
 gem 'multi_json'
 gem 'jsonb_accessor', '1.0.0'
 gem 'oj'
-gem 'jbuilder', '~> 2.0'
+gem 'active_model_serializers', '~> 0.10.7'
 gem 'axlsx'
 
 gem 'twitter-text'

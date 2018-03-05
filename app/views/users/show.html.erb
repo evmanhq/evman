@@ -48,6 +48,11 @@
         </ul>
         <% if @user == current_user %>
             <div class="card-footer">
+              <%= link_to dump_user_path(@user), class: 'btn btn-success', target: :blank do %>
+                <%= icon(:download, :fa) %>
+                Download all data
+              <% end %>
+
               <a href="<%= edit_user_path(@user) %>" class="btn btn-warning pull-right">
                 <i class="fa fa-edit"></i> Edit profile
               </a>
