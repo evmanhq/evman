@@ -8,7 +8,7 @@ module Authorization
       end
 
       def read?
-        user.teams.any? do |team|
+        signed_in? or user.teams.any? do |team|
           dictator.can? team, :team, :members_read
         end
       end
