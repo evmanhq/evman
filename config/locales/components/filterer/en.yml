@@ -31,3 +31,6 @@ en:
         ends_at: Ends At
         cfp_date: CFP Deadline
         sponsorship_date: Sponsorship Deadline
+    users_filterer:
+      constrain_fields:
+        job_title: Job Title

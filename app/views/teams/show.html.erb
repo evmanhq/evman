@@ -3,92 +3,73 @@
   breadcrumb_nav.add_item @team.name, team_path(@team)
 %>
 
-    <div class="col-lg-6 col-xl-4">
-      <div class="card">
-        <div class="card-header">
-          Invitations
-        </div>
-        <div class="card-block">
-          <% invitations = current_team.team_invitations.where(:accepted => [nil, false]) %>
-          <% if invitations.size == 0 %>
-              There are no invitation waiting for approval.
-          <% else %>
-              <% invitations.each do |invitation| %>
-                  <div class="row">
-                    <div class="col-lg-4">
-                      <%= link_to team_invitation_path(invitation), method: :delete,
-                                  title: "Remove",
-                                  data: {
-                                      confirm: {
-                                          question: "Are you sure you want to remove this invitation?",
-                                          title: "Remove invitation"
-                                      }
-                                  },
-                                  class: "btn btn-danger btn-sm" do %>
-                          <%= icon(:remove, :fa) %> Remove
-                      <% end %>
-                    </div>
-                    <div class="col-lg-8">
-                      <% if invitation.user %>
-                          <%= invitation.user.name %>
-                      <% else %>
-                          <%= invitation.email %>
-                      <% end %>
-                    </div>
-                  </div>
-              <% end %>
-          <% end %>
-        </div>
-        <div class="card-footer">
-          <%= form_tag(team_invitations_path, :class => 'form-horizontal') do |form| %>
+<div class="row">
+  <div class="col-lg-6 col-xl-4">
+    <%= render 'invitations' %>
 
-              <div class="form-group">
-                  <%= text_field_tag(:email, nil, :class => 'form-control', :placeholder => 'User e-mail') %>
-              </div>
-              <div class="form-group">
-                  <button type="submit" class="btn btn-success btn-sm">Invite member</button>
-              </div>
-
-          <% end %>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        Download all team data
       </div>
-    </div>
-
-    <div class="col-lg-6 col-xl-8">
-      <div class="row">
-        <% @team.users.each do |user| %>
-            <div class="col-lg-12">
-              <div class="card">
-                <div class="card-block">
-                  <div class="col-lg-10">
-                    <h4><a href="<%= user_path(user) %>"><%= user.name %></a></h4>
-                    <p><strong><%= user.job_title %></strong></p>
-                  </div>
-
-                  <div class="col-lg-2">
-                    <img src="<%= user.avatar_url %>" class="img-avatar pull-left" style="width: 40px;">
-                  </div>
-
-                  <div class="col-lg-12">
-                    <p><%= user.default_biography.content if user.default_biography %></p>
-                  </div>
-
-                </div>
-                <div class="card-footer">
-                  <%= link_to team_team_member_path(@team, user), method: :delete,
-                              title: "Remove",
-                              data: {
-                                  confirm: {
-                                      question: "Are you sure you want to remove this user ?",
-                                      title: "Remove user"
-                                  }
-                              },
-                              class: "btn btn-danger btn-xs" do %>
-                      <%= icon(:remove, :fa) %> Remove user
-                  <% end %>
-                </div>
-              </div>
-            </div>
+      <div class="card-block">
+        <%= link_to dump_team_path(@team),  class: 'btn btn-success', target: :blank do %>
+          <%= icon(:download, :fa) %>
+          Download
         <% end %>
       </div>
     </div>
+
+    <div class="card">
+      <div class="card-block bg-light">
+        <%= paginate @members, class: 'no-margin', window: 1 %>
+        <%= page_entries_info @members, entry_name: 'member' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 col-xl-8">
+    <%= form_tag team_path(current_team), method: :get do %>
+      <%= render @filterer %>
+    <% end %>
+
+    <% @members.each do |user| %>
+      <div class="card">
+        <div class="card-block">
+          <div class="col-lg-10">
+            <h4><a href="<%= user_path(user) %>"><%= user.name %></a></h4>
+            <p><strong><%= user.job_title %></strong></p>
+          </div>
+
+          <div class="col-lg-2">
+            <img src="<%= user.avatar_url %>" class="img-avatar pull-left" style="width: 40px;">
+          </div>
+
+          <div class="col-lg-12">
+            <p><%= user.default_biography.content if user.default_biography %></p>
+          </div>
+
+        </div>
+        <div class="card-footer">
+          <%= link_to team_team_member_path(@team, user), method: :delete,
+                      title: "Remove",
+                      data: {
+                          confirm: {
+                              question: "Are you sure you want to remove this user ?",
+                              title: "Remove user"
+                          }
+                      },
+                      class: "btn btn-danger btn-xs" do %>
+              <%= icon(:remove, :fa) %> Remove user
+          <% end %>
+        </div>
+    </div>
+    <% end %>
+
+    <div class="card">
+      <div class="card-block bg-light">
+        <%= paginate @members, class: 'no-margin', window: 1 %>
+        <%= page_entries_info @members, entry_name: 'member' %>
+      </div>
+    </div>
+  </div>
+</div>

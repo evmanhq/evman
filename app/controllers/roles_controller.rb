@@ -56,7 +56,7 @@ class RolesController < ApplicationController
 
   def create
     @role = current_team.roles.build role_params
-    @role.authorization_profile = Authorization::Profile.new(params[:role][:authorization_profile])
+    @role.authorization_profile = Authorization::Profile.new(params[:role][:authorization_profile].permit!)
 
     if @role.save
       redirect_to roles_path

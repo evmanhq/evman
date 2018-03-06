@@ -19,7 +19,8 @@ module Authorization
             goals: true,
             statistics: true,
             tasks: true,
-            forms: true
+            forms: true,
+            dump: false
         },
 
         talk: {

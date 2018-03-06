@@ -2,6 +2,12 @@ class TeamsController < ApplicationController
 
   skip_before_action :require_team!, :only => [:new, :create, :select, :slack]
 
+  def dump
+    @team = Team.find(params[:id])
+    authorize! @team, :dump
+    render json: @team, serializer: TeamDumpSerializer
+  end
+  
   def index
     respond_to do |response|
       response.json do
@@ -22,6 +28,11 @@ class TeamsController < ApplicationController
   def show
     @team = Team.find(params[:id])
     authorize! @team, :read_members
+
+    @members = @team.users
+    @filterer = Filterer::UsersFilterer.new(scope: @members, payload: params[:filter], current_team: current_team)
+    @members = @filterer.filtered
+    @members = @members.page(params[:page] || 1).per(50)
   end
 
   def update

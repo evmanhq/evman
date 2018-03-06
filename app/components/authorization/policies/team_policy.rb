@@ -17,6 +17,10 @@ module Authorization
       def manage_forms?
         dictator.can?(team, :team, :forms)
       end
+
+      def dump?
+        dictator.can?(team, :team, :dump)
+      end
     end
   end
 end

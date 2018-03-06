@@ -185,6 +185,7 @@ Rails.application.routes.draw do
     member do
       get 'select'
       get 'settings'
+      get 'dump'
     end
 
     collection do
