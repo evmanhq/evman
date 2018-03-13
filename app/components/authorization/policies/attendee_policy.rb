@@ -5,9 +5,11 @@ module Authorization
       def create?
         return true unless attendee.event
 
-        team = attendee.event.team
-        return true if dictator.can?(team, :event, :attend) and attendee.user == dictator.user
-        return true if dictator.authorized?(attendee.event, :update)
+        attendee.event.teams.each do |team|
+          return true if dictator.can?(team, :event, :attend) and attendee.user == dictator.user
+          return true if dictator.authorized?(attendee.event, :update)
+        end
+
         false
       end
 

@@ -1,0 +1,94 @@
+<%
+  breadcrumb_nav.add_item "Events", events_path
+  breadcrumb_nav.add_item @event.name
+%>
+
+<% content_for :breadcrumb_menu do %>
+  <div class="btn-group" role="group">
+    <%= link_to add_attendee_event_path(@event), data: { modal: true }, class: 'btn text-success add-attendee-button' do %>
+      <%= icon(:plus, :fa) %> attendee
+    <% end %>
+
+    <%= link_to edit_event_path(@event), class: 'btn btn-link text-warning edit-event-button' do %>
+      <%= icon(:edit, :fa) %> Edit
+    <% end %>
+
+    <% if @event.archived %>
+      <%= link_to @event, method: :delete,
+                  title: 'Delete event',
+                  data:           {
+                      confirm: {
+                          question: 'Are you sure you want to delete this event ?',
+                          title: 'Delete event'
+                      }
+                  },
+                  class: 'btn text-danger destroy-event-button' do %>
+        <%= icon(:remove, :fa) %> Delete
+      <% end %>
+    <% else %>
+      <%= link_to @event, method: :delete,
+                  title: 'Archive event',
+                  data:           {
+                      confirm: {
+                          question: 'Are you sure you want to archive this event ?',
+                          title: 'Archive event'
+                      }
+                  },
+                  class: 'btn text-danger archive-event-button' do %>
+        <%= icon(:remove, :fa) %> Archive
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <%= render partial: 'tabs' %>
+        </div>
+        <div class="card-block">
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="card">
+                <div class="card-header">
+                  Teams with access to this event
+                </div>
+                <table class="table">
+                  <% @shares.each do |share| %>
+                    <tr>
+                      <td><%= share.team.name %></td>
+                      <td>
+                        <% unless share.team == current_team %>
+                          <%= link_to 'Unshare', team_event_path(share), method: :delete %>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </table>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="card">
+                <div class="card-header">
+                  Share this event with
+                </div>
+                <table class="table">
+                  <% current_user.teams.each do |team| %>
+                    <% next if @shared_with.include?(team) %>
+                    <tr>
+                      <td><%= team.name %></td>
+                      <td>
+                        <%= link_to 'Share', team_events_path(team_id: team, event_id: @event), method: :post %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

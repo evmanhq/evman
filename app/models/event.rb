@@ -1,6 +1,8 @@
 class Event < ApplicationRecord
 
-  belongs_to  :team, inverse_of: :events
+  belongs_to  :team, inverse_of: :owned_events
+  has_many    :team_events
+  has_many    :teams, through: :team_events
 
   belongs_to  :city
 

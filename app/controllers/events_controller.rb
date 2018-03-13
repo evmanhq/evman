@@ -91,6 +91,14 @@ class EventsController < ApplicationController
     authorize! @event, :read
   end
 
+  def sharing
+    @event = Event.find(params[:id])
+    return redirect_to event_path(@event) unless @event.team == current_team
+    authorize! @event, :update
+    @shares = TeamEvent.where(event: @event)
+    @shared_with = @shares.map { |it| it.team }
+  end
+
   def attachments
     @event = Event.find(params[:id])
     @attachment = Attachment.new(parent_type: 'Event', parent_id: @event.id)
@@ -104,6 +112,7 @@ class EventsController < ApplicationController
     authorize! @event, :create
 
     if @event.save
+      TeamEvent.create(team: current_team, event: @event)
       redirect_to @event
     else
       render action: :new
@@ -191,7 +200,7 @@ class EventsController < ApplicationController
   def ensure_event_team
     event = Event.find(params[:id])
     return true unless authorized?(event, :read)
-    if event.team != current_team
+    unless event.teams.include?(current_team)
       redirect_to event_url(event, subdomain: event.team.subdomain)
       return false
     end

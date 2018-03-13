@@ -45,6 +45,9 @@ Rails.application.routes.draw do
       get :approved
       get :committed
       get :archived
+
+      get :sharing
+
       delete 'contacts/:contact_id', to: 'event_contacts#destroy', as: :contact
       post 'contacts/:contact_id', to: 'event_contacts#create'
     end
@@ -61,6 +64,8 @@ Rails.application.routes.draw do
       resources :event_notes, :controller => :event_notes
     end
   end
+
+  resources :team_events
 
   resources :profile_pictures, except: [:index, :edit, :update] do
     member do

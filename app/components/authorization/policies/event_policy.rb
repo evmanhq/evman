@@ -3,7 +3,11 @@ module Authorization
     class EventPolicy < Base
       alias_method :event, :model
       def read?
-        dictator.can? event.team, :event, :read
+        event.teams.each do |team|
+          return true if dictator.can? team, :event, :read
+        end
+
+        false
       end
 
       def create?
@@ -11,8 +15,10 @@ module Authorization
       end
 
       def update?
-        return true if dictator.can?(event.team, :event, :manage) && dictator.user == event.owner
-        return true if dictator.can?(event.team, :event, :manage_all)
+        event.teams.each do |team|
+          return true if dictator.can?(team, :event, :manage) && dictator.user == event.owner
+          return true if dictator.can?(team, :event, :manage_all)
+        end
         false
       end
 
@@ -25,7 +31,7 @@ module Authorization
       end
 
       assignable_attribute :owner do
-        if dictator.can?(event.team, :event, :manage_all)
+        if event.teams.map { |team| dictator.can?(team, :event, :manage_all) }.include?(true)
           dictator.team.users
         else
           dictator.team.users.where(id: dictator.user.id)

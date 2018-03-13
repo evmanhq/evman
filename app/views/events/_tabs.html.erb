@@ -13,4 +13,9 @@
       <% end %>
     <% end %>
   </li>
+  <% if @event.team == current_team %>
+    <li class="nav-item">
+      <%= link_to "Sharing", sharing_event_path(@event), class: params[:action] == 'sharing' ? 'active nav-link' : 'nav-link' %>
+    </li>
+  <% end %>
 </ul>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171129143207) do
+ActiveRecord::Schema.define(version: 20180313100731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,26 +35,29 @@ ActiveRecord::Schema.define(version: 20171129143207) do
     t.integer "file_file_size"
     t.datetime "file_updated_at"
     t.integer "user_id"
-    t.integer "parent_id"
     t.string "parent_type"
+    t.integer "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["parent_type", "parent_id"], name: "index_attachments_on_parent_type_and_parent_id"
+    t.index ["user_id"], name: "index_attachments_on_user_id"
   end
 
   create_table "attendee_types", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.integer "team_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.boolean "default", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_attendee_types_on_team_id"
   end
 
   create_table "attendees", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "event_id"
     t.integer "attendee_type_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["attendee_type_id"], name: "index_attendees_on_attendee_type_id"
     t.index ["event_id"], name: "index_attendees_on_event_id"
     t.index ["user_id"], name: "index_attendees_on_user_id"
@@ -69,7 +72,7 @@ ActiveRecord::Schema.define(version: 20171129143207) do
   end
 
   create_table "cities", id: :serial, force: :cascade do |t|
-    t.string "geoid", limit: 255
+    t.string "geoid"
     t.integer "country_id"
     t.integer "time_zone_id"
     t.float "lat"
@@ -77,25 +80,25 @@ ActiveRecord::Schema.define(version: 20171129143207) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "state_id"
-    t.string "display", limit: 255
+    t.string "display"
     t.index "to_tsvector('english'::regconfig, f_unaccent((display)::text))", name: "index_fulltext_cities", using: :gin
     t.index ["country_id"], name: "index_cities_on_country_id"
     t.index ["geoid"], name: "index_cities_on_geoid"
-    t.index ["state_id"], name: "index_cities_on_state_id"
+    t.index ["time_zone_id"], name: "index_cities_on_time_zone_id"
   end
 
   create_table "city_names", id: :serial, force: :cascade do |t|
-    t.string "geoid", limit: 255
-    t.string "name", limit: 255
-    t.string "keyword", limit: 255
+    t.string "geoid"
+    t.string "name"
+    t.string "keyword"
     t.integer "city_id"
     t.integer "language_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index "keyword varchar_pattern_ops", name: "index_city_names_on_keyword2"
     t.index ["city_id"], name: "index_city_names_on_city_id"
     t.index ["geoid"], name: "index_city_names_on_geoid"
     t.index ["keyword"], name: "index_city_names_on_keyword"
+    t.index ["language_id"], name: "index_city_names_on_language_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -118,38 +121,30 @@ ActiveRecord::Schema.define(version: 20171129143207) do
   end
 
   create_table "continents", id: :serial, force: :cascade do |t|
-    t.string "code", limit: 255
-    t.string "name", limit: 255
-    t.string "geoid", limit: 255
+    t.string "code"
+    t.string "name"
+    t.string "geoid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "countries", id: :serial, force: :cascade do |t|
-    t.string "code", limit: 255
-    t.string "name", limit: 255
-    t.string "tld", limit: 255
-    t.string "geoid", limit: 255
+    t.string "code"
+    t.string "name"
+    t.string "tld"
+    t.string "geoid"
     t.integer "currency_id"
     t.integer "continent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["continent_id"], name: "index_countries_on_continent_id"
+    t.index ["currency_id"], name: "index_countries_on_currency_id"
   end
 
   create_table "currencies", id: :serial, force: :cascade do |t|
-    t.string "code", limit: 255
-    t.string "name", limit: 255
-    t.string "symbol", limit: 255
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "email_change_requests", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.string "code", limit: 255
-    t.string "email", limit: 255
-    t.boolean "confirmed", default: false, null: false
+    t.string "code"
+    t.string "name"
+    t.string "symbol"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -160,6 +155,8 @@ ActiveRecord::Schema.define(version: 20171129143207) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_notes_on_event_id"
+    t.index ["user_id"], name: "index_event_notes_on_user_id"
   end
 
   create_table "event_properties", force: :cascade do |t|
@@ -186,10 +183,11 @@ ActiveRecord::Schema.define(version: 20171129143207) do
   end
 
   create_table "event_series", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.integer "team_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_event_series_on_team_id"
   end
 
   create_table "event_talks", id: :serial, force: :cascade do |t|
@@ -197,29 +195,34 @@ ActiveRecord::Schema.define(version: 20171129143207) do
     t.integer "event_id"
     t.integer "user_id"
     t.boolean "state"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_talks_on_event_id"
+    t.index ["talk_id"], name: "index_event_talks_on_talk_id"
+    t.index ["user_id"], name: "index_event_talks_on_user_id"
   end
 
   create_table "event_types", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.integer "team_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.boolean "default", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "color", limit: 7
+    t.index ["team_id"], name: "index_event_types_on_team_id"
   end
 
   create_table "events", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.boolean "committed"
     t.boolean "approved"
     t.boolean "archived"
     t.integer "city_id"
-    t.string "location", limit: 255
+    t.string "location"
     t.text "url"
-    t.string "sponsorship", limit: 255
-    t.string "cfp_url", limit: 255
+    t.string "sponsorship"
+    t.date "sponsorship_date"
+    t.string "cfp_url"
     t.date "cfp_date"
     t.date "begins_at"
     t.date "ends_at"
@@ -227,41 +230,44 @@ ActiveRecord::Schema.define(version: 20171129143207) do
     t.integer "owner_id"
     t.integer "event_series_id"
     t.integer "event_type_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.date "sponsorship_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.jsonb "properties_assignments"
     t.text "description"
     t.text "url2"
     t.text "url3"
     t.index ["city_id"], name: "index_events_on_city_id"
+    t.index ["event_series_id"], name: "index_events_on_event_series_id"
+    t.index ["event_type_id"], name: "index_events_on_event_type_id"
     t.index ["owner_id"], name: "index_events_on_owner_id"
     t.index ["properties_assignments"], name: "index_events_on_properties_assignments", using: :gin
     t.index ["team_id"], name: "index_events_on_team_id"
   end
 
   create_table "expense_types", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.integer "team_id"
     t.boolean "default"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_expense_types_on_team_id"
   end
 
   create_table "expenses", id: :serial, force: :cascade do |t|
     t.integer "event_id"
     t.integer "user_id"
     t.integer "expense_type_id"
-    t.string "report_id", limit: 255
-    t.integer "item_id"
-    t.string "item_type", limit: 255
-    t.integer "count", default: 1
+    t.string "report_id"
     t.float "amount"
     t.integer "currency_id"
     t.float "rate"
     t.float "usd"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["currency_id"], name: "index_expenses_on_currency_id"
+    t.index ["event_id"], name: "index_expenses_on_event_id"
+    t.index ["expense_type_id"], name: "index_expenses_on_expense_type_id"
+    t.index ["user_id"], name: "index_expenses_on_user_id"
   end
 
   create_table "filter_bookmarks", force: :cascade do |t|
@@ -306,137 +312,21 @@ ActiveRecord::Schema.define(version: 20171129143207) do
 
   create_table "identities", id: :serial, force: :cascade do |t|
     t.integer "user_id"
-    t.string "provider", limit: 255
-    t.string "uid", limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string "provider"
+    t.string "uid"
     t.text "token"
-    t.string "secret", limit: 255
+    t.string "secret"
     t.datetime "expires"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_identities_on_user_id"
   end
 
   create_table "languages", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "code", limit: 255
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "languages_organized_events", id: false, force: :cascade do |t|
-    t.integer "organized_event_id", null: false
-    t.integer "language_id", null: false
-  end
-
-  create_table "messages", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "sender_id"
-    t.string "sender_type", limit: 255
-    t.string "subject", limit: 255
-    t.text "content"
-    t.boolean "read", default: false
-    t.integer "message_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "monthly_goals", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "value", null: false
-    t.integer "team_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "organized_event_difficulties", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.integer "team_id"
+    t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["team_id"], name: "index_organized_event_difficulties_on_team_id"
-  end
-
-  create_table "organized_event_difficulties_events", id: false, force: :cascade do |t|
-    t.integer "organized_event_id", null: false
-    t.integer "organized_event_difficulty_id", null: false
-  end
-
-  create_table "organized_event_paper_types", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.integer "team_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["team_id"], name: "index_organized_event_paper_types_on_team_id"
-  end
-
-  create_table "organized_event_paper_types_events", id: false, force: :cascade do |t|
-    t.integer "organized_event_id", null: false
-    t.integer "organized_event_paper_type_id", null: false
-  end
-
-  create_table "organized_event_papers", id: :serial, force: :cascade do |t|
-    t.string "title"
-    t.integer "track_id"
-    t.integer "difficulty_id"
-    t.integer "language_id"
-    t.text "abstract"
-    t.text "additional_notes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "paper_type_id"
-    t.index ["difficulty_id"], name: "index_organized_event_papers_on_difficulty_id"
-    t.index ["language_id"], name: "index_organized_event_papers_on_language_id"
-    t.index ["paper_type_id"], name: "index_organized_event_papers_on_paper_type_id"
-    t.index ["track_id"], name: "index_organized_event_papers_on_track_id"
-  end
-
-  create_table "organized_event_speakers", id: :serial, force: :cascade do |t|
-    t.boolean "primary"
-    t.integer "user_id"
-    t.integer "paper_id"
-    t.integer "tshirt_size_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["paper_id"], name: "index_organized_event_speakers_on_paper_id"
-    t.index ["tshirt_size_id"], name: "index_organized_event_speakers_on_tshirt_size_id"
-    t.index ["user_id"], name: "index_organized_event_speakers_on_user_id"
-  end
-
-  create_table "organized_event_tracks", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.integer "organized_event_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["organized_event_id"], name: "index_organized_event_tracks_on_organized_event_id"
-  end
-
-  create_table "organized_event_tshirt_sizes", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.integer "team_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["team_id"], name: "index_organized_event_tshirt_sizes_on_team_id"
-  end
-
-  create_table "organized_event_tshirt_sizes_events", id: false, force: :cascade do |t|
-    t.integer "organized_event_id", null: false
-    t.integer "organized_event_tshirt_size_id", null: false
-  end
-
-  create_table "organized_events", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.string "token"
-    t.integer "team_id"
-    t.integer "owner_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "description"
-    t.string "logo_file_name"
-    t.string "logo_content_type"
-    t.integer "logo_file_size"
-    t.datetime "logo_updated_at"
-    t.index ["owner_id"], name: "index_organized_events_on_owner_id"
-    t.index ["team_id"], name: "index_organized_events_on_team_id"
   end
 
   create_table "performance_metric_entries", force: :cascade do |t|
@@ -460,13 +350,13 @@ ActiveRecord::Schema.define(version: 20171129143207) do
 
   create_table "profile_pictures", id: :serial, force: :cascade do |t|
     t.integer "user_id"
+    t.boolean "public", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image_file_name"
     t.string "image_content_type"
     t.integer "image_file_size"
     t.datetime "image_updated_at"
-    t.boolean "public", default: false
     t.index ["user_id"], name: "index_profile_pictures_on_user_id"
   end
 
@@ -486,10 +376,10 @@ ActiveRecord::Schema.define(version: 20171129143207) do
   end
 
   create_table "sessions", id: :serial, force: :cascade do |t|
-    t.string "session_id", limit: 255, null: false
+    t.string "session_id", null: false
     t.text "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
@@ -508,6 +398,7 @@ ActiveRecord::Schema.define(version: 20171129143207) do
     t.string "bot_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_slack_settings_on_team_id"
   end
 
   create_table "slack_users", id: :serial, force: :cascade do |t|
@@ -516,40 +407,38 @@ ActiveRecord::Schema.define(version: 20171129143207) do
     t.string "username"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["slack_setting_id"], name: "index_slack_users_on_slack_setting_id"
+    t.index ["user_id"], name: "index_slack_users_on_user_id"
   end
 
   create_table "states", id: :serial, force: :cascade do |t|
-    t.string "geoid", limit: 255
-    t.string "code", limit: 255
-    t.string "name", limit: 255
+    t.string "geoid"
+    t.string "code"
+    t.string "name"
     t.integer "country_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_states_on_country_id"
     t.index ["geoid"], name: "index_states_on_geoid"
   end
 
-  create_table "swag_items", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
-    t.float "price"
-    t.integer "team_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "taggeds", id: :serial, force: :cascade do |t|
+    t.string "item_type"
     t.integer "item_id"
-    t.string "item_type", limit: 255
     t.integer "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["item_type", "item_id"], name: "index_taggeds_on_item_type_and_item_id"
+    t.index ["tag_id"], name: "index_taggeds_on_tag_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
-    t.string "keyword", limit: 255
+    t.string "name"
+    t.string "keyword"
     t.integer "team_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_tags_on_team_id"
   end
 
   create_table "talks", id: :serial, force: :cascade do |t|
@@ -557,47 +446,43 @@ ActiveRecord::Schema.define(version: 20171129143207) do
     t.integer "user_id"
     t.integer "event_type_id"
     t.integer "event_series_id"
-    t.string "name", limit: 255
+    t.string "name"
     t.text "abstract"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.boolean "archived", default: false
-  end
-
-  create_table "task_lists", id: :serial, force: :cascade do |t|
-    t.integer "team_id"
-    t.string "name", limit: 255
-    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_series_id"], name: "index_talks_on_event_series_id"
+    t.index ["event_type_id"], name: "index_talks_on_event_type_id"
+    t.index ["team_id"], name: "index_talks_on_team_id"
+    t.index ["user_id"], name: "index_talks_on_user_id"
   end
 
-  create_table "tasks", id: :serial, force: :cascade do |t|
-    t.integer "task_list_id"
-    t.string "name", limit: 255
-    t.string "description", limit: 255
-    t.datetime "due"
-    t.integer "item_id"
-    t.string "item_type", limit: 255
+  create_table "team_events", force: :cascade do |t|
+    t.bigint "team_id"
+    t.bigint "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_team_events_on_event_id"
+    t.index ["team_id"], name: "index_team_events_on_team_id"
   end
 
   create_table "team_invitations", id: :serial, force: :cascade do |t|
-    t.string "email", limit: 255
-    t.string "code", limit: 255, null: false
+    t.string "email"
+    t.string "code", null: false
     t.integer "user_id"
     t.integer "team_id"
     t.boolean "accepted"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_team_invitations_on_team_id"
+    t.index ["user_id"], name: "index_team_invitations_on_user_id"
   end
 
   create_table "team_membership_types", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.boolean "active"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "team_memberships", id: :serial, force: :cascade do |t|
@@ -605,29 +490,21 @@ ActiveRecord::Schema.define(version: 20171129143207) do
     t.integer "team_id"
     t.integer "team_membership_type_id"
     t.boolean "active"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_team_memberships_on_team_id"
+    t.index ["team_membership_type_id"], name: "index_team_memberships_on_team_membership_type_id"
     t.index ["user_id"], name: "index_team_memberships_on_user_id"
   end
 
-  create_table "team_monthly_goals", id: :serial, force: :cascade do |t|
-    t.integer "team_id"
-    t.integer "value", default: 0, null: false
+  create_table "teams", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "email_domain"
+    t.boolean "active"
+    t.string "subdomain", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "teams", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
-    t.text "description"
-    t.boolean "active"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean "system", default: false
-    t.boolean "public", default: false
-    t.string "subdomain", null: false
-    t.string "email_domain"
     t.integer "event_feedback_form_id"
     t.index ["event_feedback_form_id"], name: "index_teams_on_event_feedback_form_id"
   end
@@ -640,7 +517,7 @@ ActiveRecord::Schema.define(version: 20171129143207) do
   end
 
   create_table "time_zones", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
+    t.string "name"
     t.float "gmt"
     t.float "dst"
     t.float "dst_starts_at"
@@ -657,30 +534,21 @@ ActiveRecord::Schema.define(version: 20171129143207) do
     t.index ["user_id"], name: "index_user_emails_on_user_id"
   end
 
-  create_table "user_monthly_goals", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "monthly_goal_id"
-    t.text "comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "users", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255, default: ""
-    t.string "email", limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "group_id"
-    t.string "password_digest"
+    t.string "name"
+    t.string "email"
     t.string "token"
-    t.string "job_title"
-    t.integer "default_biography_id"
-    t.integer "default_profile_picture_id"
+    t.string "password_digest"
     t.integer "home_country_id"
+    t.string "job_title"
     t.string "organization"
     t.string "phone"
     t.string "twitter"
     t.string "github"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "default_biography_id"
+    t.integer "default_profile_picture_id"
     t.index ["default_biography_id"], name: "index_users_on_default_biography_id"
     t.index ["default_profile_picture_id"], name: "index_users_on_default_profile_picture_id"
     t.index ["email"], name: "index_users_on_email", unique: true
