@@ -7,7 +7,7 @@ class Team < ApplicationRecord
 
   has_many  :team_events, dependent: :destroy
   has_many  :events, through: :team_events, dependent: :destroy
-  has_many  :owned_events, inverse_of: :team_id, dependent: :destroy
+  has_many  :owned_events, inverse_of: :team, dependent: :destroy
 
   has_many :filter_bookmarks, dependent: :destroy, inverse_of: :team
 
