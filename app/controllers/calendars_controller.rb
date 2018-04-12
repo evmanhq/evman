@@ -11,9 +11,11 @@ class CalendarsController < ApplicationController
     calendar = Icalendar::Calendar.new
     calendar.prodid = user_url(current_user)
     Event.where(:team => current_user.teams).joins(:users).where(:users => {:id => current_user}).order(:begins_at).all.each do |event|
+      ends = event.ends_at
+      ends += 1.day if ends > event.begins_at
       calendar.event do |e|
         e.dtstart       = Icalendar::Values::Date.new(event.begins_at)
-        e.dtend         = Icalendar::Values::Date.new(event.ends_at)
+        e.dtend         = Icalendar::Values::Date.new(ends)
         e.created       = event.created_at
         e.last_modified = event.updated_at
         e.summary       = event.name

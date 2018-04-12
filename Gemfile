@@ -48,12 +48,12 @@ gem 'icalendar'
 gem 'kaminari'
 
 gem 'paperclip'
-gem 'aws-sdk', '~> 2.0'
+gem 'aws-sdk-s3', '~> 1'
 
 gem 'puma'
 
-gem 'bootstrap', '~> 4.0.0.beta2.1'
-gem 'font-awesome-sass'
+gem 'bootstrap', '~> 4.0'
+gem 'font-awesome-sass', '~> 4.0'
 gem 'jquery-rails'
 
 gem 'faraday'
