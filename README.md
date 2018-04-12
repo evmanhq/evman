@@ -164,6 +164,6 @@ The theme is based on the awesome work of [CoreUI](http://coreui.io).
 
 ## Copyright
 
-Copyright © 2015-2016 Marek Jelen, Filip Zachar
+Copyright © 2015-2018 Red Hat employees (Marek Jelen, Filip Zachar)
 
 See LICENSE.txt for further details.
