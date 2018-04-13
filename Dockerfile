@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/evman/environment
+FROM quay.io/evman/environment
 
 COPY --chown=ruby:root Gemfile Gemfile.lock /home/ruby/app/
 
