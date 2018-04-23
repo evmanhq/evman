@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   append_before_action :validate_user_info!
   append_before_action :authenticate!
   append_before_action :require_team!
+  append_before_action :announcements
 
   append_before_action :breadcrumb_nav
 
@@ -91,13 +92,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def announcements
+    redirect_to(announcements_path) if Announcement.new_for_user(current_user).count > 0
+  end
+
   def get_current_team
     @current_team = Team.where(subdomain: request.subdomain).first
     @current_team ||= current_user.teams.first if current_user
   end
 
   def validate_user_info!
-      redirect_to(edit_user_path(current_user)) if current_user && (!current_user.password_digest)
+    redirect_to(edit_user_path(current_user)) if current_user && (!current_user.password_digest)
   end
 
   def authenticate!

@@ -10,11 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180313100731) do
+ActiveRecord::Schema.define(version: 20180423090832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
+
+  create_table "announcement_users", force: :cascade do |t|
+    t.bigint "announcement_id"
+    t.bigint "user_id"
+    t.string "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["announcement_id"], name: "index_announcement_users_on_announcement_id"
+    t.index ["user_id"], name: "index_announcement_users_on_user_id"
+  end
+
+  create_table "announcements", force: :cascade do |t|
+    t.string "heading"
+    t.text "content"
+    t.bigint "team_id"
+    t.json "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_announcements_on_team_id"
+  end
 
   create_table "api_tokens", force: :cascade do |t|
     t.string "name", null: false
