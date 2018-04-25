@@ -28,6 +28,7 @@ class User < ApplicationRecord
   belongs_to :home_country, class_name: 'Country'
 
   has_many  :emails, class_name: 'UserEmail', dependent: :destroy
+  has_many :announcement_users, inverse_of: :user, dependent: :destroy
 
   validates :name, presence: true, length: { minimum: 2 }
 

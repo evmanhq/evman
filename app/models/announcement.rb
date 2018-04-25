@@ -1,6 +1,6 @@
 class Announcement < ApplicationRecord
 
-  has_many :announcement_users
+  has_many :announcement_users, inverse_of: :announcement, dependent: :destroy
   belongs_to :team
 
   def self.new_for_user(user)
