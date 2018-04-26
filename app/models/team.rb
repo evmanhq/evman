@@ -29,6 +29,7 @@ class Team < ApplicationRecord
   has_many :event_properties, inverse_of: :team, dependent: :destroy
   has_many :contacts, dependent: :destroy
   has_many :performance_metrics, inverse_of: :team, dependent: :destroy
+  has_many :announcements, inverse_of: :team, dependent: :destroy
 
   validates :subdomain, uniqueness: true
 

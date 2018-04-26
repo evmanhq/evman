@@ -28,6 +28,8 @@ Rails.application.routes.draw do
 
   get '/dashboard', :to => 'dashboard#index'
 
+  resources :announcements
+
   resources :event_properties do
     put :sort, on: :collection
   end
