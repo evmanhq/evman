@@ -93,7 +93,7 @@ class ApplicationController < ActionController::Base
   end
 
   def announcements
-    redirect_to(announcements_path) if Announcement.new_for_user(current_user).count > 0
+    redirect_to(announcements_path) if current_user && Announcement.new_for_user(current_user).count > 0
   end
 
   def get_current_team
