@@ -3,7 +3,7 @@ require 'securerandom'
 
 class WelcomeController < ApplicationController
 
-  skip_before_action :authenticate!, :require_team!
+  skip_before_action :authenticate!, :require_team!, :announcements
 
   layout 'welcome'
 
