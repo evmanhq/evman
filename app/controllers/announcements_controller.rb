@@ -2,7 +2,7 @@ class AnnouncementsController < ApplicationController
 
   layout 'welcome'
 
-  skip_before_action :announcements
+  skip_before_action :announcements, :require_team!
 
   def index
     @announcement = Announcement.new_for_user(current_user).first
