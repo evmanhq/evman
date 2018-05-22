@@ -27,7 +27,7 @@ EvMan configuration values
 Variable | Description
 --- | ---
 EVMAN_HOST | full address to use oauth, e.g. https://www.evman.io
-EVMAN_DOMAIN | Main domain part of your service, e.g. evman.io 
+EVMAN_DOMAIN | Main domain part of your service, e.g. evman.io
 EVMAN_SCHEME | Scheme used for accessing the service, e.g. https
 EVMAN_REQUIRE_INVITATION | If set to 'true' evman will require invitation for new users to register
 SECRET_KEY_BASE | Used to encrypt cookie based sessions
@@ -53,7 +53,7 @@ GOOGLE_KEY | Oauth secret
 FACEBOOK_ID | Oauth key
 FACEBOOK_KEY | Oauth secret
 TWITTER_ID | Oauth key
-TWITTER_KEY | Oauth secret 
+TWITTER_KEY | Oauth secret
 GITLAB_ID | Oauth key
 GITLAB_KEY | Oauth secret
 
@@ -71,7 +71,7 @@ Slack integration
 Variable | Description
 --- | ---
 SLACK_ID | Slack id
-SLACK_TOKEN | Slack token 
+SLACK_TOKEN | Slack token
 SLACK_CLIENT_ID | Slack client id
 SLACK_CLIENT_SECRET | Slack client secret
 
@@ -105,7 +105,7 @@ Create database structure
 rake db:schema:load
 ```
 
-or 
+or
 
 ```
 rake db:migrate
@@ -137,20 +137,20 @@ psql -f geo.sql -d <name> ....
 
 ### Done
 
-You instance should be up and running. 
+You instance should be up and running.
 Navigate to [https://localhost:3000](https://localhost:3000).
 
 ### Production
 
-For production use follow the steps above, but also put Nginx in front 
-of your website. Easiest way is to use 
-[EvMan's Docker environment](https://gitlab.com/evman/docker-env).
+For production use follow the steps above, but also put Nginx in front
+of your website. Easiest way is to use
+[EvMan's Docker environment](https://github.com/evmanhq/environment).
 
 ## Hacking
 
 We welcome all pull requests, bug reports and request for enhancements.
 
-You agree that your contributions are provided under the same 
+You agree that your contributions are provided under the same
 license as the project itself.
 
 ## GeoNames
