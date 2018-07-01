@@ -1,16 +1,16 @@
-FROM quay.io/evman/environment
+FROM quay.io/evman/environment:uids
 
-COPY --chown=ruby:root Gemfile Gemfile.lock /home/ruby/app/
+COPY --chown=ruby:root Gemfile Gemfile.lock ./
 
 RUN bundle install --deployment --without=test development
-COPY --chown=ruby:root docker/evman.sh Rakefile config.ru \
-     package.json yarn.lock .babelrc /home/ruby/app/
 
-COPY --chown=ruby:root bin /home/ruby/app/bin
-COPY --chown=ruby:root config /home/ruby/app/config
-COPY --chown=ruby:root app /home/ruby/app/app
-COPY --chown=ruby:root db /home/ruby/app/db
-COPY --chown=ruby:root lib /home/ruby/app/lib
-COPY --chown=ruby:root public /home/ruby/app/public
+COPY --chown=ruby:root docker/evman.sh Rakefile config.ru package.json yarn.lock .babelrc ./
 
-RUN assets.sh
+COPY --chown=ruby:root bin ./bin
+COPY --chown=ruby:root config ./config
+COPY --chown=ruby:root app ./app
+COPY --chown=ruby:root db ./db
+COPY --chown=ruby:root lib ./lib
+COPY --chown=ruby:root public ./public
+
+RUN ./assets.sh
