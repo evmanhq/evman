@@ -21,7 +21,7 @@ gem 'bcrypt'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-tripit'
-gem "omniauth-google-oauth2"
+gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-gitlab'
