@@ -64,6 +64,7 @@ gem 'brakeman', require: false
 gem 'rubocop', require: false
 gem 'sentry-raven'
 gem 'skylight'
+gem 'elastic-apm'
 
 gem 'webpacker'
 
