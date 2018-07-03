@@ -15,11 +15,15 @@ en:
           attend: Attend
           manage: Manage
           manage_all: Manage all
+          approve: Approve
+          commit: Commit
         descriptions:
           read: User is allowed to see events in this team
           attend: Allows user to attend events
           manage: User can create new events, and edit and remove their own events
           manage_all: User can edit and remove events that does not belong to him
+          approve: Allows user to approve events
+          commit: Allows user to commit events
       team:
         names:
           event_types: Event Types
