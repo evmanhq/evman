@@ -127,6 +127,7 @@ class EventsController < ApplicationController
   def approved
     @event = Event.find(params[:id])
     authorize! @event, :update
+    authorize! @event, :approve
     @event.approved = !@event.approved
     @event.save
     redirect_to(event_path(@event))
@@ -135,6 +136,7 @@ class EventsController < ApplicationController
   def committed
     @event = Event.find(params[:id])
     authorize! @event, :update
+    authorize! @event, :commit
     @event.committed = !@event.committed
     @event.save
     redirect_to(event_path(@event))

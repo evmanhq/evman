@@ -26,6 +26,14 @@ module Authorization
         update?
       end
 
+      def approve?
+        dictator.can?(:event, :approve)
+      end
+
+      def commit?
+        dictator.can?(:event, :commit)
+      end
+
       assignable_attribute :team do
         Array.wrap(dictator.team)
       end
