@@ -149,6 +149,18 @@ GEM
     gherkin (5.0.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    graphiql-rails (1.4.10)
+      railties
+      sprockets-rails
+    graphql (1.8.4)
+    graphql-batch (0.3.9)
+      graphql (>= 0.8, < 2)
+      promise.rb (~> 0.7.2)
+    graphql-preload (2.0.1)
+      activerecord (>= 4.1, < 6)
+      graphql (>= 1.5, < 2)
+      graphql-batch (~> 0.3)
+      promise.rb (~> 0.7)
     hashie (3.5.7)
     hirb (0.7.3)
     htmlentities (4.3.4)
@@ -268,6 +280,7 @@ GEM
       websocket-driver (>= 0.2.0)
     popper_js (1.12.9)
     powerpack (0.1.1)
+    promise.rb (0.7.4)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -455,6 +468,10 @@ DEPENDENCIES
   factory_girl_rails
   faraday
   font-awesome-sass (~> 4.0)
+  graphiql-rails
+  graphql (~> 1.8, >= 1.8.3)
+  graphql-batch (~> 0.3.9)
+  graphql-preload (~> 2.0, >= 2.0.1)
   hirb
   icalendar
   jquery-rails
