@@ -5,8 +5,8 @@ export default {
     ...mapGetters(['eventType'])
   },
   methods: {
-    setEventField(name, event) {
-      this.$store.commit('setEventField', {name, value: event.target.value })
+    setEventField(name, value) {
+      this.$store.commit('setEventField', {name, value})
     },
 
     setEventFieldMultiselect(name, payload) {

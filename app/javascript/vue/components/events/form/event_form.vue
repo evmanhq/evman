@@ -1,7 +1,7 @@
 <template>
   <div>
     <field name="name" label="Name" :required="true"></field>
-    <field name="description" label="Description" type="textarea"></field>
+    <field name="description" label="Description" type="markdown"></field>
 
     <div class="form-group row">
       <label :class="['col-form-label', labelClass]">Type <b class="text-danger">*</b></label>

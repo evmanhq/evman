@@ -36,7 +36,7 @@
       <div class="form-group row">
         <label class="col-form-label col-lg-2">Abstract</label>
         <div class="col-lg-10">
-          <%= form.text_area(:abstract, :class => 'form-control', :rows => 10) %>
+          <%= render partial: 'markdown_editor', locals: { name: 'talk[abstract]', value: @talk.abstract } %>
         </div>
       </div>
 

@@ -184,7 +184,6 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
-    kramdown (1.17.0)
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (3.16.14.19)
@@ -207,7 +206,6 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     multi_json (1.13.1)
-    multi_markdown (0.2.0)
     multi_test (0.1.2)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
@@ -342,6 +340,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    redcarpet (3.4.0)
     ref (2.0.0)
     request_store (1.4.1)
       rack (>= 1.4)
@@ -468,10 +467,8 @@ DEPENDENCIES
   jquery-rails
   jsonb_accessor (= 1.0.0)
   kaminari
-  kramdown
   lograge
   multi_json
-  multi_markdown
   oj
   omniauth
   omniauth-facebook
@@ -503,6 +500,7 @@ DEPENDENCIES
   rails-assets-tether!
   rails-assets-underscore!
   rails-i18n (~> 5.0.0)
+  redcarpet (~> 3.4)
   rspec-rails (~> 3.5.1)
   rubocop
   ruby-kafka
