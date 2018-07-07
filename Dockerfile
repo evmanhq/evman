@@ -1,4 +1,4 @@
-FROM quay.io/evman/environment:uids
+FROM quay.io/evman/environment
 
 COPY --chown=ruby:root Gemfile Gemfile.lock ./
 
