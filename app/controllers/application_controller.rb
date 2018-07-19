@@ -158,7 +158,7 @@ class ApplicationController < ActionController::Base
       menu = EvmanMenu::Menu.new
       menu.configure do |m|
         if current_team
-          m.page name: 'Dashboard', path: dashboard_path, icon: 'dashboard'  if can? :event, :read
+          m.page name: 'Dashboard', path: dashboard_path, icon: 'dashboard'
 
           # Events
           m.section name: 'Events', icon: 'train' do |s|
