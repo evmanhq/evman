@@ -1,0 +1,63 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    <strong><%= @event_talk.event.name %>:</strong>
+    <%= @event_talk.talk.name %>
+  </h4>
+</div>
+
+<div class="modal-body">
+  <dl class="dl-horizontal">
+    <dt>User</dt>
+    <dd><%= link_to @event_talk.user.name, @event_talk.user %></dd>
+  </dl>
+
+  <dl class="dl-horizontal">
+    <dt>Talk</dt>
+    <dd><%= link_to @event_talk.talk.name, @event_talk.talk %></dd>
+  </dl>
+
+  <dl class="dl-horizontal">
+    <dt>Event</dt>
+    <dd><%= link_to @event_talk.event.name, @event_talk.event %></dd>
+  </dl>
+
+  <dl class="dl-horizontal">
+    <dt>State</dt>
+    <dd>
+      <%=
+        case @event_talk.state
+        when nil then
+          'Undecided'
+        when true then
+          'Approved'
+        when false then
+          'Rejected'
+        end
+      %>
+    </dd>
+  </dl>
+
+  <dl class="dl-horizontal">
+    <dt>Description</dt>
+    <dd><%= markdown(@event_talk.description) %></dd>
+  </dl>
+</div>
+
+<div class="modal-footer">
+  <%= link_to @event_talk, method: :delete,
+              title:        'Remove',
+              data:         {
+                  confirm: {
+                      question: 'Are you sure you want to remove this talk from this event?',
+                      title:    'Remove talk from event'
+                  }
+              },
+              class:        'btn btn-danger' do %>
+    <%= icon(:remove, :fa) %> Remove
+  <% end %>
+
+  <%= link_to edit_event_talk_path(@event_talk), data: { modal: true }, class: 'btn btn-warning' do %>
+    <%= icon(:edit, :fa) %> Edit
+  <% end %>
+  <button type="button" class="btn btn-default modal-close">Close</button>
+</div>
