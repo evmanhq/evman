@@ -5,8 +5,29 @@ class Types::EventType < Types::BaseObject
   field :approved, Boolean, null: false
   field :archived, Boolean, null: false
   # field :city, Types::CityType
-  field :location, String, null: false
+
+  # Strings
+  [:location, :sponsorship, :cfp_url, :url, :url2, :url3, :description].each do |string_column|
+    field string_column, String, null: false
+  end
+
+  # Dates
+  [:begins_at, :created_at].each do |date_column|
+    field date_column, GraphQL::Types::ISO8601DateTime, null: false
+  end
+  [:cfp_date, :sponsorship_date].each do |date_column|
+    field date_column, GraphQL::Types::ISO8601DateTime, null: true
+  end
+
+  # Methods
+  field :full_location, String, null: true, preload: { city: [:state, :country, :english_city_name] }
+
+  # Relationships
+  field :owner, Types::UserType, null: false, preload: :owner
   field :attendees, [Types::AttendeeType], null: false, preload: :attendees
-  field :begins_at, GraphQL::Types::ISO8601DateTime, null: false
-  field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+  field :team, Types::TeamType, null: false, preload: :team
+  field :teams, [Types::TeamType], null: false, preload: :teams
+  field :city, Types::CityType, null: true, preload: :city
+  field :event_talks, [Types::EventTalkType], null: false, preload: :talks
+  field :event_notes, [Types::EventNoteType], null: false, preload: :event_notes
 end

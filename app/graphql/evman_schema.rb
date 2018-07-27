@@ -2,6 +2,7 @@ require 'graphql/batch'
 require "graphql/types/iso_8601_date_time"
 
 ### graphql-preload patch vor graphql v 1.8
+# https://github.com/ConsultingMD/graphql-preload/pull/11
 GraphQL::Preload::Instrument.class_eval do
   def instrument(_type, field)
     return field unless field.metadata.include?(:preload)
