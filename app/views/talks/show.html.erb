@@ -104,6 +104,11 @@
                                 </div>
 
                                 <div class="col-lg-2" style="font-weight: bold;">
+                                  <% if talk.description.present? %>
+                                    <span class="tag tag-default" title="Contains description" data-toggle="tooltip">
+                                      <i class="fa fa-comment"></i>
+                                    </span>
+                                  <% end %>
                                     <div class="pull-right">
                                         <% if talk.state == nil %><span class="label label-warning">Undecided</span><% end %>
                                         <% if talk.state == true %><span class="label label-success">Accepted</span><% end %>

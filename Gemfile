@@ -21,7 +21,7 @@ gem 'bcrypt'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-tripit'
-gem "omniauth-google-oauth2"
+gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-gitlab'
@@ -36,8 +36,7 @@ gem 'axlsx'
 
 gem 'twitter-text'
 
-gem 'multi_markdown'
-gem 'kramdown'
+gem 'redcarpet', '~> 3.4'
 
 gem 'paper_trail', '~> 7.1'
 gem 'paper_trail-globalid', '~> 0.2.0'
@@ -69,6 +68,7 @@ gem 'brakeman', require: false
 gem 'rubocop', require: false
 gem 'sentry-raven'
 gem 'skylight'
+gem 'elastic-apm'
 
 gem 'webpacker'
 

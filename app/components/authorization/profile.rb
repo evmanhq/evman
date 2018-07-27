@@ -6,6 +6,8 @@ module Authorization
             attend: true,
             manage: true,
             manage_all: false,
+            approve: false,
+            commit: false
         },
 
         team: {

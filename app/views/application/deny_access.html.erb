@@ -1,14 +1,20 @@
-<div class="panel panel-danger">
-  <div class="panel-heading">
-    <h3 class="panel-title">Unauthorized access</h3>
+<div class="card text-white bg-danger mb-3">
+  <div class="card-header">
+    <h3 class="card-title">Unauthorized access</h3>
   </div>
-  <div class="panel-body">
+  <div class="card-body">
     <% if @exception.with_record? %>
-      You are not authorized to perform <span class="label label-danger"><%= @exception.action %></span> action on
-        <span class="label label-primary"><%= @exception.record.class.name %></span>
+      <%
+        breadcrumb_nav.add_item @exception.record.class.name, @exception.record
+        breadcrumb_nav.add_item @exception.action
+      %>
+      You are not authorized to perform <span class="badge badge-light"><%= @exception.action %></span> action on
+      <span class="badge badge-light"><%= @exception.record.class.name %></span>
     <% elsif @exception.with_permission? %>
-        You are not authorized for this operation in team <%= @exception.team.name %>
+      <% breadcrumb_nav.add_item "Unauthorized" %>
+      You are not authorized for this operation in team <%= @exception.team.name %>
     <% else %>
+      <% breadcrumb_nav.add_item "Unauthorized" %>
       You are not authorized for this operation.
     <% end %>
   </div>

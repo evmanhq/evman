@@ -10,7 +10,10 @@ class CalendarsController < ApplicationController
   def user
     calendar = Icalendar::Calendar.new
     calendar.prodid = user_url(current_user)
-    Event.where(:team => current_user.teams).joins(:users).where(:users => {:id => current_user}).order(:begins_at).all.each do |event|
+    Event.where(:team => current_user.teams)
+      .includes(:city => [:country, {:city_names => :language}, :state, :english_city_name])
+      .joins(:users).where(:users => {:id => current_user})
+      .order(:begins_at).all.each do |event|
       ends = event.ends_at
       ends += 1.day if ends > event.begins_at
       calendar.event do |e|
