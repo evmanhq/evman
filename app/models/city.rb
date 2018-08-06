@@ -10,7 +10,7 @@ class City < ApplicationRecord
   scope :fulltext_search, -> (query) do
     terms = query.to_s.split(' ').map { |item| item  + ':*' }.join('&')
     rank_order = sanitize_sql_for_order([<<-SQL, terms])
-      ts_rank(cities_fulltext_view.search_vector, to_tsquery(unaccent(?))) DESC
+      round(ts_rank(cities_fulltext_view.search_vector, to_tsquery(unaccent(?)))::numeric,1) DESC
     SQL
     joins('INNER JOIN cities_fulltext_view ON cities_fulltext_view.city_id = cities.id')
         .where('cities_fulltext_view.search_vector @@ to_tsquery(unaccent(?))', terms)
