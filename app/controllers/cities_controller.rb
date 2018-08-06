@@ -7,7 +7,7 @@ class CitiesController < ApplicationController
     cities = cities.fulltext_search(params[:fulltext]) if params[:fulltext]
     cities = cities.where(id: params[:ids]) if params[:ids]
 
-    cities = cities.limit(500)
+    cities = cities.limit(500).order(population: :desc)
     json = cities.all.map do |item|
       {
           id: item.id,

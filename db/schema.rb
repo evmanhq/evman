@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180423090832) do
+ActiveRecord::Schema.define(version: 20180806045336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20180423090832) do
   create_table "announcement_users", force: :cascade do |t|
     t.bigint "announcement_id"
     t.bigint "user_id"
-    t.string "answer"
+    t.text "answer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["announcement_id"], name: "index_announcement_users_on_announcement_id"
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 20180423090832) do
     t.datetime "updated_at", null: false
     t.integer "state_id"
     t.string "display"
+    t.bigint "population"
     t.index "to_tsvector('english'::regconfig, f_unaccent((display)::text))", name: "index_fulltext_cities", using: :gin
     t.index ["country_id"], name: "index_cities_on_country_id"
     t.index ["geoid"], name: "index_cities_on_geoid"
