@@ -102,7 +102,8 @@ class ApplicationController < ActionController::Base
   end
 
   def validate_user_info!
-    redirect_to(edit_user_path(current_user)) if current_user && (!current_user.password_digest)
+    return true unless current_user
+    current_user.assure_credentials
   end
 
   def authenticate!

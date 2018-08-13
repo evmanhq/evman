@@ -1,8 +1,8 @@
 class EventProperty < ApplicationRecord
   module Behaviour
-    MULTIPLE_CHOICE = 'multiple_choice'
-    SELECT = 'select'
-    TEXT = 'text'
+    MULTIPLE_CHOICE = 'multiple_choice'.freeze
+    SELECT = 'select'.freeze
+    TEXT = 'text'.freeze
   end
   BEHAVIOURS = [
       Behaviour::MULTIPLE_CHOICE,

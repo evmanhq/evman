@@ -10,6 +10,7 @@ class Types::EventType < Types::BaseObject
   [:location, :sponsorship, :cfp_url, :url, :url2, :url3, :description].each do |string_column|
     field string_column, String, null: false
   end
+  field :full_location, String, null: false
 
   # Dates
   [:begins_at, :created_at].each do |date_column|
@@ -30,4 +31,18 @@ class Types::EventType < Types::BaseObject
   field :city, Types::CityType, null: true, preload: :city
   field :event_talks, [Types::EventTalkType], null: false, preload: :talks
   field :event_notes, [Types::EventNoteType], null: false, preload: :event_notes
+
+  field :event_property_assignments, [Types::EventPropertyAssignmentType], null: false
+
+  def event_property_assignments
+    event = object
+    event.team.event_properties.includes(:options).in_order.map do |event_property|
+      label = event_property.name
+      behaviour = event_property.behaviour
+      values = event_property.values(event)
+      EventPropertyAssignment.new(label, behaviour, values)
+    end
+  end
+
+  EventPropertyAssignment = Struct.new(:label, :behaviour, :values)
 end

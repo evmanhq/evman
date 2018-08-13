@@ -25,7 +25,15 @@ class WelcomeController < ApplicationController
       session[:user_id] = user.id
       user.token = Digest::SHA256.hexdigest(SecureRandom.hex) unless user.token
       user.save
-      return render :json => {:token => user.token, :id => user.id, :name => user.name, :avatar => user.avatar_url}
+      return render json: {
+          token: user.token,
+          id: user.id,
+          name: user.name,
+          avatar: user.avatar_url,
+          teams: user.teams.map do |team|
+            { id: team.id, name: team.name, subdomain: team.subdomain}
+          end
+      }
     end
     render plain: 'FAILED'
   end
