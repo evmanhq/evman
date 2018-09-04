@@ -5,7 +5,7 @@ class TeamsController < ApplicationController
   def dump
     @team = Team.find(params[:id])
     authorize! @team, :dump
-    render json: @team, serializer: TeamDumpSerializer
+    render json: {} #@team, serializer: TeamDumpSerializer
   end
   
   def index
