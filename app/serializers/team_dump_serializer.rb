@@ -1,7 +1,6 @@
 class TeamDumpSerializer < ActiveModel::Serializer
   attributes :id, :name, :description, :created_at, :subdomain, :email_domain
 
-  has_many :users
   has_many :events
   has_many :talks
   has_many :event_types
