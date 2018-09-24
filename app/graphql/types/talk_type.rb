@@ -7,4 +7,7 @@ class Types::TalkType < Types::BaseObject
   [:begins_at, :created_at].each do |date_column|
     field date_column, GraphQL::Types::ISO8601DateTime, null: false
   end
+
+  field :events, [Types::EventType], null: false, preload: { events: :teams }
+  field :event_talks, [Types::EventTalkType], null: false, preload: :event_talks
 end

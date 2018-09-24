@@ -24,7 +24,7 @@ class Types::EventType < Types::BaseObject
   field :full_location, String, null: true, preload: { city: [:state, :country, :english_city_name] }
 
   # Relationships
-  field :owner, Types::UserType, null: false, preload: :owner
+  field :owner, Types::UserType, null: false, preload: { owner: :team }
   field :attendees, [Types::AttendeeType], null: false, preload: :attendees
   field :team, Types::TeamType, null: false, preload: :team
   field :teams, [Types::TeamType], null: false, preload: :teams
