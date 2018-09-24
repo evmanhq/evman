@@ -4,14 +4,19 @@ class Types::QueryType < Types::BaseObject
     argument :ids, [Integer], required: false
     argument :per_page, Integer, required: false, prepare: -> (per_page, ctx) { per_page || 50 }
     argument :page, Integer, required: false
+    argument :filterer_payload, Inputs::FiltererPayloadInput, required: false
   end
 
   def events args = {}
-    events = []
+    events = Event.all
     events = Event.where(id: args[:id]) if args[:id]
     events = Event.where(id: args[:ids]) if args[:ids]
 
-    events = current_team.events if events.empty?
+    if args[:filterer_payload]
+      filterer = Filterer::EventsFilterer.new(scope: events, payload: args[:filterer_payload].to_h, current_team: current_team)
+      events = filterer.filtered
+    end
+
     events = events.page(args[:page]).per(args[:per_page]) if args[:page] and args[:per_page]
     events = events.includes(:teams) # for authorization N+1 speedup
     events.select{|e| authorized? e, :read }
