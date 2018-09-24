@@ -1,4 +1,6 @@
 class Types::BaseObject < GraphQL::Schema::Object
+  include Authorization::ControllerHelpers
+
   def current_user
     context[:current_user]
   end

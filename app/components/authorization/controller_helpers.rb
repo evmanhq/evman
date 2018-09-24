@@ -5,7 +5,7 @@ module Authorization
     included do
       delegate :authorize!, :authorized?, to: :dictator
       delegate :can?, :can!,              to: :dictator
-      helper_method :dictator
+      helper_method :dictator if respond_to? :helper_method
     end
 
     def dictator

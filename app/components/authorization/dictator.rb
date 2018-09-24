@@ -2,10 +2,13 @@ module Authorization
   class Dictator
 
     attr_reader :user, :team, :active
+    attr_reader :user_team_ids, :default_role_cache
     alias_method :active?, :active
 
     def initialize user, team
       @user, @team = user, team
+      @user_team_ids = user.teams.pluck(:id)
+      @default_role_cache = {}
       @active = false
     end
 
@@ -111,9 +114,13 @@ module Authorization
 
     def authorizes_default_role? team, group, permission
       return false unless user
-      return false unless user.teams.include? team
-      return false unless team.default_role
-      team.default_role.can? group, permission
+      return false unless user_team_ids.include? team.id
+      return false unless default_role(team)
+      default_role(team).can? group, permission
+    end
+
+    def default_role team
+      default_role_cache[team.id] ||= team.default_role
     end
 
     def find_policy model
