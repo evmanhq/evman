@@ -44,8 +44,6 @@ class Event < ApplicationRecord
   authorize_values_for :owner
   authorize_values_for :team
 
-  has_paper_trail
-
   def full_location
     if city
       (self['location'] != nil && self['location'] != '') ? "#{self['location']}, #{city}" : city.to_s
