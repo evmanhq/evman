@@ -79,6 +79,10 @@ module Filterer
         end
       end
 
+      def filter_committed(values, condition)
+        perform_filter_boolean('events.committed', values, condition)
+      end
+
       def filter_event_property(property, values, condition)
         if property.behaviour == EventProperty::Behaviour::TEXT
           perform_filter_text("properties_assignments->'#{property.id}'->>0", values, condition)

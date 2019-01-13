@@ -31,5 +31,25 @@ module Filterer
       end
 
     end
+
+    def perform_filter_boolean(column, values, condition)
+      values = values.map do |value|
+        case value
+        when 'true', 'yes'
+          true
+        when 'false', 'no'
+          false
+        when 'nil'
+          nil
+        end
+      end
+
+      case condition
+      when 'any' then
+        @scope = @scope.where(column => values)
+      when 'none' then
+        @scope = @scope.where.not(column => values)
+      end
+    end
   end
 end
