@@ -17,6 +17,28 @@ class GraphqlController < ApplicationController
     render json: result
   end
 
+
+  skip_before_action :get_current_user, only: [:authenticate]
+  skip_before_action :get_current_team, only: [:authenticate]
+  skip_before_action :authenticate!, only: [:authenticate]
+  def authenticate
+    provider = params[:provider]
+    access_token = params[:access_token]
+
+    auth = Authentication::GraphQL.instance
+    user =  auth.authenticate(provider, access_token)
+    case user
+    when :unsupported_strategy
+      render status: :bad_request, json: { error: user }
+    when :unauthorized
+      render status: :unauthorized, json: { error: user }
+    when :unregistered
+      render status: :method_not_allowed, json: { error: user }
+    when User
+      render status: :ok, json: { user_id: user.id, token: user.token }
+    end
+  end
+
   private
 
   # Handle form data, JSON body, or a blank value

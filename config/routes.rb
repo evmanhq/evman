@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   end
 
   post "/graphql", to: "graphql#execute"
+  post "/graphql/authenticate/:provider", to: "graphql#authenticate"
   root 'welcome#index'
 
   scope :public, module: :public do
