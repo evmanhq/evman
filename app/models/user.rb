@@ -52,7 +52,7 @@ class User < ApplicationRecord
 
   def assure_credentials
     self.token ||= Digest::SHA256.hexdigest(SecureRandom.hex)
-    self.password ||= Digest::SHA256.hexdigest(SecureRandom.hex)
+    self.password = Digest::SHA256.hexdigest(SecureRandom.hex) unless password_digest
     save
   end
 
