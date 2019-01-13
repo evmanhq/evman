@@ -10,4 +10,5 @@ class Types::TalkType < Types::BaseObject
 
   field :events, [Types::EventType], null: false, preload: { events: :teams }
   field :event_talks, [Types::EventTalkType], null: false, preload: :event_talks
+  field :event_type, Types::EventTypeType, null: false, preload: :event_type
 end

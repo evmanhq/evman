@@ -1,23 +1,23 @@
 class Types::EventType < Types::BaseObject
   field :id, Integer, null: false
   field :name, String, null: false
-  field :committed, Boolean, null: false
-  field :approved, Boolean, null: false
-  field :archived, Boolean, null: false
+  field :committed, Boolean, null: true
+  field :approved, Boolean, null: true
+  field :archived, Boolean, null: true
   # field :city, Types::CityType
 
   # Strings
   [:location, :sponsorship, :cfp_url, :url, :url2, :url3, :description].each do |string_column|
-    field string_column, String, null: false
+    field string_column, String, null: true
   end
   field :full_location, String, null: false
 
   # Dates
-  [:begins_at, :created_at].each do |date_column|
-    field date_column, GraphQL::Types::ISO8601DateTime, null: false
-  end
-  [:cfp_date, :sponsorship_date].each do |date_column|
+  [:begins_at, :ends_at, :created_at, :cfp_date, :sponsorship_date].each do |date_column|
     field date_column, GraphQL::Types::ISO8601DateTime, null: true
+    define_method date_column do
+      object.public_send(date_column).try(:to_time)
+    end
   end
 
   # Methods
@@ -31,6 +31,7 @@ class Types::EventType < Types::BaseObject
   field :city, Types::CityType, null: true, preload: :city
   field :event_talks, [Types::EventTalkType], null: false, preload: :talks
   field :event_notes, [Types::EventNoteType], null: false, preload: :event_notes
+  field :event_type, Types::EventTypeType, null: false, preload: :event_type
 
   field :event_property_assignments, [Types::EventPropertyAssignmentType], null: false
 
