@@ -67,6 +67,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    @event.team = current_team
     @event.owner = current_user
     @event.event_type = current_team.default_event_type
 
