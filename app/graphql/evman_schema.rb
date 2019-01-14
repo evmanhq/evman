@@ -40,4 +40,9 @@ class EvmanSchema < GraphQL::Schema
 
   instrument(:field, GraphQL::Preload::Instrument.new)
   # enable_preloading
+  #
+
+  def self.unauthorized_object(error)
+    return nil
+  end
 end
