@@ -2,7 +2,7 @@ module Authorization
   class Dictator
 
     attr_reader :user, :team, :active
-    attr_reader :user_team_ids, :default_role_cache
+    attr_reader :user_team_ids, :default_role_cache, :no_policy_model_cache
     alias_method :active?, :active
 
     def initialize user, team
@@ -10,6 +10,7 @@ module Authorization
       @user_team_ids = user.teams.pluck(:id)
       @default_role_cache = {}
       @active = false
+      @no_policy_model_cache = Set.new
     end
 
     def activate
@@ -124,8 +125,12 @@ module Authorization
     end
 
     def find_policy model
-      policy_name = '::Authorization::Policies::' + model.class.name + 'Policy'
-      policy_name.safe_constantize
+      class_name = model.class.name
+      return nil if no_policy_model_cache.include? class_name
+      policy_name = '::Authorization::Policies::' + class_name + 'Policy'
+      policy_class = policy_name.safe_constantize
+      no_policy_model_cache << class_name unless policy_class
+      policy_class
     end
   end
 end
