@@ -98,6 +98,8 @@ class ApplicationController < ActionController::Base
 
   def get_current_team
     @current_team = Team.where(subdomain: request.subdomain).first
+    @current_team ||= Team.where(id: request.headers['X-TEAM-ID']).first
+    @current_team = Team.find(41) if Rails.env.development?
     @current_team ||= current_user.teams.first if current_user
   end
 
