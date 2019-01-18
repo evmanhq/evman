@@ -10,7 +10,12 @@ module ApplicationHelper
 
   def markdown(content)
     return nil unless content
-    raw Kramdown::Document.new(content).to_html
+    renderer = Redcarpet::Render::HTML.new(escape_html: true)
+    markdown = Redcarpet::Markdown.new(renderer,
+                                       autolink: true,
+                                       strikethrough: true,
+                                       lax_spacing: true)
+    raw markdown.render(content)
   end
 
   def icon(type, source=:bootstrap)

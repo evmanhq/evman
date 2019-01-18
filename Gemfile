@@ -36,8 +36,7 @@ gem 'axlsx'
 
 gem 'twitter-text'
 
-gem 'multi_markdown'
-gem 'kramdown'
+gem 'redcarpet', '~> 3.4'
 
 gem 'paper_trail', '~> 7.1'
 gem 'paper_trail-globalid', '~> 0.2.0'

@@ -1,6 +1,12 @@
 class EventTalksController < ApplicationController
 
-  before_action :require_modal, only: [:new, :edit]
+  before_action :require_modal, only: [:new, :edit, :show]
+
+  def show
+    @event_talk = EventTalk.find(params[:id])
+
+    respond_to :html
+  end
 
   def new
     @event_talk = EventTalk.new(user: current_user)
@@ -52,7 +58,7 @@ class EventTalksController < ApplicationController
 
   private
   def event_talk_params
-    params.require(:event_talk).permit(:user_id, :event_id, :talk_id, :state)
+    params.require(:event_talk).permit(:user_id, :event_id, :talk_id, :state, :description)
   end
 
 end

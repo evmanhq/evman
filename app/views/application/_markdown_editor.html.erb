@@ -1,0 +1,11 @@
+<%= content_tag :div, data: {
+    js: {
+        render_vue: 'MarkdownEditor',
+        render_options: {
+            name: name,
+            value: value
+        }
+    }
+} do %>
+  <markdown-editor :name="name" v-model="value"></markdown-editor>
+<% end %>

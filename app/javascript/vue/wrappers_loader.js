@@ -1,6 +1,7 @@
 import Filterer from 'vue/wrappers/filterer'
 import Events from 'vue/wrappers/events/loader'
 import Forms from 'vue/wrappers/forms/loader'
+import MarkdowEditor from 'vue/wrappers/markdown_editor/loader'
 
 import $ from 'jquery'
 $.noConflict(true)
@@ -8,7 +9,8 @@ $.noConflict(true)
 const WRAPPERS = {
   'Filterer': Filterer,
   'Events.Form': Events.Form,
-  'Forms.Formular': Forms.Formular
+  'Forms.Formular': Forms.Formular,
+  'MarkdownEditor': MarkdowEditor
 }
 
 export default class WrappersLoader {

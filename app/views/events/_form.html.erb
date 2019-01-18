@@ -11,7 +11,7 @@
                  js: {
                      render_vue: "Events.Form",
                      render_options: {
-                         event_properties: event_properties_form_definition,
+                         event_properties: event_properties_form_definition(@event),
                          event: @event.as_json,
                          event_types: @event.assignable_event_types.as_json,
                          owners: @event.assignable_owners.as_json
@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <% if current_team.event_properties.any? %>
+    <% if @event.team.event_properties.any? %>
       <div class="card">
         <div class="card-header">
           <h4>Alignment</h4>
