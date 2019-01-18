@@ -6,7 +6,10 @@ class Types::TeamType < Types::BaseObject
   field :subdomain, String, null: false
   field :email_domain, String, null: true
 
-  field :users, [Types::UserType], null: false, preload: :users
+  field :event_types, [Types::EventTypeType], null: false, preload: :event_types
+  field :event_properties, [Types::EventPropertyType], null: false, preload: :event_properties
+
+  field :users, [Types::UserType], null: false, preload: { users: :teams }
   field :users_count, Integer, null: false, preload: :users
   def users_count
     users.size

@@ -102,6 +102,7 @@ group :development, :test do
 
   gem 'rspec-rails', '~> 3.5.1'
   gem 'factory_girl_rails'
+  gem 'ruby-prof'
 end
 
 group :production do

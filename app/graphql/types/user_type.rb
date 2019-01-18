@@ -1,6 +1,6 @@
 class Types::UserType < Types::BaseObject
   field :id, Integer, null: false
-  field :name, String, null: false
+  field :name, String, null: true
   field :email, String, null: false
   field :job_title, String, null: true
   field :organization, String, null: true
