@@ -38,12 +38,26 @@ class Types::EventType < Types::BaseObject
   def event_property_assignments
     event = object
     event.team.event_properties.includes(:options).in_order.map do |event_property|
+      id = event_property.id
       label = event_property.name
       behaviour = event_property.behaviour
-      values = event_property.values(event)
-      EventPropertyAssignment.new(label, behaviour, values)
+      values = case event_property.behaviour
+                when EventProperty::Behaviour::MULTIPLE_CHOICE, EventProperty::Behaviour::SELECT
+                  event_property.selected_options(event).map do |option|
+                    EventPropertyAssignmentValue.new(option.id, option.name)
+                  end
+                when EventProperty::Behaviour::TEXT
+                  event_property.values(event).map do |value|
+                    EventPropertyAssignmentValue.new(nil, value)
+                  end
+                end
+
+      # values = event_property.values(event)
+      # value_ids = event.properties_assignments[id.to_s]
+      EventPropertyAssignment.new(id, label, behaviour, values)
     end
   end
 
-  EventPropertyAssignment = Struct.new(:label, :behaviour, :values)
+  EventPropertyAssignment = Struct.new(:id, :label, :behaviour, :values)
+  EventPropertyAssignmentValue = Struct.new(:id, :label)
 end

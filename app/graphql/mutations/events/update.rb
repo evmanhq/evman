@@ -2,7 +2,7 @@ class Mutations::Events::Update < Mutations::BaseMutation
   null true
 
   argument :event_id, ID, required: true
-  argument :attributes, Types::EventAttributes, required: true
+  argument :attributes, Inputs::EventAttributes, required: true
 
   field :event, Types::EventType, null: true
   field :global_errors, [String], null: false
@@ -10,7 +10,6 @@ class Mutations::Events::Update < Mutations::BaseMutation
 
   def resolve(event_id:, attributes:)
     event = Event.find(event_id)
-
     # Booleans
     [:approved, :committed, :archived].each do |column|
       next unless attributes.key? column
@@ -37,6 +36,11 @@ class Mutations::Events::Update < Mutations::BaseMutation
       next unless attributes.key? column
       new_value = attributes.public_send(column)
       event.public_send("#{column}=", new_value )
+    end
+
+    # Event properties
+    event.properties_assignments = attributes.properties_assignments.each_with_object({}) do |property_assignment, hash|
+      hash[property_assignment.id] = property_assignment.values
     end
 
     if event.save
