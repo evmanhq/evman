@@ -1,4 +1,4 @@
-class Mutations::Events::Update < Mutations::BaseMutation
+class Mutations::Events::UpdateEvent < Mutations::BaseMutation
   null true
 
   argument :event_id, ID, required: true
@@ -41,7 +41,7 @@ class Mutations::Events::Update < Mutations::BaseMutation
     # Event properties
     event.properties_assignments = attributes.properties_assignments.each_with_object({}) do |property_assignment, hash|
       hash[property_assignment.id] = property_assignment.values
-    end
+    end if attributes.properties_assignments
 
     if event.save
       {
@@ -56,5 +56,4 @@ class Mutations::Events::Update < Mutations::BaseMutation
       }
     end
   end
-  AttributeError = Struct.new(:name, :messages)
 end

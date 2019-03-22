@@ -9,10 +9,11 @@ class Types::TeamType < Types::BaseObject
   field :event_types, [Types::EventTypeType], null: false, preload: :event_types
   field :event_properties, [Types::EventPropertyType], null: false, preload: :event_properties
 
+  field :attendee_types, [Types::AttendeeTypeType], null: false, preload: { attendee_types: :team }
+
   field :users, [Types::UserType], null: false, preload: { users: :teams }
   field :users_count, Integer, null: false, preload: :users
   def users_count
     users.size
   end
 end
-
