@@ -59,6 +59,11 @@ gem 'faraday'
 gem 'patron'
 gem 'ruby-kafka'
 
+gem 'graphql', '~> 1.8', '>= 1.8.3'
+gem 'graphiql-rails', group: :development
+gem 'graphql-batch', '~> 0.3.9'
+gem 'graphql-preload', '~> 2.0', '>= 2.0.1'
+
 gem 'brakeman', require: false
 gem 'rubocop', require: false
 gem 'sentry-raven'
@@ -97,6 +102,7 @@ group :development, :test do
 
   gem 'rspec-rails', '~> 3.5.1'
   gem 'factory_girl_rails'
+  gem 'ruby-prof'
 end
 
 group :production do

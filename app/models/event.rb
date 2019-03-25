@@ -38,6 +38,16 @@ class Event < ApplicationRecord
   validates :city, presence: true, if: proc{|e| e.new_record? or e.city_id_changed? }
   validates :location, presence: true, if: proc{|e| e.new_record? or e.location_changed? }
 
+  ## Scopes
+  scope :unarchived, -> { where(archived: [false, nil]) }
+  # actual: Events that haven't started or finished
+  scope :actual, -> { where('begins_at >= ? OR ends_at >= ?', Date.today, Date.today) }
+  scope :committed, -> { where(committed: true).order(begins_at: :asc) }
+  # tracked: Actual not committed events events
+  scope :tracked, -> { actual.where(committed: [nil, false]).order(begins_at: :asc) }
+  scope :within_cfp_deadline, -> { where('cfp_date >= ?', Date.today).order(cfp_date: :asc) }
+
+
   validates_with EventPropertyServices::EventValidator
 
   authorize_values_for :event_type

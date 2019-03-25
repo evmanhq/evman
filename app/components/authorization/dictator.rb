@@ -2,11 +2,15 @@ module Authorization
   class Dictator
 
     attr_reader :user, :team, :active
+    attr_reader :user_team_ids, :default_role_cache, :no_policy_model_cache
     alias_method :active?, :active
 
     def initialize user, team
       @user, @team = user, team
+      @user_team_ids = user.teams.pluck(:id)
+      @default_role_cache = {}
       @active = false
+      @no_policy_model_cache = Set.new
     end
 
     def activate
@@ -111,14 +115,22 @@ module Authorization
 
     def authorizes_default_role? team, group, permission
       return false unless user
-      return false unless user.teams.include? team
-      return false unless team.default_role
-      team.default_role.can? group, permission
+      return false unless user_team_ids.include? team.id
+      return false unless default_role(team)
+      default_role(team).can? group, permission
+    end
+
+    def default_role team
+      default_role_cache[team.id] ||= team.default_role
     end
 
     def find_policy model
-      policy_name = '::Authorization::Policies::' + model.class.name + 'Policy'
-      policy_name.safe_constantize
+      class_name = model.class.name
+      return nil if no_policy_model_cache.include? class_name
+      policy_name = '::Authorization::Policies::' + class_name + 'Policy'
+      policy_class = policy_name.safe_constantize
+      no_policy_model_cache << class_name unless policy_class
+      policy_class
     end
   end
 end

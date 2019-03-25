@@ -3,15 +3,15 @@
     <div class="col col-auto">
       <small class="text-muted"><%= event_property.name %></small><br>
       <% case event_property.behaviour %>
-      <% when 'multiple_choice' then %>
+      <% when EventProperty::Behaviour::MULTIPLE_CHOICE then %>
         <% event_property.selected_options(event).each do |option| %>
           <span class="badge badge-primary"><%= option.name %></span>
         <% end %>
-      <% when 'select' then %>
+      <% when EventProperty::Behaviour::SELECT then %>
         <% event_property.selected_options(event).each do |option| %>
           <%= option.name %>
         <% end %>
-      <% when 'text' then %>
+      <% when EventProperty::Behaviour::TEXT then %>
         <%= event_property.value(event) %>
       <% end %>
     </div>

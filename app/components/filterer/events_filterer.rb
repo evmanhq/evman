@@ -91,7 +91,14 @@ module Filterer
               name: 'sponsorship',
               type: 'text',
               conditions: BASIC_TEXT_CONDITIONS
-          }
+          },
+          {
+              name: 'committed',
+              type: 'multiple_choice',
+              conditions: BASIC_MULTIPLE_CHOICE_CONDITIONS,
+              options: [{ value: 'true', label: 'Yes'}, { value: 'false', label: 'No'}, { value: 'nil', label: 'Not decided'}]
+          },
+
 
       ]
 
