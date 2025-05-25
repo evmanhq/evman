@@ -24,17 +24,17 @@ class EventsController < ApplicationController
   end
 
   def index
-    @base = current_team.events.where(:archived => [false, nil])
+    @base = current_team.events.unarchived
 
     respond_to do |format|
       format.html do
-        @base = @base.where('begins_at >= ? OR ends_at >= ?', Date.today, Date.today)
-
+        @base = @base.actual
         @base = @base.includes(:users, :event_talks, :team)
 
-        @committed = @base.where(:committed => true).includes(:expenses, :talks).order(:begins_at => :asc).all
-        @tracked = @base.where(:committed => [nil, false]).order(:begins_at => :asc).all
-        @talks = @base.where('cfp_date >= ?', Date.today).order(:cfp_date => :asc).all
+        @committed = @base.committed.includes(:expenses, :talks)
+        @tracked = @base.tracked
+        @talks = @base.within_cfp_deadline
+
 
         @continents = {}
 
@@ -67,6 +67,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    @event.team = current_team
     @event.owner = current_user
     @event.event_type = current_team.default_event_type
 

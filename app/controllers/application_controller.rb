@@ -98,11 +98,14 @@ class ApplicationController < ActionController::Base
 
   def get_current_team
     @current_team = Team.where(subdomain: request.subdomain).first
+    @current_team ||= Team.where(id: request.headers['X-TEAM-ID']).first
+    @current_team = Team.find(41) if Rails.env.development?
     @current_team ||= current_user.teams.first if current_user
   end
 
   def validate_user_info!
-    redirect_to(edit_user_path(current_user)) if current_user && (!current_user.password_digest)
+    return true unless current_user
+    current_user.assure_credentials
   end
 
   def authenticate!

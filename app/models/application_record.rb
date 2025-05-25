@@ -43,4 +43,17 @@ class ApplicationRecord < ActiveRecord::Base
     []
   end
 
+  # Adds scope tracking
+  class <<self
+    def scope(*args)
+      super(*args)
+      @scopes ||= []
+      @scopes << args.first
+    end
+
+    def scopes
+      @scopes
+    end
+  end
+
 end

@@ -15,6 +15,9 @@ class Talk < ApplicationRecord
   validates :user, presence: true
   validates :team, presence: true
 
+  scope :archived, -> { where(archived: true) }
+  scope :unarchived, -> { where(archived: false) }
+
   authorize_values_for :user
   authorize_values_for :event_type
 end
